@@ -2164,7 +2164,12 @@ export class McpServer {
         };
       } catch (error) {
         return {
-          content: [{ type: 'text', text: `Error rebooting system: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            {
+              type: 'text',
+              text: `Error rebooting system: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            },
+          ],
         };
       }
     };
@@ -2178,7 +2183,9 @@ export class McpServer {
         };
       } catch (error) {
         return {
-          content: [{ type: 'text', text: `Error halting system: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            { type: 'text', text: `Error halting system: ${error instanceof Error ? error.message : 'Unknown error'}` },
+          ],
         };
       }
     };
@@ -2192,7 +2199,12 @@ export class McpServer {
         };
       } catch (error) {
         return {
-          content: [{ type: 'text', text: `Error dismissing system status: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            {
+              type: 'text',
+              text: `Error dismissing system status: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            },
+          ],
         };
       }
     };
@@ -2207,7 +2219,12 @@ export class McpServer {
         };
       } catch (error) {
         return {
-          content: [{ type: 'text', text: `Error getting firmware info: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            {
+              type: 'text',
+              text: `Error getting firmware info: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            },
+          ],
         };
       }
     };
@@ -2221,7 +2238,12 @@ export class McpServer {
         };
       } catch (error) {
         return {
-          content: [{ type: 'text', text: `Error checking firmware updates: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            {
+              type: 'text',
+              text: `Error checking firmware updates: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            },
+          ],
         };
       }
     };
@@ -2235,7 +2257,12 @@ export class McpServer {
         };
       } catch (error) {
         return {
-          content: [{ type: 'text', text: `Error updating firmware: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            {
+              type: 'text',
+              text: `Error updating firmware: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            },
+          ],
         };
       }
     };
@@ -2249,7 +2276,12 @@ export class McpServer {
         };
       } catch (error) {
         return {
-          content: [{ type: 'text', text: `Error upgrading firmware: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            {
+              type: 'text',
+              text: `Error upgrading firmware: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            },
+          ],
         };
       }
     };
@@ -2263,7 +2295,12 @@ export class McpServer {
         };
       } catch (error) {
         return {
-          content: [{ type: 'text', text: `Error running firmware audit: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            {
+              type: 'text',
+              text: `Error running firmware audit: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            },
+          ],
         };
       }
     };
@@ -2278,7 +2315,12 @@ export class McpServer {
         };
       } catch (error) {
         return {
-          content: [{ type: 'text', text: `Error getting firmware changelog: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            {
+              type: 'text',
+              text: `Error getting firmware changelog: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            },
+          ],
         };
       }
     };
@@ -2294,7 +2336,14 @@ export class McpServer {
         };
       } catch (error) {
         return {
-          content: [{ type: 'text', text: `Error removing package ${package_name}: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            {
+              type: 'text',
+              text: `Error removing package ${package_name}: ${
+                error instanceof Error ? error.message : 'Unknown error'
+              }`,
+            },
+          ],
         };
       }
     };
@@ -2309,7 +2358,14 @@ export class McpServer {
         };
       } catch (error) {
         return {
-          content: [{ type: 'text', text: `Error reinstalling package ${package_name}: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            {
+              type: 'text',
+              text: `Error reinstalling package ${package_name}: ${
+                error instanceof Error ? error.message : 'Unknown error'
+              }`,
+            },
+          ],
         };
       }
     };
@@ -2324,7 +2380,14 @@ export class McpServer {
         };
       } catch (error) {
         return {
-          content: [{ type: 'text', text: `Error locking package ${package_name}: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            {
+              type: 'text',
+              text: `Error locking package ${package_name}: ${
+                error instanceof Error ? error.message : 'Unknown error'
+              }`,
+            },
+          ],
         };
       }
     };
@@ -2339,7 +2402,14 @@ export class McpServer {
         };
       } catch (error) {
         return {
-          content: [{ type: 'text', text: `Error unlocking package ${package_name}: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            {
+              type: 'text',
+              text: `Error unlocking package ${package_name}: ${
+                error instanceof Error ? error.message : 'Unknown error'
+              }`,
+            },
+          ],
         };
       }
     };
@@ -2354,7 +2424,14 @@ export class McpServer {
         };
       } catch (error) {
         return {
-          content: [{ type: 'text', text: `Error getting package details for ${package_name}: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            {
+              type: 'text',
+              text: `Error getting package details for ${package_name}: ${
+                error instanceof Error ? error.message : 'Unknown error'
+              }`,
+            },
+          ],
         };
       }
     };
@@ -2370,7 +2447,12 @@ export class McpServer {
         };
       } catch (error) {
         return {
-          content: [{ type: 'text', text: `Error applying firewall changes: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            {
+              type: 'text',
+              text: `Error applying firewall changes: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            },
+          ],
         };
       }
     };
@@ -2384,7 +2466,12 @@ export class McpServer {
         };
       } catch (error) {
         return {
-          content: [{ type: 'text', text: `Error creating firewall savepoint: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            {
+              type: 'text',
+              text: `Error creating firewall savepoint: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            },
+          ],
         };
       }
     };
@@ -2399,7 +2486,14 @@ export class McpServer {
         };
       } catch (error) {
         return {
-          content: [{ type: 'text', text: `Error reverting firewall to revision ${revision}: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            {
+              type: 'text',
+              text: `Error reverting firewall to revision ${revision}: ${
+                error instanceof Error ? error.message : 'Unknown error'
+              }`,
+            },
+          ],
         };
       }
     };
@@ -2413,7 +2507,12 @@ export class McpServer {
         };
       } catch (error) {
         return {
-          content: [{ type: 'text', text: `Error getting firewall rule stats: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            {
+              type: 'text',
+              text: `Error getting firewall rule stats: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            },
+          ],
         };
       }
     };
@@ -2428,7 +2527,12 @@ export class McpServer {
         };
       } catch (error) {
         return {
-          content: [{ type: 'text', text: `Error moving firewall rule: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            {
+              type: 'text',
+              text: `Error moving firewall rule: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            },
+          ],
         };
       }
     };
@@ -2443,7 +2547,12 @@ export class McpServer {
         };
       } catch (error) {
         return {
-          content: [{ type: 'text', text: `Error getting firewall rule ${uuid}: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            {
+              type: 'text',
+              text: `Error getting firewall rule ${uuid}: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            },
+          ],
         };
       }
     };
@@ -2458,7 +2567,12 @@ export class McpServer {
         };
       } catch (error) {
         return {
-          content: [{ type: 'text', text: `Error updating firewall rule ${uuid}: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            {
+              type: 'text',
+              text: `Error updating firewall rule ${uuid}: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            },
+          ],
         };
       }
     };
@@ -2502,7 +2616,12 @@ export class McpServer {
         };
       } catch (error) {
         return {
-          content: [{ type: 'text', text: `Error getting firewall alias ${uuid}: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            {
+              type: 'text',
+              text: `Error getting firewall alias ${uuid}: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            },
+          ],
         };
       }
     };
@@ -2517,7 +2636,12 @@ export class McpServer {
         };
       } catch (error) {
         return {
-          content: [{ type: 'text', text: `Error adding firewall alias: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            {
+              type: 'text',
+              text: `Error adding firewall alias: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            },
+          ],
         };
       }
     };
@@ -2532,7 +2656,14 @@ export class McpServer {
         };
       } catch (error) {
         return {
-          content: [{ type: 'text', text: `Error updating firewall alias ${uuid}: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            {
+              type: 'text',
+              text: `Error updating firewall alias ${uuid}: ${
+                error instanceof Error ? error.message : 'Unknown error'
+              }`,
+            },
+          ],
         };
       }
     };
@@ -2547,7 +2678,14 @@ export class McpServer {
         };
       } catch (error) {
         return {
-          content: [{ type: 'text', text: `Error deleting firewall alias ${uuid}: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            {
+              type: 'text',
+              text: `Error deleting firewall alias ${uuid}: ${
+                error instanceof Error ? error.message : 'Unknown error'
+              }`,
+            },
+          ],
         };
       }
     };
@@ -2562,7 +2700,14 @@ export class McpServer {
         };
       } catch (error) {
         return {
-          content: [{ type: 'text', text: `Error toggling firewall alias ${uuid}: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            {
+              type: 'text',
+              text: `Error toggling firewall alias ${uuid}: ${
+                error instanceof Error ? error.message : 'Unknown error'
+              }`,
+            },
+          ],
         };
       }
     };
@@ -2576,7 +2721,12 @@ export class McpServer {
         };
       } catch (error) {
         return {
-          content: [{ type: 'text', text: `Error exporting firewall aliases: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            {
+              type: 'text',
+              text: `Error exporting firewall aliases: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            },
+          ],
         };
       }
     };
@@ -2591,7 +2741,12 @@ export class McpServer {
         };
       } catch (error) {
         return {
-          content: [{ type: 'text', text: `Error importing firewall aliases: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            {
+              type: 'text',
+              text: `Error importing firewall aliases: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            },
+          ],
         };
       }
     };
@@ -2605,7 +2760,12 @@ export class McpServer {
         };
       } catch (error) {
         return {
-          content: [{ type: 'text', text: `Error getting alias table size: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            {
+              type: 'text',
+              text: `Error getting alias table size: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            },
+          ],
         };
       }
     };
@@ -2620,7 +2780,14 @@ export class McpServer {
         };
       } catch (error) {
         return {
-          content: [{ type: 'text', text: `Error listing alias contents for ${alias_name}: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            {
+              type: 'text',
+              text: `Error listing alias contents for ${alias_name}: ${
+                error instanceof Error ? error.message : 'Unknown error'
+              }`,
+            },
+          ],
         };
       }
     };
@@ -2635,7 +2802,12 @@ export class McpServer {
         };
       } catch (error) {
         return {
-          content: [{ type: 'text', text: `Error flushing alias ${alias_name}: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            {
+              type: 'text',
+              text: `Error flushing alias ${alias_name}: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            },
+          ],
         };
       }
     };
@@ -2650,7 +2822,12 @@ export class McpServer {
         };
       } catch (error) {
         return {
-          content: [{ type: 'text', text: `Error getting memory usage: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            {
+              type: 'text',
+              text: `Error getting memory usage: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            },
+          ],
         };
       }
     };
@@ -2664,7 +2841,12 @@ export class McpServer {
         };
       } catch (error) {
         return {
-          content: [{ type: 'text', text: `Error getting disk usage: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            {
+              type: 'text',
+              text: `Error getting disk usage: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            },
+          ],
         };
       }
     };
@@ -2678,7 +2860,12 @@ export class McpServer {
         };
       } catch (error) {
         return {
-          content: [{ type: 'text', text: `Error getting system temperature: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            {
+              type: 'text',
+              text: `Error getting system temperature: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            },
+          ],
         };
       }
     };
@@ -2692,7 +2879,12 @@ export class McpServer {
         };
       } catch (error) {
         return {
-          content: [{ type: 'text', text: `Error getting CPU usage: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            {
+              type: 'text',
+              text: `Error getting CPU usage: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            },
+          ],
         };
       }
     };
@@ -2706,7 +2898,12 @@ export class McpServer {
         };
       } catch (error) {
         return {
-          content: [{ type: 'text', text: `Error getting ARP table: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            {
+              type: 'text',
+              text: `Error getting ARP table: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            },
+          ],
         };
       }
     };
@@ -2721,7 +2918,12 @@ export class McpServer {
         };
       } catch (error) {
         return {
-          content: [{ type: 'text', text: `Error searching ARP table: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            {
+              type: 'text',
+              text: `Error searching ARP table: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            },
+          ],
         };
       }
     };
@@ -2735,7 +2937,12 @@ export class McpServer {
         };
       } catch (error) {
         return {
-          content: [{ type: 'text', text: `Error flushing ARP table: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            {
+              type: 'text',
+              text: `Error flushing ARP table: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            },
+          ],
         };
       }
     };
@@ -2749,7 +2956,12 @@ export class McpServer {
         };
       } catch (error) {
         return {
-          content: [{ type: 'text', text: `Error getting PF states: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            {
+              type: 'text',
+              text: `Error getting PF states: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            },
+          ],
         };
       }
     };
@@ -2764,7 +2976,12 @@ export class McpServer {
         };
       } catch (error) {
         return {
-          content: [{ type: 'text', text: `Error querying PF states: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            {
+              type: 'text',
+              text: `Error querying PF states: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            },
+          ],
         };
       }
     };
@@ -2778,7 +2995,12 @@ export class McpServer {
         };
       } catch (error) {
         return {
-          content: [{ type: 'text', text: `Error flushing firewall states: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            {
+              type: 'text',
+              text: `Error flushing firewall states: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            },
+          ],
         };
       }
     };
@@ -2793,7 +3015,12 @@ export class McpServer {
         };
       } catch (error) {
         return {
-          content: [{ type: 'text', text: `Error killing firewall states: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            {
+              type: 'text',
+              text: `Error killing firewall states: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            },
+          ],
         };
       }
     };
@@ -2808,7 +3035,14 @@ export class McpServer {
         };
       } catch (error) {
         return {
-          content: [{ type: 'text', text: `Error performing DNS lookup for ${hostname}: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            {
+              type: 'text',
+              text: `Error performing DNS lookup for ${hostname}: ${
+                error instanceof Error ? error.message : 'Unknown error'
+              }`,
+            },
+          ],
         };
       }
     };
@@ -2824,7 +3058,12 @@ export class McpServer {
         };
       } catch (error) {
         return {
-          content: [{ type: 'text', text: `Error searching services: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            {
+              type: 'text',
+              text: `Error searching services: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            },
+          ],
         };
       }
     };
@@ -2839,7 +3078,14 @@ export class McpServer {
         };
       } catch (error) {
         return {
-          content: [{ type: 'text', text: `Error starting service ${service_name}: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            {
+              type: 'text',
+              text: `Error starting service ${service_name}: ${
+                error instanceof Error ? error.message : 'Unknown error'
+              }`,
+            },
+          ],
         };
       }
     };
@@ -2854,7 +3100,14 @@ export class McpServer {
         };
       } catch (error) {
         return {
-          content: [{ type: 'text', text: `Error stopping service ${service_name}: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            {
+              type: 'text',
+              text: `Error stopping service ${service_name}: ${
+                error instanceof Error ? error.message : 'Unknown error'
+              }`,
+            },
+          ],
         };
       }
     };
@@ -2870,7 +3123,14 @@ export class McpServer {
         };
       } catch (error) {
         return {
-          content: [{ type: 'text', text: `Error getting interface details for ${interface_name}: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            {
+              type: 'text',
+              text: `Error getting interface details for ${interface_name}: ${
+                error instanceof Error ? error.message : 'Unknown error'
+              }`,
+            },
+          ],
         };
       }
     };
@@ -2885,7 +3145,14 @@ export class McpServer {
         };
       } catch (error) {
         return {
-          content: [{ type: 'text', text: `Error reloading interface ${interface_name}: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            {
+              type: 'text',
+              text: `Error reloading interface ${interface_name}: ${
+                error instanceof Error ? error.message : 'Unknown error'
+              }`,
+            },
+          ],
         };
       }
     };
@@ -2899,7 +3166,12 @@ export class McpServer {
         };
       } catch (error) {
         return {
-          content: [{ type: 'text', text: `Error getting interface statistics: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            {
+              type: 'text',
+              text: `Error getting interface statistics: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            },
+          ],
         };
       }
     };
@@ -2953,6 +3225,1345 @@ export class McpServer {
               text: `Error executing API call ${method} ${endpoint}: ${
                 error instanceof Error ? error.message : 'Unknown error'
               }`,
+            },
+          ],
+        };
+      }
+    };
+
+    // VLAN Management
+    toolHandlers.search_vlans = async (args: any) => {
+      const client = this.ensureClient();
+      const { search_params } = args;
+      try {
+        const response = await client.interfaces.searchVlans(search_params);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Error searching VLANs: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            },
+          ],
+        };
+      }
+    };
+
+    toolHandlers.add_vlan = async (args: any) => {
+      const client = this.ensureClient();
+      const { vlan } = args;
+      try {
+        const response = await client.interfaces.addVlan(vlan);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [
+            { type: 'text', text: `Error adding VLAN: ${error instanceof Error ? error.message : 'Unknown error'}` },
+          ],
+        };
+      }
+    };
+
+    toolHandlers.get_vlan = async (args: any) => {
+      const client = this.ensureClient();
+      const { uuid } = args;
+      try {
+        const response = await client.interfaces.getVlan(uuid);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Error getting VLAN ${uuid}: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            },
+          ],
+        };
+      }
+    };
+
+    toolHandlers.update_vlan = async (args: any) => {
+      const client = this.ensureClient();
+      const { uuid, vlan } = args;
+      try {
+        const response = await client.interfaces.updateVlan(uuid, vlan);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Error updating VLAN ${uuid}: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            },
+          ],
+        };
+      }
+    };
+
+    toolHandlers.delete_vlan = async (args: any) => {
+      const client = this.ensureClient();
+      const { uuid } = args;
+      try {
+        const response = await client.interfaces.deleteVlan(uuid);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Error deleting VLAN ${uuid}: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            },
+          ],
+        };
+      }
+    };
+
+    toolHandlers.reconfigure_vlans = async () => {
+      const client = this.ensureClient();
+      try {
+        const response = await client.interfaces.reconfigureVlans();
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Error reconfiguring VLANs: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            },
+          ],
+        };
+      }
+    };
+
+    // Authentication & User Management
+    toolHandlers.search_users = async (args: any) => {
+      const client = this.ensureClient();
+      const { search_params } = args;
+      try {
+        const response = await client.auth.users.search(search_params);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Error searching users: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            },
+          ],
+        };
+      }
+    };
+
+    toolHandlers.add_user = async (args: any) => {
+      const client = this.ensureClient();
+      const { user } = args;
+      try {
+        const response = await client.auth.users.add(user);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [
+            { type: 'text', text: `Error adding user: ${error instanceof Error ? error.message : 'Unknown error'}` },
+          ],
+        };
+      }
+    };
+
+    toolHandlers.get_user = async (args: any) => {
+      const client = this.ensureClient();
+      const { uuid } = args;
+      try {
+        const response = await client.auth.users.get(uuid);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Error getting user ${uuid}: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            },
+          ],
+        };
+      }
+    };
+
+    toolHandlers.update_user = async (args: any) => {
+      const client = this.ensureClient();
+      const { uuid, user } = args;
+      try {
+        const response = await client.auth.users.update(uuid, user);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Error updating user ${uuid}: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            },
+          ],
+        };
+      }
+    };
+
+    toolHandlers.delete_user = async (args: any) => {
+      const client = this.ensureClient();
+      const { uuid } = args;
+      try {
+        const response = await client.auth.users.delete(uuid);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Error deleting user ${uuid}: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            },
+          ],
+        };
+      }
+    };
+
+    toolHandlers.add_api_key = async (args: any) => {
+      const client = this.ensureClient();
+      const { username } = args;
+      try {
+        const response = await client.auth.users.addApiKey(username);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Error adding API key for ${username}: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            },
+          ],
+        };
+      }
+    };
+
+    toolHandlers.delete_api_key = async (args: any) => {
+      const client = this.ensureClient();
+      const { key_id } = args;
+      try {
+        const response = await client.auth.users.deleteApiKey(key_id);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Error deleting API key ${key_id}: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            },
+          ],
+        };
+      }
+    };
+
+    toolHandlers.search_api_keys = async (args: any) => {
+      const client = this.ensureClient();
+      const { search_params } = args;
+      try {
+        const response = await client.auth.users.searchApiKeys(search_params);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Error searching API keys: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            },
+          ],
+        };
+      }
+    };
+
+    // Group Management
+    toolHandlers.search_groups = async (args: any) => {
+      const client = this.ensureClient();
+      const { search_params } = args;
+      try {
+        const response = await client.auth.groups.search(search_params);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Error searching groups: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            },
+          ],
+        };
+      }
+    };
+
+    toolHandlers.add_group = async (args: any) => {
+      const client = this.ensureClient();
+      const { group } = args;
+      try {
+        const response = await client.auth.groups.add(group);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [
+            { type: 'text', text: `Error adding group: ${error instanceof Error ? error.message : 'Unknown error'}` },
+          ],
+        };
+      }
+    };
+
+    toolHandlers.get_group = async (args: any) => {
+      const client = this.ensureClient();
+      const { uuid } = args;
+      try {
+        const response = await client.auth.groups.get(uuid);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Error getting group ${uuid}: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            },
+          ],
+        };
+      }
+    };
+
+    toolHandlers.update_group = async (args: any) => {
+      const client = this.ensureClient();
+      const { uuid, group } = args;
+      try {
+        const response = await client.auth.groups.update(uuid, group);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Error updating group ${uuid}: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            },
+          ],
+        };
+      }
+    };
+
+    toolHandlers.delete_group = async (args: any) => {
+      const client = this.ensureClient();
+      const { uuid } = args;
+      try {
+        const response = await client.auth.groups.delete(uuid);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Error deleting group ${uuid}: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            },
+          ],
+        };
+      }
+    };
+
+    // Certificate Management
+    toolHandlers.search_certificates = async (args: any) => {
+      const client = this.ensureClient();
+      const { search_params } = args;
+      try {
+        const response = await client.trust.searchCerts(search_params);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Error searching certificates: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            },
+          ],
+        };
+      }
+    };
+
+    toolHandlers.add_certificate = async (args: any) => {
+      const client = this.ensureClient();
+      const { certificate } = args;
+      try {
+        const response = await client.trust.addCert(certificate);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Error adding certificate: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            },
+          ],
+        };
+      }
+    };
+
+    toolHandlers.get_certificate = async (args: any) => {
+      const client = this.ensureClient();
+      const { uuid } = args;
+      try {
+        const response = await client.trust.getCert(uuid);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Error getting certificate ${uuid}: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            },
+          ],
+        };
+      }
+    };
+
+    toolHandlers.delete_certificate = async (args: any) => {
+      const client = this.ensureClient();
+      const { uuid } = args;
+      try {
+        const response = await client.trust.deleteCert(uuid);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Error deleting certificate ${uuid}: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            },
+          ],
+        };
+      }
+    };
+
+    // Certificate Authority Management
+    toolHandlers.search_certificate_authorities = async (args: any) => {
+      const client = this.ensureClient();
+      const { search_params } = args;
+      try {
+        const response = await client.trust.searchCAs(search_params);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Error searching certificate authorities: ${
+                error instanceof Error ? error.message : 'Unknown error'
+              }`,
+            },
+          ],
+        };
+      }
+    };
+
+    toolHandlers.get_certificate_authority = async (args: any) => {
+      const client = this.ensureClient();
+      const { uuid } = args;
+      try {
+        const response = await client.trust.getCA(uuid);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Error getting certificate authority ${uuid}: ${
+                error instanceof Error ? error.message : 'Unknown error'
+              }`,
+            },
+          ],
+        };
+      }
+    };
+
+    toolHandlers.delete_certificate_authority = async (args: any) => {
+      const client = this.ensureClient();
+      const { uuid } = args;
+      try {
+        const response = await client.trust.deleteCA(uuid);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Error deleting certificate authority ${uuid}: ${
+                error instanceof Error ? error.message : 'Unknown error'
+              }`,
+            },
+          ],
+        };
+      }
+    };
+
+    // OpenVPN Management
+    toolHandlers.get_openvpn_instances = async () => {
+      const client = this.ensureClient();
+      try {
+        const response = await client.openVPN.getInstances();
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Error getting OpenVPN instances: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            },
+          ],
+        };
+      }
+    };
+
+    toolHandlers.search_openvpn_instances = async (args: any) => {
+      const client = this.ensureClient();
+      const { search_params } = args;
+      try {
+        const response = await client.openVPN.searchInstances(search_params);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Error searching OpenVPN instances: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            },
+          ],
+        };
+      }
+    };
+
+    toolHandlers.add_openvpn_instance = async (args: any) => {
+      const client = this.ensureClient();
+      const { instance } = args;
+      try {
+        const response = await client.openVPN.addInstance(instance);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Error adding OpenVPN instance: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            },
+          ],
+        };
+      }
+    };
+
+    toolHandlers.update_openvpn_instance = async (args: any) => {
+      const client = this.ensureClient();
+      const { uuid, instance } = args;
+      try {
+        const response = await client.openVPN.updateInstance(uuid, instance);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Error updating OpenVPN instance ${uuid}: ${
+                error instanceof Error ? error.message : 'Unknown error'
+              }`,
+            },
+          ],
+        };
+      }
+    };
+
+    toolHandlers.delete_openvpn_instance = async (args: any) => {
+      const client = this.ensureClient();
+      const { uuid } = args;
+      try {
+        const response = await client.openVPN.deleteInstance(uuid);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Error deleting OpenVPN instance ${uuid}: ${
+                error instanceof Error ? error.message : 'Unknown error'
+              }`,
+            },
+          ],
+        };
+      }
+    };
+
+    toolHandlers.toggle_openvpn_instance = async (args: any) => {
+      const client = this.ensureClient();
+      const { uuid, enabled } = args;
+      try {
+        const response = await client.openVPN.toggleInstance(uuid, enabled);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Error toggling OpenVPN instance ${uuid}: ${
+                error instanceof Error ? error.message : 'Unknown error'
+              }`,
+            },
+          ],
+        };
+      }
+    };
+
+    toolHandlers.start_openvpn_service = async (args: any) => {
+      const client = this.ensureClient();
+      const { service_id } = args;
+      try {
+        const response = await client.openVPN.startService(service_id);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Error starting OpenVPN service: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            },
+          ],
+        };
+      }
+    };
+
+    toolHandlers.stop_openvpn_service = async (args: any) => {
+      const client = this.ensureClient();
+      const { service_id } = args;
+      try {
+        const response = await client.openVPN.stopService(service_id);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Error stopping OpenVPN service: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            },
+          ],
+        };
+      }
+    };
+
+    toolHandlers.restart_openvpn_service = async (args: any) => {
+      const client = this.ensureClient();
+      const { service_id } = args;
+      try {
+        const response = await client.openVPN.restartService(service_id);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Error restarting OpenVPN service: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            },
+          ],
+        };
+      }
+    };
+
+    toolHandlers.search_openvpn_sessions = async (args: any) => {
+      const client = this.ensureClient();
+      const { search_params } = args;
+      try {
+        const response = await client.openVPN.searchSessions(search_params);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Error searching OpenVPN sessions: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            },
+          ],
+        };
+      }
+    };
+
+    toolHandlers.kill_openvpn_session = async (args: any) => {
+      const client = this.ensureClient();
+      const { session_data } = args;
+      try {
+        const response = await client.openVPN.killSession(session_data);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Error killing OpenVPN session: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            },
+          ],
+        };
+      }
+    };
+
+    // IPsec Management
+    toolHandlers.ipsec_is_enabled = async () => {
+      const client = this.ensureClient();
+      try {
+        const response = await client.ipsec.isEnabled();
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Error checking IPsec status: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            },
+          ],
+        };
+      }
+    };
+
+    toolHandlers.toggle_ipsec_service = async (args: any) => {
+      const client = this.ensureClient();
+      const { enabled } = args;
+      try {
+        const response = await client.ipsec.toggleService(enabled);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Error toggling IPsec service: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            },
+          ],
+        };
+      }
+    };
+
+    toolHandlers.search_ipsec_connections = async (args: any) => {
+      const client = this.ensureClient();
+      const { search_params } = args;
+      try {
+        const response = await client.ipsec.searchConnections(search_params);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Error searching IPsec connections: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            },
+          ],
+        };
+      }
+    };
+
+    toolHandlers.add_ipsec_connection = async (args: any) => {
+      const client = this.ensureClient();
+      const { connection } = args;
+      try {
+        const response = await client.ipsec.addConnection(connection);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Error adding IPsec connection: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            },
+          ],
+        };
+      }
+    };
+
+    toolHandlers.get_ipsec_connection = async (args: any) => {
+      const client = this.ensureClient();
+      const { uuid } = args;
+      try {
+        const response = await client.ipsec.getConnection(uuid);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Error getting IPsec connection ${uuid}: ${
+                error instanceof Error ? error.message : 'Unknown error'
+              }`,
+            },
+          ],
+        };
+      }
+    };
+
+    toolHandlers.update_ipsec_connection = async (args: any) => {
+      const client = this.ensureClient();
+      const { uuid, connection } = args;
+      try {
+        const response = await client.ipsec.updateConnection(uuid, connection);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Error updating IPsec connection ${uuid}: ${
+                error instanceof Error ? error.message : 'Unknown error'
+              }`,
+            },
+          ],
+        };
+      }
+    };
+
+    toolHandlers.delete_ipsec_connection = async (args: any) => {
+      const client = this.ensureClient();
+      const { uuid } = args;
+      try {
+        const response = await client.ipsec.deleteConnection(uuid);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Error deleting IPsec connection ${uuid}: ${
+                error instanceof Error ? error.message : 'Unknown error'
+              }`,
+            },
+          ],
+        };
+      }
+    };
+
+    toolHandlers.toggle_ipsec_connection = async (args: any) => {
+      const client = this.ensureClient();
+      const { uuid, enabled } = args;
+      try {
+        const response = await client.ipsec.toggleConnection(uuid, enabled);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Error toggling IPsec connection ${uuid}: ${
+                error instanceof Error ? error.message : 'Unknown error'
+              }`,
+            },
+          ],
+        };
+      }
+    };
+
+    toolHandlers.start_ipsec = async () => {
+      const client = this.ensureClient();
+      try {
+        const response = await client.ipsec.start();
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [
+            { type: 'text', text: `Error starting IPsec: ${error instanceof Error ? error.message : 'Unknown error'}` },
+          ],
+        };
+      }
+    };
+
+    toolHandlers.stop_ipsec = async () => {
+      const client = this.ensureClient();
+      try {
+        const response = await client.ipsec.stop();
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [
+            { type: 'text', text: `Error stopping IPsec: ${error instanceof Error ? error.message : 'Unknown error'}` },
+          ],
+        };
+      }
+    };
+
+    toolHandlers.restart_ipsec = async () => {
+      const client = this.ensureClient();
+      try {
+        const response = await client.ipsec.restart();
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Error restarting IPsec: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            },
+          ],
+        };
+      }
+    };
+
+    toolHandlers.reconfigure_ipsec = async () => {
+      const client = this.ensureClient();
+      try {
+        const response = await client.ipsec.reconfigure();
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Error reconfiguring IPsec: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            },
+          ],
+        };
+      }
+    };
+
+    toolHandlers.search_ipsec_sessions = async (args: any) => {
+      const client = this.ensureClient();
+      const { search_params, phase } = args;
+      try {
+        let response;
+        if (phase === 1) {
+          response = await client.ipsec.searchPhase1Sessions(search_params);
+        } else {
+          response = await client.ipsec.searchPhase2Sessions(search_params);
+        }
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Error searching IPsec phase ${phase} sessions: ${
+                error instanceof Error ? error.message : 'Unknown error'
+              }`,
+            },
+          ],
+        };
+      }
+    };
+
+    toolHandlers.connect_ipsec_session = async (args: any) => {
+      const client = this.ensureClient();
+      const { session_id } = args;
+      try {
+        const response = await client.ipsec.connectSession(session_id);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Error connecting IPsec session ${session_id}: ${
+                error instanceof Error ? error.message : 'Unknown error'
+              }`,
+            },
+          ],
+        };
+      }
+    };
+
+    toolHandlers.disconnect_ipsec_session = async (args: any) => {
+      const client = this.ensureClient();
+      const { session_id } = args;
+      try {
+        const response = await client.ipsec.disconnectSession(session_id);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Error disconnecting IPsec session ${session_id}: ${
+                error instanceof Error ? error.message : 'Unknown error'
+              }`,
+            },
+          ],
+        };
+      }
+    };
+
+    // DHCP Management
+    toolHandlers.get_dhcp_config = async () => {
+      const client = this.ensureClient();
+      try {
+        const response = await client.dhcpv4.getConfig();
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Error getting DHCP config: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            },
+          ],
+        };
+      }
+    };
+
+    toolHandlers.set_dhcp_config = async (args: any) => {
+      const client = this.ensureClient();
+      const { config } = args;
+      try {
+        const response = await client.dhcpv4.setConfig(config);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Error setting DHCP config: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            },
+          ],
+        };
+      }
+    };
+
+    toolHandlers.search_dhcp_leases = async (args: any) => {
+      const client = this.ensureClient();
+      const { search_params } = args;
+      try {
+        const response = await client.dhcpv4.searchLeases(search_params);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Error searching DHCP leases: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            },
+          ],
+        };
+      }
+    };
+
+    toolHandlers.search_dhcp_reservations = async (args: any) => {
+      const client = this.ensureClient();
+      const { search_params } = args;
+      try {
+        const response = await client.dhcpv4.searchReservations(search_params);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Error searching DHCP reservations: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            },
+          ],
+        };
+      }
+    };
+
+    toolHandlers.add_dhcp_reservation = async (args: any) => {
+      const client = this.ensureClient();
+      const { reservation } = args;
+      try {
+        const response = await client.dhcpv4.addReservation(reservation);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Error adding DHCP reservation: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            },
+          ],
+        };
+      }
+    };
+
+    toolHandlers.get_dhcp_reservation = async (args: any) => {
+      const client = this.ensureClient();
+      const { uuid } = args;
+      try {
+        const response = await client.dhcpv4.getReservation(uuid);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Error getting DHCP reservation ${uuid}: ${
+                error instanceof Error ? error.message : 'Unknown error'
+              }`,
+            },
+          ],
+        };
+      }
+    };
+
+    toolHandlers.update_dhcp_reservation = async (args: any) => {
+      const client = this.ensureClient();
+      const { uuid, reservation } = args;
+      try {
+        const response = await client.dhcpv4.updateReservation(uuid, reservation);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Error updating DHCP reservation ${uuid}: ${
+                error instanceof Error ? error.message : 'Unknown error'
+              }`,
+            },
+          ],
+        };
+      }
+    };
+
+    toolHandlers.delete_dhcp_reservation = async (args: any) => {
+      const client = this.ensureClient();
+      const { uuid } = args;
+      try {
+        const response = await client.dhcpv4.deleteReservation(uuid);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Error deleting DHCP reservation ${uuid}: ${
+                error instanceof Error ? error.message : 'Unknown error'
+              }`,
+            },
+          ],
+        };
+      }
+    };
+
+    toolHandlers.toggle_dhcp_reservation = async (args: any) => {
+      const client = this.ensureClient();
+      const { uuid, enabled } = args;
+      try {
+        const response = await client.dhcpv4.toggleReservation(uuid, enabled);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Error toggling DHCP reservation ${uuid}: ${
+                error instanceof Error ? error.message : 'Unknown error'
+              }`,
+            },
+          ],
+        };
+      }
+    };
+
+    toolHandlers.start_dhcp_service = async () => {
+      const client = this.ensureClient();
+      try {
+        const response = await client.dhcpv4.start();
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Error starting DHCP service: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            },
+          ],
+        };
+      }
+    };
+
+    toolHandlers.stop_dhcp_service = async () => {
+      const client = this.ensureClient();
+      try {
+        const response = await client.dhcpv4.stop();
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Error stopping DHCP service: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            },
+          ],
+        };
+      }
+    };
+
+    toolHandlers.restart_dhcp_service = async () => {
+      const client = this.ensureClient();
+      try {
+        const response = await client.dhcpv4.restart();
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Error restarting DHCP service: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            },
+          ],
+        };
+      }
+    };
+
+    toolHandlers.reconfigure_dhcp = async () => {
+      const client = this.ensureClient();
+      try {
+        const response = await client.dhcpv4.reconfigure();
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Error reconfiguring DHCP: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            },
+          ],
+        };
+      }
+    };
+
+    toolHandlers.get_dhcp_status = async () => {
+      const client = this.ensureClient();
+      try {
+        const response = await client.dhcpv4.getStatus();
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Error getting DHCP status: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
         };
