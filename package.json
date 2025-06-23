@@ -1,9 +1,18 @@
 {
-  "name": "@richard-stovall/opnsense-mcp-server",
+  "name": "opnsense-mcp-server",
   "version": "0.1.0",
-  "module": "index.ts",
+  "description": "A comprehensive OPNsense MCP server exposing all OPNsense API routes as tools, built with Bun and TypeScript.",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
   "type": "module",
-  "private": true,
+  "bin": {
+    "opnsense-mcp-server": "dist/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "CLAUDE.md"
+  ],
   "scripts": {
     "start": "bun run index.ts",
     "dev": "bun --hot index.ts",
@@ -11,6 +20,21 @@
     "build": "bun build index.ts --outdir dist --target node",
     "build:watch": "bun build index.ts --outdir dist --target node --watch"
   },
+  "author": "Richard Stovall",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/richard-stovall/opnsense-mcp-server.git"
+  },
+  "keywords": [
+    "opnsense",
+    "firewall",
+    "bun",
+    "typescript",
+    "mcp",
+    "api",
+    "server"
+  ],
   "devDependencies": {
     "@types/bun": "latest"
   },
