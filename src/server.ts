@@ -2154,6 +2154,315 @@ export class McpServer {
       }
     };
 
+    // Extended System Operations
+    toolHandlers.system_reboot = async () => {
+      const client = this.ensureClient();
+      try {
+        const response = await client.system.reboot();
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [{ type: 'text', text: `Error rebooting system: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+        };
+      }
+    };
+
+    toolHandlers.system_halt = async () => {
+      const client = this.ensureClient();
+      try {
+        const response = await client.system.halt();
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [{ type: 'text', text: `Error halting system: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+        };
+      }
+    };
+
+    toolHandlers.dismiss_system_status = async () => {
+      const client = this.ensureClient();
+      try {
+        const response = await client.system.dismissStatus();
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [{ type: 'text', text: `Error dismissing system status: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+        };
+      }
+    };
+
+    // Firmware Management
+    toolHandlers.firmware_get_info = async () => {
+      const client = this.ensureClient();
+      try {
+        const response = await client.firmware.getInfo();
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [{ type: 'text', text: `Error getting firmware info: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+        };
+      }
+    };
+
+    toolHandlers.firmware_check_updates = async () => {
+      const client = this.ensureClient();
+      try {
+        const response = await client.firmware.checkUpdates();
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [{ type: 'text', text: `Error checking firmware updates: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+        };
+      }
+    };
+
+    toolHandlers.firmware_update = async () => {
+      const client = this.ensureClient();
+      try {
+        const response = await client.firmware.update();
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [{ type: 'text', text: `Error updating firmware: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+        };
+      }
+    };
+
+    toolHandlers.firmware_upgrade = async () => {
+      const client = this.ensureClient();
+      try {
+        const response = await client.firmware.upgrade();
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [{ type: 'text', text: `Error upgrading firmware: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+        };
+      }
+    };
+
+    toolHandlers.firmware_audit = async () => {
+      const client = this.ensureClient();
+      try {
+        const response = await client.firmware.audit();
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [{ type: 'text', text: `Error running firmware audit: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+        };
+      }
+    };
+
+    toolHandlers.firmware_get_changelog = async (args: any) => {
+      const client = this.ensureClient();
+      const { version } = args;
+      try {
+        const response = await client.firmware.getChangelog(version);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [{ type: 'text', text: `Error getting firmware changelog: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+        };
+      }
+    };
+
+    // Package Management
+    toolHandlers.package_remove = async (args: any) => {
+      const client = this.ensureClient();
+      const { package_name } = args;
+      try {
+        const response = await client.firmware.removePackage(package_name);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [{ type: 'text', text: `Error removing package ${package_name}: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+        };
+      }
+    };
+
+    toolHandlers.package_reinstall = async (args: any) => {
+      const client = this.ensureClient();
+      const { package_name } = args;
+      try {
+        const response = await client.firmware.reinstallPackage(package_name);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [{ type: 'text', text: `Error reinstalling package ${package_name}: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+        };
+      }
+    };
+
+    toolHandlers.package_lock = async (args: any) => {
+      const client = this.ensureClient();
+      const { package_name } = args;
+      try {
+        const response = await client.firmware.lockPackage(package_name);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [{ type: 'text', text: `Error locking package ${package_name}: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+        };
+      }
+    };
+
+    toolHandlers.package_unlock = async (args: any) => {
+      const client = this.ensureClient();
+      const { package_name } = args;
+      try {
+        const response = await client.firmware.unlockPackage(package_name);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [{ type: 'text', text: `Error unlocking package ${package_name}: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+        };
+      }
+    };
+
+    toolHandlers.package_get_details = async (args: any) => {
+      const client = this.ensureClient();
+      const { package_name } = args;
+      try {
+        const response = await client.firmware.getPackageDetails(package_name);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [{ type: 'text', text: `Error getting package details for ${package_name}: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+        };
+      }
+    };
+
+    // Advanced Firewall Operations
+    toolHandlers.firewall_apply = async (args: any) => {
+      const client = this.ensureClient();
+      const { rollback_revision } = args;
+      try {
+        const response = await client.firewall.apply(rollback_revision);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [{ type: 'text', text: `Error applying firewall changes: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+        };
+      }
+    };
+
+    toolHandlers.firewall_savepoint = async () => {
+      const client = this.ensureClient();
+      try {
+        const response = await client.firewall.savepoint();
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [{ type: 'text', text: `Error creating firewall savepoint: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+        };
+      }
+    };
+
+    toolHandlers.firewall_revert = async (args: any) => {
+      const client = this.ensureClient();
+      const { revision } = args;
+      try {
+        const response = await client.firewall.revert(revision);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [{ type: 'text', text: `Error reverting firewall to revision ${revision}: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+        };
+      }
+    };
+
+    toolHandlers.get_firewall_rule_stats = async () => {
+      const client = this.ensureClient();
+      try {
+        const response = await client.firewall.getRuleStats();
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [{ type: 'text', text: `Error getting firewall rule stats: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+        };
+      }
+    };
+
+    toolHandlers.firewall_move_rule = async (args: any) => {
+      const client = this.ensureClient();
+      const { selected_uuid, target_uuid } = args;
+      try {
+        const response = await client.firewall.rules.moveBefore(selected_uuid, target_uuid);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [{ type: 'text', text: `Error moving firewall rule: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+        };
+      }
+    };
+
+    toolHandlers.get_firewall_rule = async (args: any) => {
+      const client = this.ensureClient();
+      const { uuid } = args;
+      try {
+        const response = await client.firewall.rules.get(uuid);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [{ type: 'text', text: `Error getting firewall rule ${uuid}: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+        };
+      }
+    };
+
+    toolHandlers.update_firewall_rule = async (args: any) => {
+      const client = this.ensureClient();
+      const { uuid, rule } = args;
+      try {
+        const response = await client.firewall.rules.update(uuid, rule);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [{ type: 'text', text: `Error updating firewall rule ${uuid}: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+        };
+      }
+    };
+
     // API discovery
     toolHandlers.get_api_endpoints = async (args: any) => {
       const { module } = args;
@@ -2180,6 +2489,419 @@ export class McpServer {
           },
         ],
       };
+    };
+
+    // Enhanced Alias Management
+    toolHandlers.get_firewall_alias = async (args: any) => {
+      const client = this.ensureClient();
+      const { uuid } = args;
+      try {
+        const response = await client.firewall.aliases.get(uuid);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [{ type: 'text', text: `Error getting firewall alias ${uuid}: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+        };
+      }
+    };
+
+    toolHandlers.add_firewall_alias = async (args: any) => {
+      const client = this.ensureClient();
+      const { alias } = args;
+      try {
+        const response = await client.firewall.aliases.add(alias);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [{ type: 'text', text: `Error adding firewall alias: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+        };
+      }
+    };
+
+    toolHandlers.update_firewall_alias = async (args: any) => {
+      const client = this.ensureClient();
+      const { uuid, alias } = args;
+      try {
+        const response = await client.firewall.aliases.update(uuid, alias);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [{ type: 'text', text: `Error updating firewall alias ${uuid}: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+        };
+      }
+    };
+
+    toolHandlers.delete_firewall_alias = async (args: any) => {
+      const client = this.ensureClient();
+      const { uuid } = args;
+      try {
+        const response = await client.firewall.aliases.delete(uuid);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [{ type: 'text', text: `Error deleting firewall alias ${uuid}: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+        };
+      }
+    };
+
+    toolHandlers.toggle_firewall_alias = async (args: any) => {
+      const client = this.ensureClient();
+      const { uuid, enabled } = args;
+      try {
+        const response = await client.firewall.aliases.toggle(uuid, enabled);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [{ type: 'text', text: `Error toggling firewall alias ${uuid}: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+        };
+      }
+    };
+
+    toolHandlers.export_firewall_aliases = async () => {
+      const client = this.ensureClient();
+      try {
+        const response = await client.firewall.aliases.export();
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [{ type: 'text', text: `Error exporting firewall aliases: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+        };
+      }
+    };
+
+    toolHandlers.import_firewall_aliases = async (args: any) => {
+      const client = this.ensureClient();
+      const { data } = args;
+      try {
+        const response = await client.firewall.aliases.import(data);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [{ type: 'text', text: `Error importing firewall aliases: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+        };
+      }
+    };
+
+    toolHandlers.get_alias_table_size = async () => {
+      const client = this.ensureClient();
+      try {
+        const response = await client.firewall.aliases.getTableSize();
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [{ type: 'text', text: `Error getting alias table size: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+        };
+      }
+    };
+
+    toolHandlers.list_alias_contents = async (args: any) => {
+      const client = this.ensureClient();
+      const { alias_name } = args;
+      try {
+        const response = await client.firewall.aliasUtils.list(alias_name);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [{ type: 'text', text: `Error listing alias contents for ${alias_name}: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+        };
+      }
+    };
+
+    toolHandlers.flush_alias = async (args: any) => {
+      const client = this.ensureClient();
+      const { alias_name } = args;
+      try {
+        const response = await client.firewall.aliasUtils.flush(alias_name);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [{ type: 'text', text: `Error flushing alias ${alias_name}: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+        };
+      }
+    };
+
+    // Enhanced Diagnostics
+    toolHandlers.get_memory_usage = async () => {
+      const client = this.ensureClient();
+      try {
+        const response = await client.diagnostics.getMemory();
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [{ type: 'text', text: `Error getting memory usage: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+        };
+      }
+    };
+
+    toolHandlers.get_disk_usage = async () => {
+      const client = this.ensureClient();
+      try {
+        const response = await client.diagnostics.getDisk();
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [{ type: 'text', text: `Error getting disk usage: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+        };
+      }
+    };
+
+    toolHandlers.get_system_temperature = async () => {
+      const client = this.ensureClient();
+      try {
+        const response = await client.diagnostics.getTemperature();
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [{ type: 'text', text: `Error getting system temperature: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+        };
+      }
+    };
+
+    toolHandlers.get_cpu_usage = async () => {
+      const client = this.ensureClient();
+      try {
+        const response = await client.diagnostics.getCpuUsageStream();
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [{ type: 'text', text: `Error getting CPU usage: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+        };
+      }
+    };
+
+    toolHandlers.get_arp_table = async () => {
+      const client = this.ensureClient();
+      try {
+        const response = await client.diagnostics.getArp();
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [{ type: 'text', text: `Error getting ARP table: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+        };
+      }
+    };
+
+    toolHandlers.search_arp_table = async (args: any) => {
+      const client = this.ensureClient();
+      const { search_params } = args;
+      try {
+        const response = await client.diagnostics.searchArp(search_params);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [{ type: 'text', text: `Error searching ARP table: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+        };
+      }
+    };
+
+    toolHandlers.flush_arp_table = async () => {
+      const client = this.ensureClient();
+      try {
+        const response = await client.diagnostics.flushArp();
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [{ type: 'text', text: `Error flushing ARP table: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+        };
+      }
+    };
+
+    toolHandlers.get_pf_states = async () => {
+      const client = this.ensureClient();
+      try {
+        const response = await client.diagnostics.getPfStates();
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [{ type: 'text', text: `Error getting PF states: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+        };
+      }
+    };
+
+    toolHandlers.query_pf_states = async (args: any) => {
+      const client = this.ensureClient();
+      const { params } = args;
+      try {
+        const response = await client.diagnostics.queryPfStates(params);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [{ type: 'text', text: `Error querying PF states: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+        };
+      }
+    };
+
+    toolHandlers.flush_firewall_states = async () => {
+      const client = this.ensureClient();
+      try {
+        const response = await client.diagnostics.flushFirewallStates();
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [{ type: 'text', text: `Error flushing firewall states: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+        };
+      }
+    };
+
+    toolHandlers.kill_firewall_states = async (args: any) => {
+      const client = this.ensureClient();
+      const { params } = args;
+      try {
+        const response = await client.diagnostics.killFirewallStates(params);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [{ type: 'text', text: `Error killing firewall states: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+        };
+      }
+    };
+
+    toolHandlers.dns_lookup = async (args: any) => {
+      const client = this.ensureClient();
+      const { hostname, record_type = 'A' } = args;
+      try {
+        const response = await client.diagnostics.dnsLookup({ hostname, type: record_type });
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [{ type: 'text', text: `Error performing DNS lookup for ${hostname}: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+        };
+      }
+    };
+
+    // Service Management
+    toolHandlers.search_services = async (args: any) => {
+      const client = this.ensureClient();
+      const { search_params } = args;
+      try {
+        const response = await client.service.searchServices(search_params);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [{ type: 'text', text: `Error searching services: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+        };
+      }
+    };
+
+    toolHandlers.start_service = async (args: any) => {
+      const client = this.ensureClient();
+      const { service_name, service_id } = args;
+      try {
+        const response = await client.service.start(service_name, service_id);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [{ type: 'text', text: `Error starting service ${service_name}: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+        };
+      }
+    };
+
+    toolHandlers.stop_service = async (args: any) => {
+      const client = this.ensureClient();
+      const { service_name, service_id } = args;
+      try {
+        const response = await client.service.stop(service_name, service_id);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [{ type: 'text', text: `Error stopping service ${service_name}: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+        };
+      }
+    };
+
+    // Interface Management
+    toolHandlers.get_interface_details = async (args: any) => {
+      const client = this.ensureClient();
+      const { interface_name } = args;
+      try {
+        const response = await client.interfaces.getInterface(interface_name);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [{ type: 'text', text: `Error getting interface details for ${interface_name}: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+        };
+      }
+    };
+
+    toolHandlers.reload_interface = async (args: any) => {
+      const client = this.ensureClient();
+      const { interface_name } = args;
+      try {
+        const response = await client.interfaces.reloadInterface(interface_name);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [{ type: 'text', text: `Error reloading interface ${interface_name}: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+        };
+      }
+    };
+
+    toolHandlers.get_interface_statistics = async () => {
+      const client = this.ensureClient();
+      try {
+        const response = await client.diagnostics.getInterfaceStatistics();
+        return {
+          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [{ type: 'text', text: `Error getting interface statistics: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+        };
+      }
     };
 
     // Custom API call
