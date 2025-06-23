@@ -361,6 +361,1198 @@ const baseTools: ToolDefinition[] = [
     },
   },
 
+  // Extended System Operations
+  {
+    name: 'system_reboot',
+    description: 'Reboot the OPNsense system',
+    inputSchema: {
+      type: 'object',
+      properties: {},
+    },
+  },
+  {
+    name: 'system_halt',
+    description: 'Halt the OPNsense system',
+    inputSchema: {
+      type: 'object',
+      properties: {},
+    },
+  },
+  {
+    name: 'dismiss_system_status',
+    description: 'Dismiss system status notifications',
+    inputSchema: {
+      type: 'object',
+      properties: {},
+    },
+  },
+
+  // Firmware Management
+  {
+    name: 'firmware_get_info',
+    description: 'Get firmware information',
+    inputSchema: {
+      type: 'object',
+      properties: {},
+    },
+  },
+  {
+    name: 'firmware_check_updates',
+    description: 'Check for firmware updates',
+    inputSchema: {
+      type: 'object',
+      properties: {},
+    },
+  },
+  {
+    name: 'firmware_update',
+    description: 'Update firmware',
+    inputSchema: {
+      type: 'object',
+      properties: {},
+    },
+  },
+  {
+    name: 'firmware_upgrade',
+    description: 'Upgrade firmware',
+    inputSchema: {
+      type: 'object',
+      properties: {},
+    },
+  },
+  {
+    name: 'firmware_audit',
+    description: 'Run firmware security audit',
+    inputSchema: {
+      type: 'object',
+      properties: {},
+    },
+  },
+  {
+    name: 'firmware_get_changelog',
+    description: 'Get firmware changelog for version',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        version: { type: 'string' },
+      },
+      required: ['version'],
+    },
+  },
+  {
+    name: 'package_remove',
+    description: 'Remove a package',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        package_name: { type: 'string' },
+      },
+      required: ['package_name'],
+    },
+  },
+  {
+    name: 'package_reinstall',
+    description: 'Reinstall a package',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        package_name: { type: 'string' },
+      },
+      required: ['package_name'],
+    },
+  },
+  {
+    name: 'package_lock',
+    description: 'Lock a package to prevent updates',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        package_name: { type: 'string' },
+      },
+      required: ['package_name'],
+    },
+  },
+  {
+    name: 'package_unlock',
+    description: 'Unlock a package to allow updates',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        package_name: { type: 'string' },
+      },
+      required: ['package_name'],
+    },
+  },
+  {
+    name: 'package_get_details',
+    description: 'Get detailed information about a package',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        package_name: { type: 'string' },
+      },
+      required: ['package_name'],
+    },
+  },
+
+  // Advanced Firewall Operations
+  {
+    name: 'firewall_apply',
+    description: 'Apply firewall configuration changes',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        rollback_revision: { type: 'string' },
+      },
+    },
+  },
+  {
+    name: 'firewall_savepoint',
+    description: 'Create a firewall configuration savepoint',
+    inputSchema: {
+      type: 'object',
+      properties: {},
+    },
+  },
+  {
+    name: 'firewall_revert',
+    description: 'Revert firewall to a previous revision',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        revision: { type: 'string' },
+      },
+      required: ['revision'],
+    },
+  },
+  {
+    name: 'get_firewall_rule_stats',
+    description: 'Get firewall rule statistics',
+    inputSchema: {
+      type: 'object',
+      properties: {},
+    },
+  },
+  {
+    name: 'firewall_move_rule',
+    description: 'Move a firewall rule before another rule',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        selected_uuid: { type: 'string' },
+        target_uuid: { type: 'string' },
+      },
+      required: ['selected_uuid', 'target_uuid'],
+    },
+  },
+  {
+    name: 'get_firewall_rule',
+    description: 'Get a specific firewall rule by UUID',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        uuid: { type: 'string' },
+      },
+      required: ['uuid'],
+    },
+  },
+  {
+    name: 'update_firewall_rule',
+    description: 'Update an existing firewall rule',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        uuid: { type: 'string' },
+        rule: { type: 'object' },
+      },
+      required: ['uuid', 'rule'],
+    },
+  },
+
+  // Enhanced Alias Management
+  {
+    name: 'get_firewall_alias',
+    description: 'Get a specific firewall alias by UUID',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        uuid: { type: 'string' },
+      },
+      required: ['uuid'],
+    },
+  },
+  {
+    name: 'add_firewall_alias',
+    description: 'Add a new firewall alias',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        alias: { type: 'object' },
+      },
+      required: ['alias'],
+    },
+  },
+  {
+    name: 'update_firewall_alias',
+    description: 'Update an existing firewall alias',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        uuid: { type: 'string' },
+        alias: { type: 'object' },
+      },
+      required: ['uuid', 'alias'],
+    },
+  },
+  {
+    name: 'delete_firewall_alias',
+    description: 'Delete a firewall alias by UUID',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        uuid: { type: 'string' },
+      },
+      required: ['uuid'],
+    },
+  },
+  {
+    name: 'toggle_firewall_alias',
+    description: 'Enable or disable a firewall alias',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        uuid: { type: 'string' },
+        enabled: { type: 'boolean' },
+      },
+      required: ['uuid', 'enabled'],
+    },
+  },
+  {
+    name: 'export_firewall_aliases',
+    description: 'Export firewall aliases configuration',
+    inputSchema: {
+      type: 'object',
+      properties: {},
+    },
+  },
+  {
+    name: 'import_firewall_aliases',
+    description: 'Import firewall aliases configuration',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        data: { type: 'string' },
+      },
+      required: ['data'],
+    },
+  },
+  {
+    name: 'get_alias_table_size',
+    description: 'Get the size of alias tables',
+    inputSchema: {
+      type: 'object',
+      properties: {},
+    },
+  },
+  {
+    name: 'list_alias_contents',
+    description: 'List contents of a specific alias',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        alias_name: { type: 'string' },
+      },
+      required: ['alias_name'],
+    },
+  },
+  {
+    name: 'flush_alias',
+    description: 'Flush all entries from an alias',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        alias_name: { type: 'string' },
+      },
+      required: ['alias_name'],
+    },
+  },
+
+  // Enhanced Diagnostics
+  {
+    name: 'get_memory_usage',
+    description: 'Get detailed memory usage information',
+    inputSchema: {
+      type: 'object',
+      properties: {},
+    },
+  },
+  {
+    name: 'get_disk_usage',
+    description: 'Get disk usage information',
+    inputSchema: {
+      type: 'object',
+      properties: {},
+    },
+  },
+  {
+    name: 'get_system_temperature',
+    description: 'Get system temperature readings',
+    inputSchema: {
+      type: 'object',
+      properties: {},
+    },
+  },
+  {
+    name: 'get_cpu_usage',
+    description: 'Get CPU usage information',
+    inputSchema: {
+      type: 'object',
+      properties: {},
+    },
+  },
+  {
+    name: 'get_arp_table',
+    description: 'Get ARP table entries',
+    inputSchema: {
+      type: 'object',
+      properties: {},
+    },
+  },
+  {
+    name: 'search_arp_table',
+    description: 'Search ARP table entries',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        search_params: { type: 'object' },
+      },
+    },
+  },
+  {
+    name: 'flush_arp_table',
+    description: 'Flush the ARP table',
+    inputSchema: {
+      type: 'object',
+      properties: {},
+    },
+  },
+  {
+    name: 'get_pf_states',
+    description: 'Get packet filter states',
+    inputSchema: {
+      type: 'object',
+      properties: {},
+    },
+  },
+  {
+    name: 'query_pf_states',
+    description: 'Query packet filter states with parameters',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        params: { type: 'object' },
+      },
+    },
+  },
+  {
+    name: 'flush_firewall_states',
+    description: 'Flush firewall states',
+    inputSchema: {
+      type: 'object',
+      properties: {},
+    },
+  },
+  {
+    name: 'kill_firewall_states',
+    description: 'Kill specific firewall states',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        params: { type: 'object' },
+      },
+      required: ['params'],
+    },
+  },
+  {
+    name: 'dns_lookup',
+    description: 'Perform DNS lookup',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        hostname: { type: 'string' },
+        record_type: { type: 'string', default: 'A' },
+      },
+      required: ['hostname'],
+    },
+  },
+
+  // Service Management
+  {
+    name: 'search_services',
+    description: 'Search for system services',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        search_params: { type: 'object' },
+      },
+    },
+  },
+  {
+    name: 'start_service',
+    description: 'Start a system service',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        service_name: { type: 'string' },
+        service_id: { type: 'string' },
+      },
+      required: ['service_name'],
+    },
+  },
+  {
+    name: 'stop_service',
+    description: 'Stop a system service',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        service_name: { type: 'string' },
+        service_id: { type: 'string' },
+      },
+      required: ['service_name'],
+    },
+  },
+
+  // Interface Management
+  {
+    name: 'get_interface_details',
+    description: 'Get detailed information about a specific interface',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        interface_name: { type: 'string' },
+      },
+      required: ['interface_name'],
+    },
+  },
+  {
+    name: 'reload_interface',
+    description: 'Reload a network interface',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        interface_name: { type: 'string' },
+      },
+      required: ['interface_name'],
+    },
+  },
+  {
+    name: 'get_interface_statistics',
+    description: 'Get network interface statistics',
+    inputSchema: {
+      type: 'object',
+      properties: {},
+    },
+  },
+
+  // VLAN Management
+  {
+    name: 'search_vlans',
+    description: 'Search VLAN configurations',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        search_params: { type: 'object' },
+      },
+    },
+  },
+  {
+    name: 'add_vlan',
+    description: 'Add a new VLAN configuration',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        vlan: { type: 'object' },
+      },
+      required: ['vlan'],
+    },
+  },
+  {
+    name: 'get_vlan',
+    description: 'Get VLAN configuration by UUID',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        uuid: { type: 'string' },
+      },
+      required: ['uuid'],
+    },
+  },
+  {
+    name: 'update_vlan',
+    description: 'Update VLAN configuration',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        uuid: { type: 'string' },
+        vlan: { type: 'object' },
+      },
+      required: ['uuid', 'vlan'],
+    },
+  },
+  {
+    name: 'delete_vlan',
+    description: 'Delete VLAN configuration',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        uuid: { type: 'string' },
+      },
+      required: ['uuid'],
+    },
+  },
+  {
+    name: 'reconfigure_vlans',
+    description: 'Reconfigure all VLANs',
+    inputSchema: {
+      type: 'object',
+      properties: {},
+    },
+  },
+
+  // Authentication & User Management
+  {
+    name: 'search_users',
+    description: 'Search system users',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        search_params: { type: 'object' },
+      },
+    },
+  },
+  {
+    name: 'add_user',
+    description: 'Add a new system user',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        user: { type: 'object' },
+      },
+      required: ['user'],
+    },
+  },
+  {
+    name: 'get_user',
+    description: 'Get user details by UUID',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        uuid: { type: 'string' },
+      },
+      required: ['uuid'],
+    },
+  },
+  {
+    name: 'update_user',
+    description: 'Update user information',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        uuid: { type: 'string' },
+        user: { type: 'object' },
+      },
+      required: ['uuid', 'user'],
+    },
+  },
+  {
+    name: 'delete_user',
+    description: 'Delete a system user',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        uuid: { type: 'string' },
+      },
+      required: ['uuid'],
+    },
+  },
+  {
+    name: 'add_api_key',
+    description: 'Add API key for a user',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        username: { type: 'string' },
+      },
+      required: ['username'],
+    },
+  },
+  {
+    name: 'delete_api_key',
+    description: 'Delete an API key',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        key_id: { type: 'string' },
+      },
+      required: ['key_id'],
+    },
+  },
+  {
+    name: 'search_api_keys',
+    description: 'Search API keys',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        search_params: { type: 'object' },
+      },
+    },
+  },
+
+  // Group Management
+  {
+    name: 'search_groups',
+    description: 'Search user groups',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        search_params: { type: 'object' },
+      },
+    },
+  },
+  {
+    name: 'add_group',
+    description: 'Add a new user group',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        group: { type: 'object' },
+      },
+      required: ['group'],
+    },
+  },
+  {
+    name: 'get_group',
+    description: 'Get group details by UUID',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        uuid: { type: 'string' },
+      },
+      required: ['uuid'],
+    },
+  },
+  {
+    name: 'update_group',
+    description: 'Update group information',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        uuid: { type: 'string' },
+        group: { type: 'object' },
+      },
+      required: ['uuid', 'group'],
+    },
+  },
+  {
+    name: 'delete_group',
+    description: 'Delete a user group',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        uuid: { type: 'string' },
+      },
+      required: ['uuid'],
+    },
+  },
+
+  // Certificate Management
+  {
+    name: 'search_certificates',
+    description: 'Search certificates',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        search_params: { type: 'object' },
+      },
+    },
+  },
+  {
+    name: 'add_certificate',
+    description: 'Add a new certificate',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        certificate: { type: 'object' },
+      },
+      required: ['certificate'],
+    },
+  },
+  {
+    name: 'get_certificate',
+    description: 'Get certificate by UUID',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        uuid: { type: 'string' },
+      },
+      required: ['uuid'],
+    },
+  },
+  {
+    name: 'delete_certificate',
+    description: 'Delete a certificate',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        uuid: { type: 'string' },
+      },
+      required: ['uuid'],
+    },
+  },
+
+  // Certificate Authority Management
+  {
+    name: 'search_certificate_authorities',
+    description: 'Search certificate authorities',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        search_params: { type: 'object' },
+      },
+    },
+  },
+  {
+    name: 'get_certificate_authority',
+    description: 'Get certificate authority by UUID',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        uuid: { type: 'string' },
+      },
+      required: ['uuid'],
+    },
+  },
+  {
+    name: 'delete_certificate_authority',
+    description: 'Delete a certificate authority',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        uuid: { type: 'string' },
+      },
+      required: ['uuid'],
+    },
+  },
+
+  // OpenVPN Management
+  {
+    name: 'get_openvpn_instances',
+    description: 'Get OpenVPN instances',
+    inputSchema: {
+      type: 'object',
+      properties: {},
+    },
+  },
+  {
+    name: 'search_openvpn_instances',
+    description: 'Search OpenVPN instances',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        search_params: { type: 'object' },
+      },
+    },
+  },
+  {
+    name: 'add_openvpn_instance',
+    description: 'Add OpenVPN instance',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        instance: { type: 'object' },
+      },
+      required: ['instance'],
+    },
+  },
+  {
+    name: 'update_openvpn_instance',
+    description: 'Update OpenVPN instance',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        uuid: { type: 'string' },
+        instance: { type: 'object' },
+      },
+      required: ['uuid', 'instance'],
+    },
+  },
+  {
+    name: 'delete_openvpn_instance',
+    description: 'Delete OpenVPN instance',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        uuid: { type: 'string' },
+      },
+      required: ['uuid'],
+    },
+  },
+  {
+    name: 'toggle_openvpn_instance',
+    description: 'Enable/disable OpenVPN instance',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        uuid: { type: 'string' },
+        enabled: { type: 'boolean' },
+      },
+      required: ['uuid', 'enabled'],
+    },
+  },
+  {
+    name: 'start_openvpn_service',
+    description: 'Start OpenVPN service',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        service_id: { type: 'string' },
+      },
+    },
+  },
+  {
+    name: 'stop_openvpn_service',
+    description: 'Stop OpenVPN service',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        service_id: { type: 'string' },
+      },
+    },
+  },
+  {
+    name: 'restart_openvpn_service',
+    description: 'Restart OpenVPN service',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        service_id: { type: 'string' },
+      },
+    },
+  },
+  {
+    name: 'search_openvpn_sessions',
+    description: 'Search OpenVPN sessions',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        search_params: { type: 'object' },
+      },
+    },
+  },
+  {
+    name: 'kill_openvpn_session',
+    description: 'Kill an OpenVPN session',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        session_data: { type: 'object' },
+      },
+      required: ['session_data'],
+    },
+  },
+
+  // IPsec Management
+  {
+    name: 'ipsec_is_enabled',
+    description: 'Check if IPsec is enabled',
+    inputSchema: {
+      type: 'object',
+      properties: {},
+    },
+  },
+  {
+    name: 'toggle_ipsec_service',
+    description: 'Enable/disable IPsec service',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        enabled: { type: 'boolean' },
+      },
+      required: ['enabled'],
+    },
+  },
+  {
+    name: 'search_ipsec_connections',
+    description: 'Search IPsec connections',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        search_params: { type: 'object' },
+      },
+    },
+  },
+  {
+    name: 'add_ipsec_connection',
+    description: 'Add IPsec connection',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        connection: { type: 'object' },
+      },
+      required: ['connection'],
+    },
+  },
+  {
+    name: 'get_ipsec_connection',
+    description: 'Get IPsec connection by UUID',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        uuid: { type: 'string' },
+      },
+      required: ['uuid'],
+    },
+  },
+  {
+    name: 'update_ipsec_connection',
+    description: 'Update IPsec connection',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        uuid: { type: 'string' },
+        connection: { type: 'object' },
+      },
+      required: ['uuid', 'connection'],
+    },
+  },
+  {
+    name: 'delete_ipsec_connection',
+    description: 'Delete IPsec connection',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        uuid: { type: 'string' },
+      },
+      required: ['uuid'],
+    },
+  },
+  {
+    name: 'toggle_ipsec_connection',
+    description: 'Enable/disable IPsec connection',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        uuid: { type: 'string' },
+        enabled: { type: 'boolean' },
+      },
+      required: ['uuid', 'enabled'],
+    },
+  },
+  {
+    name: 'start_ipsec',
+    description: 'Start IPsec service',
+    inputSchema: {
+      type: 'object',
+      properties: {},
+    },
+  },
+  {
+    name: 'stop_ipsec',
+    description: 'Stop IPsec service',
+    inputSchema: {
+      type: 'object',
+      properties: {},
+    },
+  },
+  {
+    name: 'restart_ipsec',
+    description: 'Restart IPsec service',
+    inputSchema: {
+      type: 'object',
+      properties: {},
+    },
+  },
+  {
+    name: 'reconfigure_ipsec',
+    description: 'Reconfigure IPsec service',
+    inputSchema: {
+      type: 'object',
+      properties: {},
+    },
+  },
+  {
+    name: 'search_ipsec_sessions',
+    description: 'Search IPsec sessions',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        search_params: { type: 'object' },
+        phase: { type: 'integer', enum: [1, 2] },
+      },
+      required: ['phase'],
+    },
+  },
+  {
+    name: 'connect_ipsec_session',
+    description: 'Connect IPsec session',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        session_id: { type: 'string' },
+      },
+      required: ['session_id'],
+    },
+  },
+  {
+    name: 'disconnect_ipsec_session',
+    description: 'Disconnect IPsec session',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        session_id: { type: 'string' },
+      },
+      required: ['session_id'],
+    },
+  },
+
+  // DHCP Management
+  {
+    name: 'get_dhcp_config',
+    description: 'Get DHCP configuration',
+    inputSchema: {
+      type: 'object',
+      properties: {},
+    },
+  },
+  {
+    name: 'set_dhcp_config',
+    description: 'Set DHCP configuration',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        config: { type: 'object' },
+      },
+      required: ['config'],
+    },
+  },
+  {
+    name: 'search_dhcp_leases',
+    description: 'Search DHCP leases',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        search_params: { type: 'object' },
+      },
+    },
+  },
+  {
+    name: 'search_dhcp_reservations',
+    description: 'Search DHCP reservations',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        search_params: { type: 'object' },
+      },
+    },
+  },
+  {
+    name: 'add_dhcp_reservation',
+    description: 'Add DHCP reservation',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        reservation: { type: 'object' },
+      },
+      required: ['reservation'],
+    },
+  },
+  {
+    name: 'get_dhcp_reservation',
+    description: 'Get DHCP reservation by UUID',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        uuid: { type: 'string' },
+      },
+      required: ['uuid'],
+    },
+  },
+  {
+    name: 'update_dhcp_reservation',
+    description: 'Update DHCP reservation',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        uuid: { type: 'string' },
+        reservation: { type: 'object' },
+      },
+      required: ['uuid', 'reservation'],
+    },
+  },
+  {
+    name: 'delete_dhcp_reservation',
+    description: 'Delete DHCP reservation',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        uuid: { type: 'string' },
+      },
+      required: ['uuid'],
+    },
+  },
+  {
+    name: 'toggle_dhcp_reservation',
+    description: 'Enable/disable DHCP reservation',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        uuid: { type: 'string' },
+        enabled: { type: 'boolean' },
+      },
+      required: ['uuid', 'enabled'],
+    },
+  },
+  {
+    name: 'start_dhcp_service',
+    description: 'Start DHCP service',
+    inputSchema: {
+      type: 'object',
+      properties: {},
+    },
+  },
+  {
+    name: 'stop_dhcp_service',
+    description: 'Stop DHCP service',
+    inputSchema: {
+      type: 'object',
+      properties: {},
+    },
+  },
+  {
+    name: 'restart_dhcp_service',
+    description: 'Restart DHCP service',
+    inputSchema: {
+      type: 'object',
+      properties: {},
+    },
+  },
+  {
+    name: 'reconfigure_dhcp',
+    description: 'Reconfigure DHCP service',
+    inputSchema: {
+      type: 'object',
+      properties: {},
+    },
+  },
+  {
+    name: 'get_dhcp_status',
+    description: 'Get DHCP service status',
+    inputSchema: {
+      type: 'object',
+      properties: {},
+    },
+  },
+
   // Plugin Management
   {
     name: 'list_plugins',
