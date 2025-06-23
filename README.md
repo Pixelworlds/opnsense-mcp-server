@@ -34,8 +34,16 @@ A comprehensive Model Context Protocol (MCP) server that provides **154 tools** 
 
 ## 🛠️ Installation
 
-```bash
-bun install
+Install globally (recommended for CLI use):
+
+```sh
+npm install -g opnsense-mcp-server
+```
+
+Or install locally in your project:
+
+```sh
+npm install opnsense-mcp-server
 ```
 
 ## 🎯 Quick Start
@@ -263,3 +271,17 @@ For support and questions:
 ---
 
 **Note**: This MCP server provides comprehensive access to OPNsense functionality. Always test configurations in a safe environment before applying changes to production systems.
+
+## Usage
+
+After installing globally, run:
+
+```sh
+opnsense-mcp-server --help
+```
+
+Or, if installed locally, use npx:
+
+```sh
+npx opnsense-mcp-server --help
+```
