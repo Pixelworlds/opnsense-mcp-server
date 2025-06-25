@@ -1,24 +1,23 @@
 {
   "name": "@richard-stovall/opnsense-mcp-server",
   "version": "0.1.2",
-  "description": "A comprehensive OPNsense MCP server exposing all OPNsense API routes as tools, built with Bun and TypeScript.",
+  "description": "A comprehensive OPNsense MCP server exposing all OPNsense API routes as tools, built with TypeScript and Yarn.",
   "main": "dist/index.js",
   "module": "dist/index.js",
   "type": "module",
-  "bin": {
-    "opnsense-mcp-server": "dist/index.js"
-  },
+  "bin": "dist/index.js",
   "files": [
     "dist",
     "README.md",
     "CLAUDE.md"
   ],
   "scripts": {
-    "start": "bun run index.ts",
-    "dev": "bun --hot index.ts",
-    "help": "bun run index.ts --help",
-    "build": "bun build index.ts --outdir dist --target node",
-    "build:watch": "bun build index.ts --outdir dist --target node --watch"
+    "start": "tsx index.ts",
+    "dev": "tsx watch index.ts",
+    "help": "tsx index.ts --help",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "type-check": "tsc --noEmit"
   },
   "author": "Richard Stovall",
   "license": "MIT",
@@ -29,23 +28,25 @@
   "keywords": [
     "opnsense",
     "firewall",
-    "bun",
+    "yarn",
     "typescript",
     "mcp",
     "api",
     "server"
   ],
   "devDependencies": {
-    "@types/bun": "latest"
-  },
-  "dependencies": {
-    "@modelcontextprotocol/sdk": "^0.5.0",
-    "zod": "^3.25.67",
-    "@richard-stovall/opnsense-typescript-client": "^0.1.3"
-  },
-  "peerDependencies": {
     "@types/node": "^20.0.0",
     "tsx": "^4.0.0",
     "typescript": "^5.0.0"
-  }
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^0.5.0",
+    "@richard-stovall/opnsense-typescript-client": "^0.1.3",
+    "zod": "^3.25.67"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "yarn": ">=4.0.0"
+  },
+  "packageManager": "yarn@4.9.2+sha256.ca4310f8ba997b4643a000ce512d9772e01c1485df35511114b325315960acb7"
 }

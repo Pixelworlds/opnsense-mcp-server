@@ -1,17 +1,17 @@
 # OPNsense MCP Server
 
-A comprehensive Model Context Protocol (MCP) server that provides **154 tools** for complete OPNsense firewall management through its API. Built on the [@richard-stovall/opnsense-typescript-client](https://www.npmjs.com/package/@richard-stovall/opnsense-typescript-client) package.
+A comprehensive Model Context Protocol (MCP) server that provides **319 tools** for complete OPNsense firewall management through its API. Built on the [@richard-stovall/opnsense-typescript-client](https://www.npmjs.com/package/@richard-stovall/opnsense-typescript-client) package.
 
 ## 🚀 Features
 
-- **🔧 154 MCP Tools** - Complete coverage of OPNsense API functionality
+- **🔧 319 MCP Tools** - Complete coverage of OPNsense API functionality
 - **🛡️ Advanced Firewall Management** - Rules, aliases, states, and audit tools
 - **🔐 VPN Management** - OpenVPN and IPsec configuration and monitoring
 - **👥 User & Certificate Management** - Authentication, groups, and PKI operations
 - **🌐 Network Operations** - Interfaces, VLANs, DHCP, and diagnostics
 - **📦 System Administration** - Firmware, services, packages, and configuration
-- **🔌 Plugin Support** - 24 additional tools for popular OPNsense plugins
-- **⚡ Modern Architecture** - Built with Bun, TypeScript, and comprehensive error handling
+- **🔌 Extensive Plugin Support** - 165 additional tools for 50+ OPNsense plugins
+- **⚡ Modern Architecture** - Built with TypeScript, Yarn, and comprehensive error handling
 
 ## 📊 API Coverage
 
@@ -28,9 +28,9 @@ A comprehensive Model Context Protocol (MCP) server that provides **154 tools** 
 | **OpenVPN Management** | 11 | Instances, sessions, configuration |
 | **IPsec Management** | 15 | Connections, tunnels, sessions |
 | **DHCP Management** | 12 | Leases, reservations, configuration |
-| **Plugin Tools** | 24 | WireGuard, Nginx, HAProxy, Bind, etc. |
+| **Plugin Tools** | 165 | 50+ plugins including WireGuard, Nginx, HAProxy, Bind, etc. |
 | **Utilities** | 5 | Configuration, backups, custom API calls |
-| **Total** | **154** | **Complete OPNsense API coverage** |
+| **Total** | **319** | **Complete OPNsense API coverage** |
 
 ## 🛠️ Installation
 
@@ -51,35 +51,36 @@ npm install opnsense-mcp-server
 ### Basic Usage
 ```bash
 # Show available options
-bun run index.ts --help
+yarn start --help
 
 # Connect to OPNsense
-bun run index.ts --host https://192.168.1.1 --api-key YOUR_API_KEY --api-secret YOUR_API_SECRET
+yarn start --host https://192.168.1.1 --api-key YOUR_API_KEY --api-secret YOUR_API_SECRET
 
 # Without SSL verification (self-signed certificates)
-bun run index.ts --host https://192.168.1.1 --api-key YOUR_KEY --api-secret YOUR_SECRET --no-verify-ssl
+yarn start --host https://192.168.1.1 --api-key YOUR_KEY --api-secret YOUR_SECRET --no-verify-ssl
 ```
 
 ### With Plugin Support
 ```bash
-# Enable plugin-specific tools (adds 24 additional tools)
-bun run index.ts --host https://192.168.1.1 --api-key YOUR_KEY --api-secret YOUR_SECRET --plugins
+# Enable plugin-specific tools (adds 165 additional tools)
+yarn start --host https://192.168.1.1 --api-key YOUR_KEY --api-secret YOUR_SECRET --plugins
 ```
 
 ### Dynamic Configuration
 ```bash
 # Start without configuration, then use the configure_opnsense_connection tool
-bun run index.ts
+yarn start
 ```
 
 ## 📋 Available Scripts
 
 ```bash
-bun run start       # Start the MCP server
-bun run dev         # Start with hot reload
-bun run help        # Show command-line help
-bun run build       # Build the project
-bun run build:watch # Build with watch mode
+yarn start          # Start the MCP server
+yarn dev            # Start with hot reload
+yarn help           # Show command-line help
+yarn build          # Build the project
+yarn build:watch    # Build with watch mode
+yarn type-check     # Type check without emitting
 ```
 
 ## 🔧 Core MCP Tools
@@ -142,16 +143,70 @@ bun run build:watch # Build with watch mode
 
 ## 🔌 Plugin Support
 
-When enabled with `--plugins`, additional tools are available for:
+When enabled with `--plugins`, 165 additional tools are available for 50+ plugins including:
 
-- **WireGuard VPN** - Modern VPN protocol
-- **Nginx** - Web server and reverse proxy
-- **HAProxy** - Load balancer and proxy
-- **Bind DNS** - DNS server management
-- **Caddy** - Modern web server with auto-HTTPS
-- **CrowdSec** - Security engine and threat detection
-- **NetSNMP** - SNMP monitoring
+### Core Plugins (Fully Implemented)
+- **WireGuard VPN** - Modern VPN protocol with server/client management, keypair generation
+- **Nginx** - Web server, reverse proxy, upstreams, locations
+- **HAProxy** - Load balancer, backends, servers, statistics
+- **Bind DNS** - DNS server, zones, domains, records, ACL management
+- **Caddy** - Modern web server with reverse proxy, subdomains, handles
+- **CrowdSec** - Security engine, threat detection, decisions
+- **NetSNMP** - SNMP monitoring and configuration
 - **Netdata** - Real-time performance monitoring
+
+### Additional Plugins (Status & Configuration)
+- **ACME Client** - SSL certificate automation
+- **APC UPS Daemon** - UPS monitoring and management
+- **Chrony** - Network time synchronization
+- **C-ICAP** - Content inspection and adaptation
+- **ClamAV** - Antivirus scanning
+- **Collectd** - System statistics collection
+- **DNSCrypt Proxy** - DNS privacy and security
+- **Dynamic DNS** - Dynamic DNS updates
+- **FreeRADIUS** - RADIUS authentication server
+- **FTP Proxy** - FTP traffic proxying
+- **Hardware Probe** - Hardware information gathering
+- **iPerf** - Network performance testing
+- **LLDP Daemon** - Link Layer Discovery Protocol
+- **Maltrail** - Malicious traffic detection
+- **mDNS Repeater** - Multicast DNS repeating
+- **Munin Node** - System monitoring
+- **Node Exporter** - Prometheus metrics
+- **NRPE** - Nagios Remote Plugin Executor
+- **Ntopng** - Network traffic monitoring
+- **NUT** - Network UPS Tools
+- **OpenConnect** - SSL VPN server
+- **Postfix** - Mail transfer agent
+- **Proxy** - HTTP/HTTPS proxy
+- **Proxy SSO** - Single sign-on proxy
+- **Puppet Agent** - Configuration management
+- **QEMU Guest Agent** - VM guest tools
+- **Quagga** - Routing protocols (BGP, OSPF, etc.)
+- **RADSEC Proxy** - RADIUS over TLS
+- **Redis** - In-memory data store
+- **Relayd** - Load balancer and relay daemon
+- **Rspamd** - Spam filtering system
+- **Shadowsocks** - Secure proxy protocol
+- **SIP Proxy** - SIP traffic proxying
+- **SMART** - Disk health monitoring
+- **SoftEther** - Multi-protocol VPN
+- **SSLH** - SSL/SSH multiplexer
+- **Stunnel** - SSL tunneling
+- **Tailscale** - Zero-config VPN
+- **Tayga** - NAT64 implementation
+- **Telegraf** - Metrics collection agent
+- **TFTP** - Trivial File Transfer Protocol
+- **Tinc** - Mesh VPN
+- **Tor** - Anonymity network
+- **TURN Server** - NAT traversal
+- **UDP Broadcast Relay** - UDP traffic relaying
+- **VnStat** - Network statistics
+- **Wazuh Agent** - Security monitoring
+- **Wake on LAN** - Remote system wake-up
+- **Zabbix Agent** - Infrastructure monitoring
+- **Zabbix Proxy** - Monitoring proxy
+- **ZeroTier** - Software-defined networking
 
 ## 🔧 Configuration
 
@@ -224,7 +279,7 @@ await callTool("add_certificate", { certificate: {...} })
 
 This project uses modern development practices:
 
-- **Runtime**: [Bun](https://bun.sh) for fast JavaScript/TypeScript execution
+- **Runtime**: Node.js with tsx for fast TypeScript execution
 - **Type Safety**: Full TypeScript support with comprehensive type definitions
 - **Error Handling**: Robust error management and reporting
 - **Documentation**: Extensive inline documentation and examples
@@ -237,18 +292,18 @@ git clone <repository-url>
 cd opnsense-mcp-server
 
 # Install dependencies
-bun install
+yarn install
 
 # Build the project
-bun run build
+yarn build
 
-# Run tests
-bun test
+# Run type checking
+yarn type-check
 ```
 
 ## 📋 Requirements
 
-- **Runtime**: Bun (latest version recommended)
+- **Runtime**: Node.js (>=18.0.0) and Yarn (>=4.0.0)
 - **Target**: OPNsense firewall with API access enabled
 - **Authentication**: Valid OPNsense API key and secret
 - **Network**: Network connectivity to OPNsense management interface
@@ -265,7 +320,7 @@ Contributions are welcome! Please feel free to submit issues, feature requests, 
 
 For support and questions:
 - Check the [API Coverage Documentation](./API_COVERAGE.md)
-- Review the built-in help: `bun run index.ts --help`
+- Review the built-in help: `yarn start --help`
 - Open an issue for bugs or feature requests
 
 ---

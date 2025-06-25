@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 
-import { McpServer } from './src/server.js';
+import { OPNsenseServer } from './src/server/simple-server.js';
 
 const help = `
 OPNsense MCP Server
 
-Usage: bun run index.ts [options]
+Usage: yarn start [options]
 
 Options:
   --host <url>        OPNsense host URL (e.g., https://opnsense.local)
@@ -19,10 +19,10 @@ Options:
   --help, -h          Show this help message
 
 Examples:
-  bun run index.ts --host https://opnsense.local --api-key mykey --api-secret mysecret
-  bun run index.ts --host https://192.168.1.1 --api-key mykey --api-secret mysecret --no-verify-ssl
-  bun run index.ts --host https://opnsense.local --api-key mykey --api-secret mysecret --plugins
-  bun run index.ts --host https://opnsense.local --api-key mykey --api-secret mysecret --no-plugins
+  yarn start --host https://opnsense.local --api-key mykey --api-secret mysecret
+  yarn start --host https://192.168.1.1 --api-key mykey --api-secret mysecret --no-verify-ssl
+  yarn start --host https://opnsense.local --api-key mykey --api-secret mysecret --plugins
+  yarn start --host https://opnsense.local --api-key mykey --api-secret mysecret --no-plugins
 
 If no configuration is provided via command-line arguments, you can configure
 the connection using the 'configure_opnsense_connection' tool after starting the server.
@@ -96,7 +96,7 @@ const parseArgs = (args: string[]) => {
 };
 
 const config = parseArgs(process.argv.slice(2));
-const server = new McpServer(config);
+const server = new OPNsenseServer(config);
 
 server.run().catch(error => {
   console.error('Failed to start server:', error);
