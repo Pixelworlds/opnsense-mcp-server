@@ -1,6 +1,6 @@
 {
   "name": "@richard-stovall/opnsense-mcp-server",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "A comprehensive OPNsense MCP server exposing all OPNsense API routes as tools, built with TypeScript and Yarn.",
   "main": "./dist/lib.cjs",
   "module": "./dist/lib.js",
