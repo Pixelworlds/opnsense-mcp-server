@@ -30,7 +30,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@modelcontextprotocol/sdk", "npm:0.5.0"],\
           ["@richard-stovall/opnsense-mcp-server", "workspace:."],\
-          ["@richard-stovall/opnsense-typescript-client", "virtual:fa0b2d5675746cf3661440cdb687e1ad401879c8403a14fcd90bfa4b849aaa7e13ddd3e134df871fff499452f2647d5e493213caef666cfc8a655f4693045c1f#npm:0.1.3"],\
+          ["@richard-stovall/opnsense-typescript-client", "virtual:fa0b2d5675746cf3661440cdb687e1ad401879c8403a14fcd90bfa4b849aaa7e13ddd3e134df871fff499452f2647d5e493213caef666cfc8a655f4693045c1f#npm:0.1.4"],\
           ["@rollup/plugin-commonjs", "virtual:fa0b2d5675746cf3661440cdb687e1ad401879c8403a14fcd90bfa4b849aaa7e13ddd3e134df871fff499452f2647d5e493213caef666cfc8a655f4693045c1f#npm:28.0.6"],\
           ["@rollup/plugin-node-resolve", "virtual:fa0b2d5675746cf3661440cdb687e1ad401879c8403a14fcd90bfa4b849aaa7e13ddd3e134df871fff499452f2647d5e493213caef666cfc8a655f4693045c1f#npm:16.0.1"],\
           ["@rollup/plugin-typescript", "virtual:fa0b2d5675746cf3661440cdb687e1ad401879c8403a14fcd90bfa4b849aaa7e13ddd3e134df871fff499452f2647d5e493213caef666cfc8a655f4693045c1f#npm:12.1.3"],\
@@ -385,7 +385,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@modelcontextprotocol/sdk", "npm:0.5.0"],\
           ["@richard-stovall/opnsense-mcp-server", "workspace:."],\
-          ["@richard-stovall/opnsense-typescript-client", "virtual:fa0b2d5675746cf3661440cdb687e1ad401879c8403a14fcd90bfa4b849aaa7e13ddd3e134df871fff499452f2647d5e493213caef666cfc8a655f4693045c1f#npm:0.1.3"],\
+          ["@richard-stovall/opnsense-typescript-client", "virtual:fa0b2d5675746cf3661440cdb687e1ad401879c8403a14fcd90bfa4b849aaa7e13ddd3e134df871fff499452f2647d5e493213caef666cfc8a655f4693045c1f#npm:0.1.4"],\
           ["@rollup/plugin-commonjs", "virtual:fa0b2d5675746cf3661440cdb687e1ad401879c8403a14fcd90bfa4b849aaa7e13ddd3e134df871fff499452f2647d5e493213caef666cfc8a655f4693045c1f#npm:28.0.6"],\
           ["@rollup/plugin-node-resolve", "virtual:fa0b2d5675746cf3661440cdb687e1ad401879c8403a14fcd90bfa4b849aaa7e13ddd3e134df871fff499452f2647d5e493213caef666cfc8a655f4693045c1f#npm:16.0.1"],\
           ["@rollup/plugin-typescript", "virtual:fa0b2d5675746cf3661440cdb687e1ad401879c8403a14fcd90bfa4b849aaa7e13ddd3e134df871fff499452f2647d5e493213caef666cfc8a655f4693045c1f#npm:12.1.3"],\
@@ -401,17 +401,17 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@richard-stovall/opnsense-typescript-client", [\
-      ["npm:0.1.3", {\
-        "packageLocation": "../../.yarn/berry/cache/@richard-stovall-opnsense-typescript-client-npm-0.1.3-b3617de8b6-10c0.zip/node_modules/@richard-stovall/opnsense-typescript-client/",\
+      ["npm:0.1.4", {\
+        "packageLocation": "../../.yarn/berry/cache/@richard-stovall-opnsense-typescript-client-npm-0.1.4-3c19c11d10-10c0.zip/node_modules/@richard-stovall/opnsense-typescript-client/",\
         "packageDependencies": [\
-          ["@richard-stovall/opnsense-typescript-client", "npm:0.1.3"]\
+          ["@richard-stovall/opnsense-typescript-client", "npm:0.1.4"]\
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:fa0b2d5675746cf3661440cdb687e1ad401879c8403a14fcd90bfa4b849aaa7e13ddd3e134df871fff499452f2647d5e493213caef666cfc8a655f4693045c1f#npm:0.1.3", {\
-        "packageLocation": "./.yarn/__virtual__/@richard-stovall-opnsense-typescript-client-virtual-66e8761eb9/3/.yarn/berry/cache/@richard-stovall-opnsense-typescript-client-npm-0.1.3-b3617de8b6-10c0.zip/node_modules/@richard-stovall/opnsense-typescript-client/",\
+      ["virtual:fa0b2d5675746cf3661440cdb687e1ad401879c8403a14fcd90bfa4b849aaa7e13ddd3e134df871fff499452f2647d5e493213caef666cfc8a655f4693045c1f#npm:0.1.4", {\
+        "packageLocation": "./.yarn/__virtual__/@richard-stovall-opnsense-typescript-client-virtual-967a7bd388/3/.yarn/berry/cache/@richard-stovall-opnsense-typescript-client-npm-0.1.4-3c19c11d10-10c0.zip/node_modules/@richard-stovall/opnsense-typescript-client/",\
         "packageDependencies": [\
-          ["@richard-stovall/opnsense-typescript-client", "virtual:fa0b2d5675746cf3661440cdb687e1ad401879c8403a14fcd90bfa4b849aaa7e13ddd3e134df871fff499452f2647d5e493213caef666cfc8a655f4693045c1f#npm:0.1.3"],\
+          ["@richard-stovall/opnsense-typescript-client", "virtual:fa0b2d5675746cf3661440cdb687e1ad401879c8403a14fcd90bfa4b849aaa7e13ddd3e134df871fff499452f2647d5e493213caef666cfc8a655f4693045c1f#npm:0.1.4"],\
           ["@types/typescript", null],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\

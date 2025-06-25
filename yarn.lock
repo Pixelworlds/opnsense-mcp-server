@@ -273,7 +273,7 @@ __metadata:
   resolution: "@richard-stovall/opnsense-mcp-server@workspace:."
   dependencies:
     "@modelcontextprotocol/sdk": "npm:^0.5.0"
-    "@richard-stovall/opnsense-typescript-client": "npm:^0.1.3"
+    "@richard-stovall/opnsense-typescript-client": "npm:^0.1.4"
     "@rollup/plugin-commonjs": "npm:^28.0.6"
     "@rollup/plugin-node-resolve": "npm:^16.0.1"
     "@rollup/plugin-typescript": "npm:^12.1.3"
@@ -289,12 +289,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@richard-stovall/opnsense-typescript-client@npm:^0.1.3":
-  version: 0.1.3
-  resolution: "@richard-stovall/opnsense-typescript-client@npm:0.1.3"
+"@richard-stovall/opnsense-typescript-client@npm:^0.1.4":
+  version: 0.1.4
+  resolution: "@richard-stovall/opnsense-typescript-client@npm:0.1.4"
   peerDependencies:
     typescript: ^5
-  checksum: 10c0/15143bc28ce90314983cf4dc0100b7562ef9d2f17c0bba29b2f953cd17da477b81e9ea029ba9ac0ee1d280461eab748928a9564d7794f12edbe66205ad334807
+  checksum: 10c0/08f48c796319a0c80a4bb34b67b724f8d624756f15ebddb704e5930de5c94afe5f8bff6056afaca17e577ffda01aff82ed3c2b96447ef0b4cbe44c773339cf19
   languageName: node
   linkType: hard
 

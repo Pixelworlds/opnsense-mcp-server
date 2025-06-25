@@ -22,9 +22,12 @@ export class OPNsenseMcpServer {
   private server: Server;
   private client: OPNsenseClient | null = null;
   private config: ServerConfig;
+  private static instance: OPNsenseMcpServer | null = null;
 
   constructor(config: ServerConfig = {}) {
     this.config = config;
+    // Store singleton instance for access from tools
+    OPNsenseMcpServer.instance = this;
 
     this.server = new Server(
       {
@@ -62,7 +65,7 @@ export class OPNsenseMcpServer {
 
   private setupToolHandlers(): void {
     const getClient = () => this.ensureClient();
-    const coreHandlers = createCoreToolHandlers(getClient);
+    const coreHandlers = createCoreToolHandlers(getClient, this);
     const pluginHandlers = this.config.plugins ? createPluginToolHandlers(getClient) : {};
 
     const allHandlers: ToolHandlers = { ...coreHandlers, ...pluginHandlers };
@@ -109,6 +112,37 @@ export class OPNsenseMcpServer {
     }
 
     return this.client;
+  }
+
+  // Public method to configure connection dynamically
+  public configureConnection(config: {
+    host: string;
+    apiKey: string;
+    apiSecret: string;
+    verifySsl?: boolean;
+  }): void {
+    this.config.host = config.host;
+    this.config.apiKey = config.apiKey;
+    this.config.apiSecret = config.apiSecret;
+    this.config.verifySsl = config.verifySsl ?? true;
+    
+    // Create new client with updated config
+    this.client = new OPNsenseClient({
+      baseUrl: this.config.host,
+      apiKey: this.config.apiKey,
+      apiSecret: this.config.apiSecret,
+      verifySsl: this.config.verifySsl,
+    });
+  }
+
+  // Static method to get current instance
+  public static getInstance(): OPNsenseMcpServer | null {
+    return OPNsenseMcpServer.instance;
+  }
+
+  // Public getter for client (used by tools)
+  public getClient(): OPNsenseClient {
+    return this.ensureClient();
   }
 
   async run(): Promise<void> {

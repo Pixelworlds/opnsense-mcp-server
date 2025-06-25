@@ -1866,7 +1866,7 @@ export const coreTools: ToolDefinition[] = [
   },
 ];
 
-export function createCoreToolHandlers(clientOrGetter: OPNsenseClient | (() => OPNsenseClient)): ToolHandlers {
+export function createCoreToolHandlers(clientOrGetter: OPNsenseClient | (() => OPNsenseClient), serverInstance?: any): ToolHandlers {
   const ensureClient = () => {
     const client = typeof clientOrGetter === 'function' ? clientOrGetter() : clientOrGetter;
     if (!client) {
@@ -2155,6 +2155,16 @@ export function createCoreToolHandlers(clientOrGetter: OPNsenseClient | (() => O
     configure_opnsense_connection: async (args: any) => {
       const { host, api_key, api_secret, verify_ssl = true } = args;
       try {
+        // Configure the connection if server instance is available
+        if (serverInstance && typeof serverInstance.configureConnection === 'function') {
+          serverInstance.configureConnection({
+            host,
+            apiKey: api_key,
+            apiSecret: api_secret,
+            verifySsl: verify_ssl,
+          });
+        }
+        
         return {
           content: [
             {
