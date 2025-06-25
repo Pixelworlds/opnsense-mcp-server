@@ -1,12 +1,22 @@
 /**
  * Main entry point for the OPNsense MCP Server
- * Re-exports the server implementation from the server module
+ * Comprehensive exports for all server functionality and types
  */
 
-export { OPNsenseServer } from './server/simple-server.js';
+// Export main server implementations
 export { serverInitializationResponse } from './server/initialization.js';
-export type { ServerConfig } from './server/types.js';
+export { OPNsenseServer } from './server/simple-server.js';
 
-// Re-export core and plugin types
-export type { CoreToolHandlers } from './core/index.js';
-export type { PluginToolHandlers } from './plugins/index.js';
+// Export core module
+export * from './core/index.js';
+
+// Export plugins module
+export * from './plugins/index.js';
+
+// Export server module
+export * from './server/index.js';
+
+// Explicit type re-exports for better IDE support
+export type { CoreToolHandlers } from './core/types.js';
+export type { PluginToolHandlers } from './plugins/types.js';
+export type { ServerConfig, ToolDefinition, ToolHandler, ToolHandlers } from './server/types.js';

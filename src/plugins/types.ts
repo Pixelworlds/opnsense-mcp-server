@@ -1,5 +1,6 @@
 /**
  * Type definitions for plugin OPNsense tools
+ * These types are exported for use by consumers of the package
  */
 
 import type { ToolHandler, ToolHandlers } from '../server/types.js';

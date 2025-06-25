@@ -2,6 +2,23 @@
 
 import { OPNsenseServer } from './src/server/simple-server.js';
 
+declare const process: {
+  argv: string[];
+  exit(code?: number): never;
+};
+declare const console: {
+  log(...args: any[]): void;
+  error(...args: any[]): void;
+};
+
+interface ParsedConfig {
+  host?: string;
+  apiKey?: string;
+  apiSecret?: string;
+  verifySsl?: boolean;
+  plugins?: boolean;
+}
+
 const help = `
 OPNsense MCP Server
 
@@ -28,67 +45,108 @@ If no configuration is provided via command-line arguments, you can configure
 the connection using the 'configure_opnsense_connection' tool after starting the server.
 `;
 
-const parseArgs = (args: string[]) => {
-  const config: {
-    host?: string;
-    apiKey?: string;
-    apiSecret?: string;
-    verifySsl?: boolean;
-    plugins?: boolean;
-  } = {
+const parseArgs = (args: string[]): ParsedConfig => {
+  const config: ParsedConfig = {
     verifySsl: true,
     plugins: false,
   };
 
   for (let i = 0; i < args.length; i++) {
     const arg = args[i];
+    if (!arg) continue;
 
-    if (typeof arg === 'string' && arg.includes('=')) {
-      const [key, value] = arg.split('=', 2);
+    if (arg.includes('=')) {
+      const parts = arg.split('=', 2);
+      const key = parts[0];
+      const value = parts[1] ?? '';
 
       switch (key) {
-        case '--host':
+        case '--host': {
           config.host = value;
           break;
+        }
         case '--api-key':
-        case '--api_key':
+        case '--api_key': {
           config.apiKey = value;
           break;
+        }
         case '--api-secret':
-        case '--api_secret':
+        case '--api_secret': {
           config.apiSecret = value;
           break;
-        case '--no-verify-ssl':
+        }
+        case '--no-verify-ssl': {
           config.verifySsl = false;
           break;
-        case '--plugins':
+        }
+        case '--plugins': {
           config.plugins = value === 'true' || value === '1' || value === '';
           break;
-        case '--no-plugins':
+        }
+        case '--no-plugins': {
           config.plugins = false;
           break;
+        }
+        default: {
+          break;
+        }
       }
       continue;
     }
 
-    if (arg === '--host' && i + 1 < args.length) {
-      config.host = args[i + 1];
-      i++;
-    } else if ((arg === '--api-key' || arg === '--api_key') && i + 1 < args.length) {
-      config.apiKey = args[i + 1];
-      i++;
-    } else if ((arg === '--api-secret' || arg === '--api_secret') && i + 1 < args.length) {
-      config.apiSecret = args[i + 1];
-      i++;
-    } else if (arg === '--no-verify-ssl') {
-      config.verifySsl = false;
-    } else if (arg === '--plugins') {
-      config.plugins = true;
-    } else if (arg === '--no-plugins') {
-      config.plugins = false;
-    } else if (arg === '--help' || arg === '-h') {
-      console.log(help);
-      process.exit(0);
+    switch (arg) {
+      case '--host': {
+        if (i + 1 < args.length) {
+          const nextArg = args[i + 1];
+          if (nextArg) {
+            config.host = nextArg;
+            i++;
+          }
+        }
+        break;
+      }
+      case '--api-key':
+      case '--api_key': {
+        if (i + 1 < args.length) {
+          const nextArg = args[i + 1];
+          if (nextArg) {
+            config.apiKey = nextArg;
+            i++;
+          }
+        }
+        break;
+      }
+      case '--api-secret':
+      case '--api_secret': {
+        if (i + 1 < args.length) {
+          const nextArg = args[i + 1];
+          if (nextArg) {
+            config.apiSecret = nextArg;
+            i++;
+          }
+        }
+        break;
+      }
+      case '--no-verify-ssl': {
+        config.verifySsl = false;
+        break;
+      }
+      case '--plugins': {
+        config.plugins = true;
+        break;
+      }
+      case '--no-plugins': {
+        config.plugins = false;
+        break;
+      }
+      case '--help':
+      case '-h': {
+        console.log(help);
+        process.exit(0);
+      }
+      default: {
+        break;
+      }
     }
   }
 
@@ -98,7 +156,7 @@ const parseArgs = (args: string[]) => {
 const config = parseArgs(process.argv.slice(2));
 const server = new OPNsenseServer(config);
 
-server.run().catch(error => {
+server.run().catch((error: unknown) => {
   console.error('Failed to start server:', error);
   process.exit(1);
 });

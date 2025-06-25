@@ -141,6 +141,50 @@ yarn type-check     # Type check without emitting
 - **API Key Management**: Generate and manage API access
 - **Certificate Operations**: PKI management and CA operations
 
+## 📦 Library Usage & Type Exports
+
+This package exports comprehensive TypeScript types for use in other projects:
+
+### Installation as a Library
+```typescript
+import {
+  OPNsenseServer,
+  ServerConfig,
+  ToolDefinition,
+  ToolHandler,
+  CoreToolHandlers,
+  PluginToolHandlers,
+  ApiEndpoint,
+  PromptTemplate,
+  ResourceDefinition
+} from 'opnsense-mcp-server';
+
+// Or import from specific modules
+import { coreTools, coreToolHandlers } from 'opnsense-mcp-server/core';
+import { pluginTools, pluginToolHandlers } from 'opnsense-mcp-server/plugins';
+import { PROMPT_TEMPLATES, TOOL_CATEGORIES } from 'opnsense-mcp-server/server';
+```
+
+### Available Type Exports
+- **Core Types**: `ServerConfig`, `ToolDefinition`, `ToolHandler`, `ToolHandlers`
+- **Tool Handlers**: `CoreToolHandlers`, `PluginToolHandlers` (154 total tools with full type safety)
+- **API Documentation**: `ApiEndpoint`, `Parameter`, `CORE_API_MODULES`, `PLUGIN_API_MODULES`
+- **Prompts**: `PromptTemplate`, `PromptArgument`, `PROMPT_TEMPLATES`, `PROMPT_CATEGORIES`
+- **Resources**: `ResourceDefinition`, `ResourceSchema`, `OPNSENSE_RESOURCES`
+- **Enhanced Types**: `EnhancedToolDefinition`, `ToolExample`, `AccessPattern`, `TOOL_WORKFLOWS`
+
+### Build Outputs
+The project builds to multiple formats:
+- **CLI Executable**: `dist/index.js` (ESM) and `dist/index.cjs` (CommonJS)
+- **Library**: `dist/lib.js` (ESM) and `dist/lib.cjs` (CommonJS)  
+- **Type Definitions**: `dist/lib.d.ts` (2400+ lines of comprehensive types)
+
+### Build Outputs
+The package provides both CommonJS and ESM builds:
+- **ESM**: `dist/index.js`, `dist/src/index.js`
+- **CommonJS**: `dist/index.cjs`, `dist/src/index.cjs`
+- **Types**: `dist/index.d.ts`, `dist/src/index.d.ts`
+
 ## 🔌 Plugin Support
 
 When enabled with `--plugins`, 165 additional tools are available for 50+ plugins including:

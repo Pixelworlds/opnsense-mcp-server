@@ -1,5 +1,6 @@
 /**
  * Type definitions for the OPNsense MCP Server
+ * These types are exported for use by consumers of the package
  */
 
 export interface ServerConfig {
