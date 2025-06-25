@@ -1,12 +1,6 @@
-/**
- * Plugin OPNsense Resource Documentation
- * Defines resources specific to plugin functionality
- */
-
 import type { ResourceDefinition } from '../server/types.js';
 
 export const pluginResources: Record<string, ResourceDefinition> = {
-  // WireGuard Plugin Resources
   'plugins/wireguard/status': {
     uri: 'opnsense://plugins/wireguard/status',
     name: 'WireGuard Status',
@@ -33,7 +27,6 @@ export const pluginResources: Record<string, ResourceDefinition> = {
     },
   },
 
-  // Nginx Plugin Resources
   'plugins/nginx/status': {
     uri: 'opnsense://plugins/nginx/status',
     name: 'Nginx Status',

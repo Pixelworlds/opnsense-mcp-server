@@ -1,9 +1,3 @@
-/**
- * Simplified OPNsense MCP Server using modular architecture
- * This demonstrates the new organized structure
- */
-
-// Node.js global types
 declare const process: {
   on(event: string, listener: (...args: any[]) => void): void;
   exit(code?: number): never;
@@ -22,17 +16,7 @@ import { coreTools, createCoreToolHandlers } from '../core/stub-tools.js';
 import { createPluginToolHandlers, pluginTools } from '../plugins/stub-tools.js';
 
 import type { CallToolRequest, CallToolResult } from '@modelcontextprotocol/sdk/types.js';
-import type { ServerConfig } from './types.js';
-
-/**
- * Type for tool handler functions
- */
-type ToolHandler = (args: any) => Promise<CallToolResult>;
-
-/**
- * Type for tool handlers object
- */
-type ToolHandlers = Record<string, ToolHandler>;
+import type { ServerConfig, ToolHandlers } from './types.js';
 
 export class OPNsenseMcpServer {
   private server: Server;
@@ -70,7 +54,6 @@ export class OPNsenseMcpServer {
   }
 
   private setupInitialization(): void {
-    // Use the comprehensive initialization response
     this.server.setRequestHandler(ListToolsRequestSchema, async () => {
       const tools = this.config.plugins ? [...coreTools, ...pluginTools] : coreTools;
       return { tools };
@@ -78,14 +61,13 @@ export class OPNsenseMcpServer {
   }
 
   private setupToolHandlers(): void {
-    // Create handlers using modular approach - pass a client getter function
     const getClient = () => this.ensureClient();
-    const coreHandlers = createCoreToolHandlers(getClient) as ToolHandlers;
-    const pluginHandlers = this.config.plugins ? createPluginToolHandlers(getClient) as ToolHandlers : {};
+    const coreHandlers = createCoreToolHandlers(getClient);
+    const pluginHandlers = this.config.plugins ? createPluginToolHandlers(getClient) : {};
 
     const allHandlers: ToolHandlers = { ...coreHandlers, ...pluginHandlers };
 
-    this.server.setRequestHandler(CallToolRequestSchema, async (request: CallToolRequest) => {
+    this.server.setRequestHandler(CallToolRequestSchema, async (request: CallToolRequest): Promise<CallToolResult> => {
       const { name, arguments: args } = request.params;
 
       if (!(name in allHandlers)) {
@@ -107,7 +89,7 @@ export class OPNsenseMcpServer {
               text: `Error: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
-        } satisfies CallToolResult;
+        };
       }
     });
   }
@@ -136,5 +118,4 @@ export class OPNsenseMcpServer {
   }
 }
 
-// For backward compatibility, export as McpServer as well
 export { OPNsenseMcpServer as McpServer, OPNsenseMcpServer as OPNsenseServer };

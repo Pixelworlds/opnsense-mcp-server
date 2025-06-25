@@ -1,12 +1,7 @@
-/**
- * Stub Core OPNsense Tool Handlers - Simplified for type checking
- * These are placeholder implementations that return mock data
- */
-
-import type { ToolDefinition, ToolHandlers } from '../server/types.js';
+import type { CallToolResult } from '@modelcontextprotocol/sdk/types.js';
 import type { OPNsenseClient } from '@richard-stovall/opnsense-typescript-client';
+import type { ToolDefinition, ToolHandlers } from '../server/types.js';
 
-// Simplified core tools for type checking
 export const coreTools: ToolDefinition[] = [
   {
     name: 'get_system_status',
@@ -52,47 +47,53 @@ export const coreTools: ToolDefinition[] = [
   },
 ];
 
-// Core tool handlers factory function with stub implementations
 export function createCoreToolHandlers(clientOrGetter: OPNsenseClient | (() => OPNsenseClient)): ToolHandlers {
   return {
-    get_system_status: async () => {
+    get_system_status: async (): Promise<CallToolResult> => {
       return {
-        content: [{ 
-          type: 'text' as const, 
-          text: JSON.stringify({ status: 'ok', uptime: '1 day', cpu: 25 }, null, 2) 
-        }],
+        content: [
+          {
+            type: 'text',
+            text: JSON.stringify({ status: 'ok', uptime: '1 day', cpu: 25 }, null, 2),
+          },
+        ],
       };
     },
 
-    firewall_get_rules: async (args: any) => {
+    firewall_get_rules: async (args: any): Promise<CallToolResult> => {
       return {
-        content: [{ 
-          type: 'text' as const, 
-          text: JSON.stringify({ total: 0, rows: [] }, null, 2) 
-        }],
+        content: [
+          {
+            type: 'text',
+            text: JSON.stringify({ total: 0, rows: [] }, null, 2),
+          },
+        ],
       };
     },
 
-    get_interfaces: async () => {
+    get_interfaces: async (): Promise<CallToolResult> => {
       return {
-        content: [{ 
-          type: 'text' as const, 
-          text: JSON.stringify({ interfaces: [] }, null, 2) 
-        }],
+        content: [
+          {
+            type: 'text',
+            text: JSON.stringify({ interfaces: [] }, null, 2),
+          },
+        ],
       };
     },
 
-    configure_opnsense_connection: async (args: any) => {
+    configure_opnsense_connection: async (args: any): Promise<CallToolResult> => {
       const { host, api_key, api_secret, verify_ssl = true } = args;
       return {
-        content: [{ 
-          type: 'text' as const, 
-          text: `OPNsense connection configured for host: ${host}` 
-        }],
+        content: [
+          {
+            type: 'text',
+            text: `OPNsense connection configured for host: ${host}`,
+          },
+        ],
       };
     },
   };
 }
 
-// Export for convenience
 export const coreToolHandlers = createCoreToolHandlers;

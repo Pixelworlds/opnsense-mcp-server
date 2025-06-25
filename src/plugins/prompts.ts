@@ -1,10 +1,4 @@
-/**
- * Plugin OPNsense Prompt Templates
- * Pre-defined prompts for plugin management scenarios
- */
-
 export const pluginPrompts = {
-  // Web Services Management
   web_services_setup: {
     name: 'Web Services Setup Wizard',
     description: 'Configure and deploy web services (Nginx, HAProxy, Caddy)',

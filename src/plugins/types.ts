@@ -1,12 +1,6 @@
-/**
- * Type definitions for plugin OPNsense tools
- * These types are exported for use by consumers of the package
- */
-
 import type { ToolHandler, ToolHandlers } from '../server/types.js';
 
 export interface PluginToolHandlers extends ToolHandlers {
-  // WireGuard Plugin
   wireguard_get_status: ToolHandler;
   wireguard_get_config: ToolHandler;
   wireguard_search_clients: ToolHandler;
@@ -16,7 +10,6 @@ export interface PluginToolHandlers extends ToolHandlers {
   wireguard_delete_client: ToolHandler;
   wireguard_toggle_client: ToolHandler;
 
-  // Nginx Plugin
   nginx_get_status: ToolHandler;
   nginx_get_upstreams: ToolHandler;
   nginx_search_upstreams: ToolHandler;
@@ -30,7 +23,6 @@ export interface PluginToolHandlers extends ToolHandlers {
   nginx_get_logs: ToolHandler;
   nginx_get_config: ToolHandler;
 
-  // HAProxy Plugin
   haproxy_get_status: ToolHandler;
   haproxy_get_backends: ToolHandler;
   haproxy_search_backends: ToolHandler;
@@ -42,7 +34,6 @@ export interface PluginToolHandlers extends ToolHandlers {
   haproxy_reload_config: ToolHandler;
   haproxy_get_logs: ToolHandler;
 
-  // BIND DNS Plugin
   bind_get_status: ToolHandler;
   bind_get_zones: ToolHandler;
   bind_search_zones: ToolHandler;
@@ -52,7 +43,6 @@ export interface PluginToolHandlers extends ToolHandlers {
   bind_reload_config: ToolHandler;
   bind_get_logs: ToolHandler;
 
-  // Caddy Plugin
   caddy_get_status: ToolHandler;
   caddy_get_config: ToolHandler;
   caddy_get_sites: ToolHandler;
@@ -60,7 +50,6 @@ export interface PluginToolHandlers extends ToolHandlers {
   caddy_reload_config: ToolHandler;
   caddy_get_logs: ToolHandler;
 
-  // CrowdSec Plugin
   crowdsec_get_status: ToolHandler;
   crowdsec_get_decisions: ToolHandler;
   crowdsec_get_alerts: ToolHandler;
@@ -68,19 +57,16 @@ export interface PluginToolHandlers extends ToolHandlers {
   crowdsec_restart_service: ToolHandler;
   crowdsec_get_logs: ToolHandler;
 
-  // NetSNMP Plugin
   netsnmp_get_status: ToolHandler;
   netsnmp_get_config: ToolHandler;
   netsnmp_restart_service: ToolHandler;
   netsnmp_get_logs: ToolHandler;
 
-  // Netdata Plugin
   netdata_get_status: ToolHandler;
   netdata_get_config: ToolHandler;
   netdata_restart_service: ToolHandler;
   netdata_get_metrics: ToolHandler;
 
-  // Additional Plugin Stubs (when plugins are available)
   acme_get_certificates: ToolHandler;
   collectd_get_metrics: ToolHandler;
   freeradius_get_clients: ToolHandler;

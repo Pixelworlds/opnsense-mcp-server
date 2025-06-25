@@ -8,10 +8,14 @@
     "allowJs": true,
 
     // Node.js mode
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
+    "baseUrl": ".",
+    "paths": {
+      "@modelcontextprotocol/sdk/*": ["node_modules/@modelcontextprotocol/sdk/dist/*"]
+    },
     "declaration": true,
     "outDir": "./dist",
     "rootDir": ".",
@@ -19,6 +23,7 @@
     // Best practices
     "strict": true,
     "skipLibCheck": true,
+    "allowImportingTsExtensions": false,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedIndexedAccess": true,
     "noImplicitOverride": true,

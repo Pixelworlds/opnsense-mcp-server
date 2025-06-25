@@ -1,8 +1,3 @@
-/**
- * Comprehensive OPNsense API Documentation
- * Generated from Postman collections analysis
- */
-
 export interface ApiEndpoint {
   module: string;
   controller: string;
@@ -27,7 +22,6 @@ export interface Parameter {
 }
 
 export const CORE_API_MODULES = {
-  // Core System Module
   SYSTEM: {
     name: 'Core System',
     description: 'Core system management and monitoring',
@@ -85,7 +79,6 @@ export const CORE_API_MODULES = {
     ],
   },
 
-  // Backup Module
   BACKUP: {
     name: 'Backup Management',
     description: 'Configuration backup and restore operations',
@@ -166,7 +159,6 @@ export const CORE_API_MODULES = {
     ],
   },
 
-  // Dashboard Module
   DASHBOARD: {
     name: 'Dashboard',
     description: 'Dashboard widgets and configuration',
@@ -217,7 +209,6 @@ export const CORE_API_MODULES = {
     ],
   },
 
-  // Service Management
   SERVICE: {
     name: 'Service Management',
     description: 'Control system services',
@@ -282,7 +273,6 @@ export const CORE_API_MODULES = {
     ],
   },
 
-  // Firmware Management
   FIRMWARE: {
     name: 'Firmware Management',
     description: 'System firmware and package management',
@@ -416,12 +406,10 @@ export const CORE_API_MODULES = {
     ],
   },
 
-  // Firewall Module
   FIREWALL: {
     name: 'Firewall Management',
     description: 'Firewall rules, aliases, and configuration',
     endpoints: [
-      // Filter Rules
       {
         module: 'firewall',
         controller: 'filter',
@@ -526,7 +514,6 @@ export const CORE_API_MODULES = {
         requiresAuth: true,
       },
 
-      // Alias Management
       {
         module: 'firewall',
         controller: 'alias',
@@ -603,7 +590,6 @@ export const CORE_API_MODULES = {
         requiresAuth: true,
       },
 
-      // Alias Utilities
       {
         module: 'firewall',
         controller: 'alias_util',
@@ -667,12 +653,10 @@ export const CORE_API_MODULES = {
     ],
   },
 
-  // Diagnostics Module
   DIAGNOSTICS: {
     name: 'System Diagnostics',
     description: 'System diagnostics and monitoring tools',
     endpoints: [
-      // System Information
       {
         module: 'diagnostics',
         controller: 'activity',
@@ -725,7 +709,6 @@ export const CORE_API_MODULES = {
         requiresAuth: true,
       },
 
-      // Firewall Diagnostics
       {
         module: 'diagnostics',
         controller: 'firewall',
@@ -785,7 +768,6 @@ export const CORE_API_MODULES = {
         requiresAuth: true,
       },
 
-      // Interface Diagnostics
       {
         module: 'diagnostics',
         controller: 'interface',
@@ -827,7 +809,6 @@ export const CORE_API_MODULES = {
         requiresAuth: true,
       },
 
-      // Network Tools
       {
         module: 'diagnostics',
         controller: 'ping',
@@ -893,7 +874,6 @@ export const CORE_API_MODULES = {
     ],
   },
 
-  // Interfaces Module
   INTERFACES: {
     name: 'Network Interfaces',
     description: 'Network interface management and configuration',
@@ -934,7 +914,6 @@ export const CORE_API_MODULES = {
         parameters: [{ name: 'identifier', type: 'string', required: true, description: 'Interface identifier' }],
       },
 
-      // VLAN Settings
       {
         module: 'interfaces',
         controller: 'vlan_settings',
@@ -1012,7 +991,6 @@ export const CORE_API_MODULES = {
     ],
   },
 
-  // OpenVPN Module
   OPENVPN: {
     name: 'OpenVPN',
     description: 'OpenVPN server and client management',
@@ -1093,7 +1071,6 @@ export const CORE_API_MODULES = {
         ],
       },
 
-      // OpenVPN Service Control
       {
         module: 'openvpn',
         controller: 'service',
@@ -1140,7 +1117,6 @@ export const CORE_API_MODULES = {
     ],
   },
 
-  // IPsec Module
   IPSEC: {
     name: 'IPsec',
     description: 'IPsec VPN configuration and management',
@@ -1220,7 +1196,6 @@ export const CORE_API_MODULES = {
         ],
       },
 
-      // IPsec Service Control
       {
         module: 'ipsec',
         controller: 'service',
@@ -1264,12 +1239,10 @@ export const CORE_API_MODULES = {
     ],
   },
 
-  // Authentication Module
   AUTH: {
     name: 'Authentication',
     description: 'User, group, and API key management',
     endpoints: [
-      // User Management
       {
         module: 'auth',
         controller: 'user',
@@ -1339,7 +1312,6 @@ export const CORE_API_MODULES = {
         parameters: [{ name: 'uuid', type: 'string', required: true, description: 'User UUID' }],
       },
 
-      // API Key Management
       {
         module: 'auth',
         controller: 'user',
@@ -1363,7 +1335,6 @@ export const CORE_API_MODULES = {
         parameters: [{ name: 'id', type: 'string', required: true, description: 'API key ID' }],
       },
 
-      // Group Management
       {
         module: 'auth',
         controller: 'group',
@@ -1421,12 +1392,10 @@ export const CORE_API_MODULES = {
 };
 
 export const PLUGIN_API_MODULES = {
-  // WireGuard Plugin
   WIREGUARD: {
     name: 'WireGuard',
     description: 'WireGuard VPN plugin management',
     endpoints: [
-      // General Settings
       {
         module: 'wireguard',
         controller: 'general',
@@ -1451,7 +1420,6 @@ export const PLUGIN_API_MODULES = {
         },
       },
 
-      // Server Management
       {
         module: 'wireguard',
         controller: 'server',
@@ -1540,7 +1508,6 @@ export const PLUGIN_API_MODULES = {
         requiresAuth: true,
       },
 
-      // Client Management
       {
         module: 'wireguard',
         controller: 'client',
@@ -1639,7 +1606,6 @@ export const PLUGIN_API_MODULES = {
         parameters: [{ name: 'uuid', type: 'string', required: true, description: 'Server UUID' }],
       },
 
-      // Service Control
       {
         module: 'wireguard',
         controller: 'service',
@@ -1708,12 +1674,10 @@ export const PLUGIN_API_MODULES = {
     ],
   },
 
-  // Nginx Plugin
   NGINX: {
     name: 'Nginx',
     description: 'Nginx web server and reverse proxy',
     endpoints: [
-      // Service Control
       {
         module: 'nginx',
         controller: 'service',
@@ -1765,7 +1729,6 @@ export const PLUGIN_API_MODULES = {
         requiresAuth: true,
       },
 
-      // Settings
       {
         module: 'nginx',
         controller: 'settings',
@@ -1845,7 +1808,6 @@ export const PLUGIN_API_MODULES = {
         parameters: [{ name: 'uuid', type: 'string', required: true, description: 'Server UUID' }],
       },
 
-      // Logs
       {
         module: 'nginx',
         controller: 'logs',
@@ -1869,12 +1831,10 @@ export const PLUGIN_API_MODULES = {
     ],
   },
 
-  // HAProxy Plugin
   HAPROXY: {
     name: 'HAProxy',
     description: 'HAProxy load balancer',
     endpoints: [
-      // Service Control
       {
         module: 'haproxy',
         controller: 'service',
@@ -1936,7 +1896,6 @@ export const PLUGIN_API_MODULES = {
         requiresAuth: true,
       },
 
-      // Settings
       {
         module: 'haproxy',
         controller: 'settings',
@@ -2008,7 +1967,6 @@ export const PLUGIN_API_MODULES = {
         requiresAuth: true,
       },
 
-      // Statistics
       {
         module: 'haproxy',
         controller: 'statistics',
@@ -2022,12 +1980,10 @@ export const PLUGIN_API_MODULES = {
     ],
   },
 
-  // BIND DNS Plugin
   BIND: {
     name: 'BIND DNS',
     description: 'BIND DNS server management',
     endpoints: [
-      // Service Control
       {
         module: 'bind',
         controller: 'service',
@@ -2079,7 +2035,6 @@ export const PLUGIN_API_MODULES = {
         requiresAuth: true,
       },
 
-      // General Settings
       {
         module: 'bind',
         controller: 'general',
@@ -2101,7 +2056,6 @@ export const PLUGIN_API_MODULES = {
         requiresAuth: true,
       },
 
-      // Domain Management
       {
         module: 'bind',
         controller: 'domain',
@@ -2171,7 +2125,6 @@ export const PLUGIN_API_MODULES = {
         parameters: [{ name: 'uuid', type: 'string', required: true, description: 'Domain UUID' }],
       },
 
-      // DNS Records
       {
         module: 'bind',
         controller: 'record',
@@ -2233,12 +2186,10 @@ export const PLUGIN_API_MODULES = {
     ],
   },
 
-  // Caddy Plugin
   CADDY: {
     name: 'Caddy',
     description: 'Caddy web server and reverse proxy',
     endpoints: [
-      // Service Control
       {
         module: 'caddy',
         controller: 'service',
@@ -2300,7 +2251,6 @@ export const PLUGIN_API_MODULES = {
         requiresAuth: true,
       },
 
-      // General Settings
       {
         module: 'caddy',
         controller: 'general',
@@ -2322,7 +2272,6 @@ export const PLUGIN_API_MODULES = {
         requiresAuth: true,
       },
 
-      // Reverse Proxy
       {
         module: 'caddy',
         controller: 'reverse_proxy',
@@ -2382,7 +2331,6 @@ export const PLUGIN_API_MODULES = {
         parameters: [{ name: 'uuid', type: 'string', required: true, description: 'Proxy UUID' }],
       },
 
-      // Diagnostics
       {
         module: 'caddy',
         controller: 'diagnostics',
@@ -2405,9 +2353,6 @@ export const PLUGIN_API_MODULES = {
       },
     ],
   },
-
-  // Additional plugins would follow similar patterns...
-  // Including: APCupsd, Netdata, NetSNMP, Chrony, CrowdSec, etc.
 };
 
 export const TOOL_CATEGORIES = {

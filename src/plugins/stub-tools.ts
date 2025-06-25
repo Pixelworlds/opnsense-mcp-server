@@ -1,12 +1,7 @@
-/**
- * Stub Plugin OPNsense Tool Handlers - Simplified for type checking
- * These are placeholder implementations that return mock data
- */
-
-import type { ToolDefinition, ToolHandlers } from '../server/types.js';
+import type { CallToolResult } from '@modelcontextprotocol/sdk/types.js';
 import type { OPNsenseClient } from '@richard-stovall/opnsense-typescript-client';
+import type { ToolDefinition, ToolHandlers } from '../server/types.js';
 
-// Simplified plugin tools for type checking
 export const pluginTools: ToolDefinition[] = [
   {
     name: 'wireguard_get_status',
@@ -26,13 +21,12 @@ export const pluginTools: ToolDefinition[] = [
   },
 ];
 
-// Helper function to create "plugin not available" handler
-function createPluginNotAvailableHandler(pluginName: string) {
-  return async () => {
+function createPluginNotAvailableHandler(pluginName: string): () => Promise<CallToolResult> {
+  return async (): Promise<CallToolResult> => {
     return {
       content: [
         {
-          type: 'text' as const,
+          type: 'text',
           text: `Plugin "${pluginName}" is not installed or not available. Install the plugin first to use this functionality.`,
         },
       ],
@@ -40,28 +34,30 @@ function createPluginNotAvailableHandler(pluginName: string) {
   };
 }
 
-// Plugin tool handlers factory function with stub implementations
 export function createPluginToolHandlers(clientOrGetter: OPNsenseClient | (() => OPNsenseClient)): ToolHandlers {
   return {
-    wireguard_get_status: async () => {
+    wireguard_get_status: async (): Promise<CallToolResult> => {
       return {
-        content: [{ 
-          type: 'text' as const, 
-          text: JSON.stringify({ enabled: false, running: false }, null, 2) 
-        }],
+        content: [
+          {
+            type: 'text',
+            text: JSON.stringify({ enabled: false, running: false }, null, 2),
+          },
+        ],
       };
     },
 
-    nginx_get_status: async () => {
+    nginx_get_status: async (): Promise<CallToolResult> => {
       return {
-        content: [{ 
-          type: 'text' as const, 
-          text: JSON.stringify({ enabled: false, running: false }, null, 2) 
-        }],
+        content: [
+          {
+            type: 'text',
+            text: JSON.stringify({ enabled: false, running: false }, null, 2),
+          },
+        ],
       };
     },
 
-    // Stub handlers for plugins that may not be installed
     acme_get_certificates: createPluginNotAvailableHandler('acme'),
     collectd_get_metrics: createPluginNotAvailableHandler('collectd'),
     freeradius_get_clients: createPluginNotAvailableHandler('freeradius'),
@@ -75,5 +71,4 @@ export function createPluginToolHandlers(clientOrGetter: OPNsenseClient | (() =>
   };
 }
 
-// Export for convenience
 export const pluginToolHandlers = createPluginToolHandlers;

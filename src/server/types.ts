@@ -1,8 +1,3 @@
-/**
- * Type definitions for the OPNsense MCP Server
- * These types are exported for use by consumers of the package
- */
-
 export interface ServerConfig {
   host?: string;
   apiKey?: string;
@@ -21,15 +16,9 @@ export interface ToolDefinition {
   };
 }
 
-export interface ToolHandler {
-  (args: any): Promise<{
-    content: Array<{ type: 'text'; text: string }>;
-  }>;
-}
+export type ToolHandler = (args: any) => Promise<import('@modelcontextprotocol/sdk/types.js').CallToolResult>;
 
-export interface ToolHandlers {
-  [toolName: string]: ToolHandler;
-}
+export type ToolHandlers = Record<string, ToolHandler>;
 
 export interface ModuleInitialization {
   tools: ToolDefinition[];

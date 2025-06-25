@@ -1,12 +1,6 @@
-/**
- * Type definitions for core OPNsense tools
- * These types are exported for use by consumers of the package
- */
-
 import type { ToolHandler, ToolHandlers } from '../server/types.js';
 
 export interface CoreToolHandlers extends ToolHandlers {
-  // System Management
   get_system_status: ToolHandler;
   system_reboot: ToolHandler;
   system_halt: ToolHandler;
@@ -18,7 +12,6 @@ export interface CoreToolHandlers extends ToolHandlers {
   get_cpu_usage: ToolHandler;
   get_system_routes: ToolHandler;
 
-  // Firmware & Package Management
   firmware_get_info: ToolHandler;
   firmware_check_updates: ToolHandler;
   firmware_update: ToolHandler;
@@ -31,7 +24,6 @@ export interface CoreToolHandlers extends ToolHandlers {
   package_unlock: ToolHandler;
   package_get_details: ToolHandler;
 
-  // Firewall Management
   firewall_get_rules: ToolHandler;
   firewall_add_rule: ToolHandler;
   firewall_delete_rule: ToolHandler;
@@ -59,7 +51,6 @@ export interface CoreToolHandlers extends ToolHandlers {
   get_firewall_logs: ToolHandler;
   perform_firewall_audit: ToolHandler;
 
-  // Network Operations
   get_interfaces: ToolHandler;
   get_interface_details: ToolHandler;
   reload_interface: ToolHandler;
@@ -94,7 +85,6 @@ export interface CoreToolHandlers extends ToolHandlers {
   kill_firewall_states: ToolHandler;
   dns_lookup: ToolHandler;
 
-  // VPN Management
   get_openvpn_instances: ToolHandler;
   search_openvpn_instances: ToolHandler;
   add_openvpn_instance: ToolHandler;
@@ -122,7 +112,6 @@ export interface CoreToolHandlers extends ToolHandlers {
   connect_ipsec_session: ToolHandler;
   disconnect_ipsec_session: ToolHandler;
 
-  // User & Security Management
   search_users: ToolHandler;
   add_user: ToolHandler;
   get_user: ToolHandler;
@@ -144,7 +133,6 @@ export interface CoreToolHandlers extends ToolHandlers {
   get_certificate_authority: ToolHandler;
   delete_certificate_authority: ToolHandler;
 
-  // Service Management
   search_services: ToolHandler;
   start_service: ToolHandler;
   stop_service: ToolHandler;
@@ -152,7 +140,6 @@ export interface CoreToolHandlers extends ToolHandlers {
   list_plugins: ToolHandler;
   install_plugin: ToolHandler;
 
-  // Utility Tools
   configure_opnsense_connection: ToolHandler;
   get_api_endpoints: ToolHandler;
   exec_api_call: ToolHandler;

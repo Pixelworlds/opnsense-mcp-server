@@ -1,14 +1,7 @@
-/**
- * Plugin OPNsense Tool Definitions and Handlers
- * Extracted from the main server implementation
- */
-
 import type { OPNsenseClient } from '@richard-stovall/opnsense-typescript-client';
 import type { ToolDefinition, ToolHandlers } from '../server/types.js';
 
-// Plugin tool definitions (extracted from server.ts pluginTools array)
 export const pluginTools: ToolDefinition[] = [
-  // WireGuard Plugin
   {
     name: 'wireguard_get_status',
     description: 'Get WireGuard plugin status and configuration',
@@ -38,7 +31,6 @@ export const pluginTools: ToolDefinition[] = [
     },
   },
 
-  // Nginx Plugin
   {
     name: 'nginx_get_status',
     description: 'Get Nginx plugin status and service information',
@@ -76,7 +68,6 @@ export const pluginTools: ToolDefinition[] = [
     },
   },
 
-  // HAProxy Plugin
   {
     name: 'haproxy_get_status',
     description: 'Get HAProxy plugin status and service information',
@@ -106,7 +97,6 @@ export const pluginTools: ToolDefinition[] = [
     },
   },
 
-  // BIND DNS Plugin
   {
     name: 'bind_get_status',
     description: 'Get BIND DNS plugin status and service information',
@@ -136,7 +126,6 @@ export const pluginTools: ToolDefinition[] = [
     },
   },
 
-  // Caddy Plugin
   {
     name: 'caddy_get_status',
     description: 'Get Caddy plugin status and service information',
@@ -154,7 +143,6 @@ export const pluginTools: ToolDefinition[] = [
     },
   },
 
-  // CrowdSec Plugin
   {
     name: 'crowdsec_get_status',
     description: 'Get CrowdSec plugin status and service information',
@@ -172,7 +160,6 @@ export const pluginTools: ToolDefinition[] = [
     },
   },
 
-  // NetSNMP Plugin
   {
     name: 'netsnmp_get_status',
     description: 'Get NetSNMP plugin status and service information',
@@ -190,7 +177,6 @@ export const pluginTools: ToolDefinition[] = [
     },
   },
 
-  // Netdata Plugin
   {
     name: 'netdata_get_status',
     description: 'Get Netdata plugin status and service information',
@@ -207,12 +193,8 @@ export const pluginTools: ToolDefinition[] = [
       properties: {},
     },
   },
-
-  // Note: This is a simplified subset - the full implementation should include all 60+ plugin tools
-  // For the complete list, extract from the original server.ts pluginTools array
 ];
 
-// Helper function to create "plugin not available" handler
 function createPluginNotAvailableHandler(pluginName: string) {
   return async () => {
     return {
@@ -226,7 +208,6 @@ function createPluginNotAvailableHandler(pluginName: string) {
   };
 }
 
-// Plugin tool handlers factory function
 export function createPluginToolHandlers(clientOrGetter: OPNsenseClient | (() => OPNsenseClient)): ToolHandlers {
   const ensureClient = () => {
     const client = typeof clientOrGetter === 'function' ? clientOrGetter() : clientOrGetter;
@@ -237,7 +218,6 @@ export function createPluginToolHandlers(clientOrGetter: OPNsenseClient | (() =>
   };
 
   return {
-    // WireGuard Plugin Handlers
     wireguard_get_status: async () => {
       const client = ensureClient();
       try {
@@ -247,7 +227,9 @@ export function createPluginToolHandlers(clientOrGetter: OPNsenseClient | (() =>
         };
       } catch (error) {
         return {
-          content: [{ type: 'text' as const, text: `Error: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            { type: 'text' as const, text: `Error: ${error instanceof Error ? error.message : 'Unknown error'}` },
+          ],
         };
       }
     },
@@ -261,7 +243,9 @@ export function createPluginToolHandlers(clientOrGetter: OPNsenseClient | (() =>
         };
       } catch (error) {
         return {
-          content: [{ type: 'text' as const, text: `Error: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            { type: 'text' as const, text: `Error: ${error instanceof Error ? error.message : 'Unknown error'}` },
+          ],
         };
       }
     },
@@ -280,12 +264,13 @@ export function createPluginToolHandlers(clientOrGetter: OPNsenseClient | (() =>
         };
       } catch (error) {
         return {
-          content: [{ type: 'text' as const, text: `Error: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            { type: 'text' as const, text: `Error: ${error instanceof Error ? error.message : 'Unknown error'}` },
+          ],
         };
       }
     },
 
-    // Nginx Plugin Handlers
     nginx_get_status: async () => {
       const client = ensureClient();
       try {
@@ -295,7 +280,9 @@ export function createPluginToolHandlers(clientOrGetter: OPNsenseClient | (() =>
         };
       } catch (error) {
         return {
-          content: [{ type: 'text' as const, text: `Error: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            { type: 'text' as const, text: `Error: ${error instanceof Error ? error.message : 'Unknown error'}` },
+          ],
         };
       }
     },
@@ -309,7 +296,9 @@ export function createPluginToolHandlers(clientOrGetter: OPNsenseClient | (() =>
         };
       } catch (error) {
         return {
-          content: [{ type: 'text' as const, text: `Error: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            { type: 'text' as const, text: `Error: ${error instanceof Error ? error.message : 'Unknown error'}` },
+          ],
         };
       }
     },
@@ -328,12 +317,13 @@ export function createPluginToolHandlers(clientOrGetter: OPNsenseClient | (() =>
         };
       } catch (error) {
         return {
-          content: [{ type: 'text' as const, text: `Error: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            { type: 'text' as const, text: `Error: ${error instanceof Error ? error.message : 'Unknown error'}` },
+          ],
         };
       }
     },
 
-    // HAProxy Plugin Handlers
     haproxy_get_status: async () => {
       const client = ensureClient();
       try {
@@ -343,7 +333,9 @@ export function createPluginToolHandlers(clientOrGetter: OPNsenseClient | (() =>
         };
       } catch (error) {
         return {
-          content: [{ type: 'text' as const, text: `Error: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            { type: 'text' as const, text: `Error: ${error instanceof Error ? error.message : 'Unknown error'}` },
+          ],
         };
       }
     },
@@ -357,12 +349,13 @@ export function createPluginToolHandlers(clientOrGetter: OPNsenseClient | (() =>
         };
       } catch (error) {
         return {
-          content: [{ type: 'text' as const, text: `Error: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            { type: 'text' as const, text: `Error: ${error instanceof Error ? error.message : 'Unknown error'}` },
+          ],
         };
       }
     },
 
-    // BIND DNS Plugin Handlers
     bind_get_status: async () => {
       const client = ensureClient();
       try {
@@ -372,7 +365,9 @@ export function createPluginToolHandlers(clientOrGetter: OPNsenseClient | (() =>
         };
       } catch (error) {
         return {
-          content: [{ type: 'text' as const, text: `Error: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            { type: 'text' as const, text: `Error: ${error instanceof Error ? error.message : 'Unknown error'}` },
+          ],
         };
       }
     },
@@ -386,12 +381,13 @@ export function createPluginToolHandlers(clientOrGetter: OPNsenseClient | (() =>
         };
       } catch (error) {
         return {
-          content: [{ type: 'text' as const, text: `Error: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            { type: 'text' as const, text: `Error: ${error instanceof Error ? error.message : 'Unknown error'}` },
+          ],
         };
       }
     },
 
-    // Caddy Plugin Handlers
     caddy_get_status: async () => {
       const client = ensureClient();
       try {
@@ -401,7 +397,9 @@ export function createPluginToolHandlers(clientOrGetter: OPNsenseClient | (() =>
         };
       } catch (error) {
         return {
-          content: [{ type: 'text' as const, text: `Error: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            { type: 'text' as const, text: `Error: ${error instanceof Error ? error.message : 'Unknown error'}` },
+          ],
         };
       }
     },
@@ -415,12 +413,13 @@ export function createPluginToolHandlers(clientOrGetter: OPNsenseClient | (() =>
         };
       } catch (error) {
         return {
-          content: [{ type: 'text' as const, text: `Error: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            { type: 'text' as const, text: `Error: ${error instanceof Error ? error.message : 'Unknown error'}` },
+          ],
         };
       }
     },
 
-    // CrowdSec Plugin Handlers
     crowdsec_get_status: async () => {
       const client = ensureClient();
       try {
@@ -430,7 +429,9 @@ export function createPluginToolHandlers(clientOrGetter: OPNsenseClient | (() =>
         };
       } catch (error) {
         return {
-          content: [{ type: 'text' as const, text: `Error: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            { type: 'text' as const, text: `Error: ${error instanceof Error ? error.message : 'Unknown error'}` },
+          ],
         };
       }
     },
@@ -444,12 +445,13 @@ export function createPluginToolHandlers(clientOrGetter: OPNsenseClient | (() =>
         };
       } catch (error) {
         return {
-          content: [{ type: 'text' as const, text: `Error: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            { type: 'text' as const, text: `Error: ${error instanceof Error ? error.message : 'Unknown error'}` },
+          ],
         };
       }
     },
 
-    // NetSNMP Plugin Handlers
     netsnmp_get_status: async () => {
       const client = ensureClient();
       try {
@@ -459,7 +461,9 @@ export function createPluginToolHandlers(clientOrGetter: OPNsenseClient | (() =>
         };
       } catch (error) {
         return {
-          content: [{ type: 'text' as const, text: `Error: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            { type: 'text' as const, text: `Error: ${error instanceof Error ? error.message : 'Unknown error'}` },
+          ],
         };
       }
     },
@@ -473,12 +477,13 @@ export function createPluginToolHandlers(clientOrGetter: OPNsenseClient | (() =>
         };
       } catch (error) {
         return {
-          content: [{ type: 'text' as const, text: `Error: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            { type: 'text' as const, text: `Error: ${error instanceof Error ? error.message : 'Unknown error'}` },
+          ],
         };
       }
     },
 
-    // Netdata Plugin Handlers
     netdata_get_status: async () => {
       const client = ensureClient();
       try {
@@ -488,7 +493,9 @@ export function createPluginToolHandlers(clientOrGetter: OPNsenseClient | (() =>
         };
       } catch (error) {
         return {
-          content: [{ type: 'text' as const, text: `Error: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            { type: 'text' as const, text: `Error: ${error instanceof Error ? error.message : 'Unknown error'}` },
+          ],
         };
       }
     },
@@ -502,12 +509,13 @@ export function createPluginToolHandlers(clientOrGetter: OPNsenseClient | (() =>
         };
       } catch (error) {
         return {
-          content: [{ type: 'text' as const, text: `Error: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            { type: 'text' as const, text: `Error: ${error instanceof Error ? error.message : 'Unknown error'}` },
+          ],
         };
       }
     },
 
-    // Additional plugin stubs for plugins that may not be installed
     acme_get_certificates: createPluginNotAvailableHandler('acme'),
     collectd_get_metrics: createPluginNotAvailableHandler('collectd'),
     freeradius_get_clients: createPluginNotAvailableHandler('freeradius'),
@@ -518,11 +526,7 @@ export function createPluginToolHandlers(clientOrGetter: OPNsenseClient | (() =>
     redis_get_info: createPluginNotAvailableHandler('redis'),
     rsyslog_get_logs: createPluginNotAvailableHandler('rsyslog'),
     zabbix_get_hosts: createPluginNotAvailableHandler('zabbix'),
-
-    // Note: This is a simplified subset - the full implementation should include all 60+ plugin tool handlers
-    // For the complete implementation, extract handlers from the original server.ts setupPluginHandlers method
   };
 }
 
-// Export for convenience
 export const pluginToolHandlers = createPluginToolHandlers;

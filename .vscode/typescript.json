@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": false,
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@modelcontextprotocol/sdk/*": ["node_modules/@modelcontextprotocol/sdk/dist/*"],
+      "@modelcontextprotocol/sdk/server/*": ["node_modules/@modelcontextprotocol/sdk/dist/server/*"],
+      "@modelcontextprotocol/sdk/types": ["node_modules/@modelcontextprotocol/sdk/dist/types"]
+    }
+  }
+}

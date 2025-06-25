@@ -1,12 +1,5 @@
-/**
- * Plugin OPNsense module initialization
- * Contains tool descriptions, resources, and prompts specific to plugin functionality
- */
-
 export const pluginInitialization = {
-  // Plugin endpoints (62+ available when --plugins enabled)
   endpoints: [
-    // WireGuard Plugin (8 tools)
     'wireguard_get_status',
     'wireguard_get_config',
     'wireguard_search_clients',
@@ -16,7 +9,6 @@ export const pluginInitialization = {
     'wireguard_delete_client',
     'wireguard_toggle_client',
 
-    // Nginx Plugin (12 tools)
     'nginx_get_status',
     'nginx_get_upstreams',
     'nginx_search_upstreams',
@@ -30,7 +22,6 @@ export const pluginInitialization = {
     'nginx_get_logs',
     'nginx_get_config',
 
-    // HAProxy Plugin (10 tools)
     'haproxy_get_status',
     'haproxy_get_backends',
     'haproxy_search_backends',
@@ -42,7 +33,6 @@ export const pluginInitialization = {
     'haproxy_reload_config',
     'haproxy_get_logs',
 
-    // BIND DNS Plugin (8 tools)
     'bind_get_status',
     'bind_get_zones',
     'bind_search_zones',
@@ -52,7 +42,6 @@ export const pluginInitialization = {
     'bind_reload_config',
     'bind_get_logs',
 
-    // Caddy Plugin (6 tools)
     'caddy_get_status',
     'caddy_get_config',
     'caddy_get_sites',
@@ -60,7 +49,6 @@ export const pluginInitialization = {
     'caddy_reload_config',
     'caddy_get_logs',
 
-    // CrowdSec Plugin (6 tools)
     'crowdsec_get_status',
     'crowdsec_get_decisions',
     'crowdsec_get_alerts',
@@ -68,19 +56,16 @@ export const pluginInitialization = {
     'crowdsec_restart_service',
     'crowdsec_get_logs',
 
-    // NetSNMP Plugin (4 tools)
     'netsnmp_get_status',
     'netsnmp_get_config',
     'netsnmp_restart_service',
     'netsnmp_get_logs',
 
-    // Netdata Plugin (4 tools)
     'netdata_get_status',
     'netdata_get_config',
     'netdata_restart_service',
     'netdata_get_metrics',
 
-    // Additional plugins (when available)
     'acme_get_certificates',
     'collectd_get_metrics',
     'freeradius_get_clients',
@@ -93,7 +78,6 @@ export const pluginInitialization = {
     'zabbix_get_hosts',
   ],
 
-  // Plugin categories for organization
   plugin_categories: {
     'Web Services': {
       description: 'Web server and proxy management',
@@ -133,14 +117,12 @@ export const pluginInitialization = {
     },
   },
 
-  // Plugin API coverage
   api_coverage: {
     plugin_modules: '62+',
     total_endpoints: '70+',
     coverage_percentage: '85%',
   },
 
-  // Plugin-specific features
   plugin_features: {
     web_services: {
       nginx: 'Reverse proxy, load balancing, SSL termination',
@@ -162,7 +144,6 @@ export const pluginInitialization = {
     },
   },
 
-  // Plugin installation requirements
   installation_requirements: {
     package_manager: 'OPNsense package system',
     dependencies: 'Automatic dependency resolution',
@@ -170,7 +151,6 @@ export const pluginInitialization = {
     resource_overhead: 'Minimal to moderate depending on plugin',
   },
 
-  // Plugin configuration patterns
   configuration_patterns: {
     service_control: 'Start, stop, restart, reload operations',
     configuration_management: 'Get, set, validate configurations',

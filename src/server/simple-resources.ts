@@ -1,7 +1,3 @@
-/**
- * Simplified Resource Documentation for type checking
- */
-
 import type { ResourceDefinition } from './types.js';
 
 export const OPNSENSE_RESOURCES: Record<string, ResourceDefinition> = {

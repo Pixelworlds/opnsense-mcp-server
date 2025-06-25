@@ -1,14 +1,7 @@
-/**
- * Core OPNsense Tool Definitions and Handlers
- * Extracted from the main server implementation
- */
-
-import type { ToolDefinition, ToolHandlers } from '../server/types.js';
 import type { OPNsenseClient } from '@richard-stovall/opnsense-typescript-client';
+import type { ToolDefinition, ToolHandlers } from '../server/types.js';
 
-// Re-export the core tool definitions that will be extracted from server.ts
 export const coreTools: ToolDefinition[] = [
-  // System Management Tools
   {
     name: 'get_system_status',
     description: 'Get comprehensive OPNsense system status including uptime, CPU, memory, and disk usage',
@@ -92,7 +85,6 @@ export const coreTools: ToolDefinition[] = [
     },
   },
 
-  // Firewall Management Tools
   {
     name: 'firewall_get_rules',
     description: 'Get OPNsense firewall rules with pagination and search',
@@ -149,7 +141,6 @@ export const coreTools: ToolDefinition[] = [
     },
   },
 
-  // Network Tools  
   {
     name: 'get_interfaces',
     description: 'Get network interfaces information',
@@ -159,7 +150,6 @@ export const coreTools: ToolDefinition[] = [
     },
   },
 
-  // DHCP Tools
   {
     name: 'get_dhcp_leases',
     description: 'Get active DHCP leases',
@@ -169,7 +159,6 @@ export const coreTools: ToolDefinition[] = [
     },
   },
 
-  // VPN Tools
   {
     name: 'get_openvpn_instances',
     description: 'Get OpenVPN server instances',
@@ -179,7 +168,6 @@ export const coreTools: ToolDefinition[] = [
     },
   },
 
-  // Utility Tools
   {
     name: 'configure_opnsense_connection',
     description: 'Configure OPNsense connection parameters',
@@ -202,12 +190,8 @@ export const coreTools: ToolDefinition[] = [
       properties: {},
     },
   },
-
-  // Note: This is a simplified subset - the full implementation should include all 130+ core tools
-  // For the complete list, extract from the original server.ts baseTools array
 ];
 
-// Core tool handlers factory function
 export function createCoreToolHandlers(clientOrGetter: OPNsenseClient | (() => OPNsenseClient)): ToolHandlers {
   const ensureClient = () => {
     const client = typeof clientOrGetter === 'function' ? clientOrGetter() : clientOrGetter;
@@ -218,7 +202,6 @@ export function createCoreToolHandlers(clientOrGetter: OPNsenseClient | (() => O
   };
 
   return {
-    // System Management Handlers
     get_system_status: async () => {
       const client = ensureClient();
       try {
@@ -228,7 +211,9 @@ export function createCoreToolHandlers(clientOrGetter: OPNsenseClient | (() => O
         };
       } catch (error) {
         return {
-          content: [{ type: 'text' as const, text: `Error: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            { type: 'text' as const, text: `Error: ${error instanceof Error ? error.message : 'Unknown error'}` },
+          ],
         };
       }
     },
@@ -243,7 +228,9 @@ export function createCoreToolHandlers(clientOrGetter: OPNsenseClient | (() => O
         };
       } catch (error) {
         return {
-          content: [{ type: 'text' as const, text: `Error: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            { type: 'text' as const, text: `Error: ${error instanceof Error ? error.message : 'Unknown error'}` },
+          ],
         };
       }
     },
@@ -257,12 +244,13 @@ export function createCoreToolHandlers(clientOrGetter: OPNsenseClient | (() => O
         };
       } catch (error) {
         return {
-          content: [{ type: 'text' as const, text: `Error: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            { type: 'text' as const, text: `Error: ${error instanceof Error ? error.message : 'Unknown error'}` },
+          ],
         };
       }
     },
 
-    // Firewall Handlers
     firewall_get_rules: async (args: any) => {
       const client = ensureClient();
       const { page = 1, rows_per_page = 20, search_phrase = '' } = args;
@@ -273,7 +261,9 @@ export function createCoreToolHandlers(clientOrGetter: OPNsenseClient | (() => O
         };
       } catch (error) {
         return {
-          content: [{ type: 'text' as const, text: `Error: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            { type: 'text' as const, text: `Error: ${error instanceof Error ? error.message : 'Unknown error'}` },
+          ],
         };
       }
     },
@@ -287,12 +277,13 @@ export function createCoreToolHandlers(clientOrGetter: OPNsenseClient | (() => O
         };
       } catch (error) {
         return {
-          content: [{ type: 'text' as const, text: `Error: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            { type: 'text' as const, text: `Error: ${error instanceof Error ? error.message : 'Unknown error'}` },
+          ],
         };
       }
     },
 
-    // Network Handlers
     get_interfaces: async () => {
       const client = ensureClient();
       try {
@@ -302,12 +293,13 @@ export function createCoreToolHandlers(clientOrGetter: OPNsenseClient | (() => O
         };
       } catch (error) {
         return {
-          content: [{ type: 'text' as const, text: `Error: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            { type: 'text' as const, text: `Error: ${error instanceof Error ? error.message : 'Unknown error'}` },
+          ],
         };
       }
     },
 
-    // DHCP Handlers
     get_dhcp_leases: async () => {
       const client = ensureClient();
       try {
@@ -317,12 +309,13 @@ export function createCoreToolHandlers(clientOrGetter: OPNsenseClient | (() => O
         };
       } catch (error) {
         return {
-          content: [{ type: 'text' as const, text: `Error: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            { type: 'text' as const, text: `Error: ${error instanceof Error ? error.message : 'Unknown error'}` },
+          ],
         };
       }
     },
 
-    // VPN Handlers
     get_openvpn_instances: async () => {
       const client = ensureClient();
       try {
@@ -332,26 +325,29 @@ export function createCoreToolHandlers(clientOrGetter: OPNsenseClient | (() => O
         };
       } catch (error) {
         return {
-          content: [{ type: 'text' as const, text: `Error: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            { type: 'text' as const, text: `Error: ${error instanceof Error ? error.message : 'Unknown error'}` },
+          ],
         };
       }
     },
 
-    // Utility Handlers
     configure_opnsense_connection: async (args: any) => {
       const { host, api_key, api_secret, verify_ssl = true } = args;
       try {
-        // This handler would update the client configuration
-        // Implementation depends on how client configuration is managed
         return {
-          content: [{ 
-            type: 'text' as const, 
-            text: `OPNsense connection configured for host: ${host}` 
-          }],
+          content: [
+            {
+              type: 'text' as const,
+              text: `OPNsense connection configured for host: ${host}`,
+            },
+          ],
         };
       } catch (error) {
         return {
-          content: [{ type: 'text' as const, text: `Error: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            { type: 'text' as const, text: `Error: ${error instanceof Error ? error.message : 'Unknown error'}` },
+          ],
         };
       }
     },
@@ -365,15 +361,13 @@ export function createCoreToolHandlers(clientOrGetter: OPNsenseClient | (() => O
         };
       } catch (error) {
         return {
-          content: [{ type: 'text' as const, text: `Error: ${error instanceof Error ? error.message : 'Unknown error'}` }],
+          content: [
+            { type: 'text' as const, text: `Error: ${error instanceof Error ? error.message : 'Unknown error'}` },
+          ],
         };
       }
     },
-
-    // Note: This is a simplified subset - the full implementation should include all 130+ core tool handlers
-    // For the complete implementation, extract handlers from the original server.ts setupToolHandlers method
   };
 }
 
-// Export for convenience
 export const coreToolHandlers = createCoreToolHandlers;

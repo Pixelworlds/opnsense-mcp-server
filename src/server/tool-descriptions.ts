@@ -1,8 +1,3 @@
-/**
- * Enhanced Tool Descriptions for OPNsense MCP Server
- * Generated from comprehensive API analysis
- */
-
 export interface EnhancedToolDefinition {
   name: string;
   displayName: string;
@@ -29,7 +24,6 @@ export interface ToolExample {
 }
 
 export const ENHANCED_TOOL_DESCRIPTIONS: Record<string, EnhancedToolDefinition> = {
-  // System Management Tools
   get_system_status: {
     name: 'get_system_status',
     displayName: 'Get System Status',
@@ -104,7 +98,6 @@ export const ENHANCED_TOOL_DESCRIPTIONS: Record<string, EnhancedToolDefinition> 
     ],
   },
 
-  // Firewall Rule Management
   firewall_get_rules: {
     name: 'firewall_get_rules',
     displayName: 'Get Firewall Rules',
@@ -274,7 +267,6 @@ export const ENHANCED_TOOL_DESCRIPTIONS: Record<string, EnhancedToolDefinition> 
     ],
   },
 
-  // Firewall Aliases
   get_firewall_aliases: {
     name: 'get_firewall_aliases',
     displayName: 'Get Firewall Aliases',
@@ -367,7 +359,6 @@ export const ENHANCED_TOOL_DESCRIPTIONS: Record<string, EnhancedToolDefinition> 
     ],
   },
 
-  // Network Interfaces
   get_interfaces: {
     name: 'get_interfaces',
     displayName: 'Get Network Interfaces',
@@ -396,7 +387,6 @@ export const ENHANCED_TOOL_DESCRIPTIONS: Record<string, EnhancedToolDefinition> 
     ],
   },
 
-  // VPN Management - OpenVPN
   search_openvpn_instances: {
     name: 'search_openvpn_instances',
     displayName: 'Search OpenVPN Instances',
@@ -440,7 +430,6 @@ export const ENHANCED_TOOL_DESCRIPTIONS: Record<string, EnhancedToolDefinition> 
     ],
   },
 
-  // VPN Management - IPsec
   search_ipsec_connections: {
     name: 'search_ipsec_connections',
     displayName: 'Search IPsec Connections',
@@ -484,7 +473,6 @@ export const ENHANCED_TOOL_DESCRIPTIONS: Record<string, EnhancedToolDefinition> 
     ],
   },
 
-  // User Management
   search_users: {
     name: 'search_users',
     displayName: 'Search Users',
@@ -534,7 +522,6 @@ export const ENHANCED_TOOL_DESCRIPTIONS: Record<string, EnhancedToolDefinition> 
     ],
   },
 
-  // System Diagnostics
   get_firewall_logs: {
     name: 'get_firewall_logs',
     displayName: 'Get Firewall Logs',
@@ -581,7 +568,6 @@ export const ENHANCED_TOOL_DESCRIPTIONS: Record<string, EnhancedToolDefinition> 
     ],
   },
 
-  // Plugin Management - WireGuard
   wireguard_get_status: {
     name: 'wireguard_get_status',
     displayName: 'Get WireGuard Status',
@@ -610,7 +596,6 @@ export const ENHANCED_TOOL_DESCRIPTIONS: Record<string, EnhancedToolDefinition> 
     ],
   },
 
-  // Advanced Operations
   perform_firewall_audit: {
     name: 'perform_firewall_audit',
     displayName: 'Perform Firewall Audit',
@@ -695,7 +680,6 @@ export const ENHANCED_TOOL_DESCRIPTIONS: Record<string, EnhancedToolDefinition> 
   },
 };
 
-// Tool categories with descriptions and typical workflows
 export const TOOL_WORKFLOWS = {
   'Initial Setup': {
     description: 'Tools for initial OPNsense configuration',
@@ -749,7 +733,6 @@ export const TOOL_WORKFLOWS = {
   },
 };
 
-// Common parameter patterns
 export const PARAMETER_PATTERNS = {
   pagination: {
     current: { type: 'integer', default: 1, description: 'Current page number' },
@@ -773,7 +756,6 @@ export const PARAMETER_PATTERNS = {
   },
 };
 
-// Error patterns and handling
 export const ERROR_PATTERNS = {
   authentication: {
     code: 401,

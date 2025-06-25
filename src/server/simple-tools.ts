@@ -1,7 +1,3 @@
-/**
- * Simplified Tool Descriptions for type checking
- */
-
 export const ENHANCED_TOOL_DESCRIPTIONS = {
   get_system_status: {
     name: 'get_system_status',

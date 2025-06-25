@@ -1,0 +1,26 @@
+{
+  "typescript.preferences.includePackageJsonAutoImports": "auto",
+  "typescript.suggest.autoImports": true,
+  "typescript.workspaceSymbols.scope": "allOpenProjects",
+  "typescript.preferences.useAliasesForRenames": false,
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "typescript.format.enable": true,
+  "typescript.validate.enable": true,
+  "typescript.preferences.quoteStyle": "single",
+  "typescript.preferences.importModuleSpecifier": "relative",
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/.yarn": true,
+    "**/.pnp.*": true
+  },
+  "files.exclude": {
+    "**/.yarn/cache": true,
+    "**/.yarn/unplugged": true,
+    "**/.yarn/build-state.yml": true,
+    "**/.yarn/install-state.gz": true,
+    "**/dist": true
+  },
+  "typescript.tsdk": ".yarn/sdks/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true
+}

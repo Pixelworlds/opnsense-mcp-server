@@ -1,8 +1,3 @@
-/**
- * Resource Documentation for OPNsense MCP Server
- * Defines available resources and their schemas
- */
-
 export interface ResourceDefinition {
   uri: string;
   name: string;
@@ -42,7 +37,6 @@ export interface AccessPattern {
 }
 
 export const OPNSENSE_RESOURCES: Record<string, ResourceDefinition> = {
-  // System Resources
   'system/status': {
     uri: 'opnsense://system/status',
     name: 'System Status',

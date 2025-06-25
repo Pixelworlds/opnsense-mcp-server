@@ -28,7 +28,6 @@ export interface PromptArgument {
 }
 
 export const PROMPT_TEMPLATES: Record<string, PromptTemplate> = {
-  // System Management Prompts
   system_health_check: {
     name: 'System Health Check',
     description: 'Perform a comprehensive health assessment of the OPNsense system',
@@ -712,7 +711,6 @@ Please provide the incident details and timeframe for analysis.`,
   },
 };
 
-// Prompt categories for organization
 export const PROMPT_CATEGORIES = {
   'System Management': {
     description: 'System administration and maintenance tasks',
@@ -740,7 +738,6 @@ export const PROMPT_CATEGORIES = {
   },
 };
 
-// Prompt execution contexts
 export const PROMPT_CONTEXTS = {
   emergency: {
     description: 'Emergency response contexts requiring immediate action',

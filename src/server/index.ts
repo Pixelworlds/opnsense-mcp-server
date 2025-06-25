@@ -1,15 +1,8 @@
-/**
- * OPNsense MCP Server Module
- * Exports all server functionality and types for OPNsense management
- */
-
-// Export main server implementations
 export { serverInitializationResponse } from './initialization.js';
 export { OPNSENSE_RESOURCES } from './simple-resources.js';
 export { OPNsenseMcpServer, OPNsenseServer } from './simple-server.js';
 export { ENHANCED_TOOL_DESCRIPTIONS } from './simple-tools.js';
 
-// Export documentation and templates
 export {
   CORE_API_MODULES,
   PLUGIN_API_MODULES,
@@ -41,7 +34,6 @@ export {
   type ToolExample,
 } from './tool-descriptions.js';
 
-// Export all types
 export type {
   AccessPattern,
   ModuleInitialization,

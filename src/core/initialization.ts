@@ -1,12 +1,5 @@
-/**
- * Core OPNsense module initialization
- * Contains tool descriptions, resources, and prompts specific to core functionality
- */
-
 export const coreInitialization = {
-  // Core API endpoints (154 total tools)
   endpoints: [
-    // System Management (18 tools)
     'get_system_status',
     'system_reboot',
     'system_halt',
@@ -26,7 +19,6 @@ export const coreInitialization = {
     'get_api_endpoints',
     'exec_api_call',
 
-    // Firmware & Package Management (13 tools)
     'firmware_get_info',
     'firmware_check_updates',
     'firmware_update',
@@ -41,7 +33,6 @@ export const coreInitialization = {
     'list_plugins',
     'install_plugin',
 
-    // Firewall Management (25 tools)
     'firewall_get_rules',
     'firewall_add_rule',
     'firewall_delete_rule',
@@ -69,7 +60,6 @@ export const coreInitialization = {
     'flush_alias',
     'get_firewall_logs',
 
-    // Network & Diagnostics (33 tools)
     'get_interfaces',
     'get_interface_details',
     'reload_interface',
@@ -104,7 +94,6 @@ export const coreInitialization = {
     'restart_dhcp_service',
     'reconfigure_dhcp',
 
-    // VPN Management (26 tools)
     'get_openvpn_instances',
     'search_openvpn_instances',
     'add_openvpn_instance',
@@ -132,7 +121,6 @@ export const coreInitialization = {
     'connect_ipsec_session',
     'disconnect_ipsec_session',
 
-    // User & Security Management (20 tools)
     'search_users',
     'add_user',
     'get_user',
@@ -154,11 +142,9 @@ export const coreInitialization = {
     'get_certificate_authority',
     'delete_certificate_authority',
 
-    // Utility Tools (1 tool)
     'get_vpn_connections',
   ],
 
-  // Tool categories for core functionality
   tool_categories: {
     'System Management': {
       description: 'Core system operations and monitoring',
@@ -192,14 +178,12 @@ export const coreInitialization = {
     },
   },
 
-  // Core API coverage
   api_coverage: {
     core_modules: 8,
     total_endpoints: 135,
     coverage_percentage: '100%',
   },
 
-  // Core security features
   security_features: {
     authentication_required: true,
     ssl_verification: 'configurable',
@@ -208,7 +192,6 @@ export const coreInitialization = {
     backup_safety: 'automatic_savepoints',
   },
 
-  // Core operational capabilities
   operational_capabilities: {
     read_operations: 'complete',
     write_operations: 'comprehensive',
