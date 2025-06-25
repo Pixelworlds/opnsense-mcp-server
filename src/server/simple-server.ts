@@ -12,8 +12,8 @@ import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js'
 import { CallToolRequestSchema, ListToolsRequestSchema } from '@modelcontextprotocol/sdk/types.js';
 import { OPNsenseClient } from '@richard-stovall/opnsense-typescript-client';
 
-import { coreTools, createCoreToolHandlers } from '../core/stub-tools.js';
-import { createPluginToolHandlers, pluginTools } from '../plugins/stub-tools.js';
+import { coreTools, createCoreToolHandlers } from '../core/tools.js';
+import { createPluginToolHandlers, pluginTools } from '../plugins/tools.js';
 
 import type { CallToolRequest, CallToolResult } from '@modelcontextprotocol/sdk/types.js';
 import type { ServerConfig, ToolHandlers } from './types.js';
