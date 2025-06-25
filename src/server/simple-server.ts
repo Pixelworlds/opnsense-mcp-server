@@ -3,6 +3,16 @@
  * This demonstrates the new organized structure
  */
 
+// Node.js global types
+declare const process: {
+  on(event: string, listener: (...args: any[]) => void): void;
+  exit(code?: number): never;
+};
+declare const console: {
+  log(...args: any[]): void;
+  error(...args: any[]): void;
+};
+
 import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 import { CallToolRequestSchema, ListToolsRequestSchema } from '@modelcontextprotocol/sdk/types.js';
@@ -11,10 +21,20 @@ import { OPNsenseClient } from '@richard-stovall/opnsense-typescript-client';
 import { coreTools, createCoreToolHandlers } from '../core/stub-tools.js';
 import { createPluginToolHandlers, pluginTools } from '../plugins/stub-tools.js';
 
-import type { CallToolRequest } from '@modelcontextprotocol/sdk/types.js';
+import type { CallToolRequest, CallToolResult } from '@modelcontextprotocol/sdk/types.js';
 import type { ServerConfig } from './types.js';
 
-export class OPNsenseServer {
+/**
+ * Type for tool handler functions
+ */
+type ToolHandler = (args: any) => Promise<CallToolResult>;
+
+/**
+ * Type for tool handlers object
+ */
+type ToolHandlers = Record<string, ToolHandler>;
+
+export class OPNsenseMcpServer {
   private server: Server;
   private client: OPNsenseClient | null = null;
   private config: ServerConfig;
@@ -42,7 +62,7 @@ export class OPNsenseServer {
   }
 
   private setupErrorHandling(): void {
-    this.server.onerror = error => console.error('[MCP Error]', error);
+    this.server.onerror = (error: unknown) => console.error('[MCP Error]', error);
     process.on('SIGINT', async () => {
       await this.server.close();
       process.exit(0);
@@ -60,10 +80,10 @@ export class OPNsenseServer {
   private setupToolHandlers(): void {
     // Create handlers using modular approach - pass a client getter function
     const getClient = () => this.ensureClient();
-    const coreHandlers = createCoreToolHandlers(getClient);
-    const pluginHandlers = this.config.plugins ? createPluginToolHandlers(getClient) : {};
+    const coreHandlers = createCoreToolHandlers(getClient) as ToolHandlers;
+    const pluginHandlers = this.config.plugins ? createPluginToolHandlers(getClient) as ToolHandlers : {};
 
-    const allHandlers = { ...coreHandlers, ...pluginHandlers };
+    const allHandlers: ToolHandlers = { ...coreHandlers, ...pluginHandlers };
 
     this.server.setRequestHandler(CallToolRequestSchema, async (request: CallToolRequest) => {
       const { name, arguments: args } = request.params;
@@ -73,17 +93,21 @@ export class OPNsenseServer {
       }
 
       try {
-        return await allHandlers[name]!(args || {});
-      } catch (error) {
+        const handler = allHandlers[name];
+        if (!handler) {
+          throw new Error(`Tool handler not found: ${name}`);
+        }
+        return await handler(args || {});
+      } catch (error: unknown) {
         console.error(`Error executing tool ${name}:`, error);
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
-        };
+        } satisfies CallToolResult;
       }
     });
   }
@@ -113,4 +137,4 @@ export class OPNsenseServer {
 }
 
 // For backward compatibility, export as McpServer as well
-export { OPNsenseServer as McpServer };
+export { OPNsenseMcpServer as McpServer, OPNsenseMcpServer as OPNsenseServer };

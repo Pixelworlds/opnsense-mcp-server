@@ -148,7 +148,8 @@ This package exports comprehensive TypeScript types for use in other projects:
 ### Installation as a Library
 ```typescript
 import {
-  OPNsenseServer,
+  OPNsenseMcpServer,
+  OPNsenseServer, // Backward compatibility alias
   ServerConfig,
   ToolDefinition,
   ToolHandler,

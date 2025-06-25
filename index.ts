@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { OPNsenseServer } from './src/server/simple-server.js';
+import { OPNsenseServer as OPNsenseMcpServer } from './src/server/simple-server.js';
 
 declare const process: {
   argv: string[];
@@ -154,7 +154,7 @@ const parseArgs = (args: string[]): ParsedConfig => {
 };
 
 const config = parseArgs(process.argv.slice(2));
-const server = new OPNsenseServer(config);
+const server = new OPNsenseMcpServer(config);
 
 server.run().catch((error: unknown) => {
   console.error('Failed to start server:', error);

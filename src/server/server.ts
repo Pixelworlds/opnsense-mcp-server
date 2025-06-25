@@ -1,12 +1,21 @@
 import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 import { CallToolRequestSchema, ListToolsRequestSchema } from '@modelcontextprotocol/sdk/types.js';
-import { OPNsenseClient } from '@richard-stovall/opnsense-typescript-client';
+import { OPNsenseClient, type OPNsenseConfig } from '@richard-stovall/opnsense-typescript-client';
 
 import { serverInitializationResponse } from './initialization.js';
 
-import type { CallToolRequest } from '@modelcontextprotocol/sdk/types.js';
-import type { OPNsenseConfig } from '@richard-stovall/opnsense-typescript-client';
+import type { CallToolRequest, CallToolResult } from '@modelcontextprotocol/sdk/types.js';
+
+// Global type declarations for Node.js environment
+declare const process: {
+  on(event: string, listener: (...args: any[]) => void): void;
+  exit(code?: number): never;
+};
+declare const console: {
+  log(...args: any[]): void;
+  error(...args: any[]): void;
+};
 
 interface ServerConfig {
   host?: string;
@@ -2951,17 +2960,24 @@ const baseTools: ToolDefinition[] = [
   },
 ];
 
-// Tool handlers mapping
-const toolHandlers: Record<string, (args: any) => Promise<any>> = {};
+/**
+ * Type for tool handler functions
+ */
+type ToolHandler = (args: any) => Promise<CallToolResult>;
+
+/**
+ * Tool handlers mapping
+ */
+const toolHandlers: Record<string, ToolHandler> = {};
 
 export class McpServer {
   private server: Server;
   private opnsenseClient: OPNsenseClient | null = null;
-  private config?: ServerConfig;
+  private config: ServerConfig;
   private tools: ToolDefinition[];
 
   constructor(config?: ServerConfig) {
-    this.config = config;
+    this.config = config || {};
     this.tools = config?.plugins ? [...baseTools, ...pluginTools] : baseTools;
     this.server = new Server(
       {
@@ -3038,7 +3054,7 @@ export class McpServer {
       return {
         content: [
           {
-            type: 'text',
+            type: 'text' as const,
             text: `OPNsense connection configured successfully. Plugins: ${pluginsStatus}`,
           },
         ],
@@ -3052,7 +3068,7 @@ export class McpServer {
       return {
         content: [
           {
-            type: 'text',
+            type: 'text' as const,
             text: JSON.stringify(response.data, null, 2),
           },
         ],
@@ -3072,7 +3088,7 @@ export class McpServer {
       return {
         content: [
           {
-            type: 'text',
+            type: 'text' as const,
             text: JSON.stringify(response.data, null, 2),
           },
         ],
@@ -3086,7 +3102,7 @@ export class McpServer {
       return {
         content: [
           {
-            type: 'text',
+            type: 'text' as const,
             text: JSON.stringify(response.data, null, 2),
           },
         ],
@@ -3101,7 +3117,7 @@ export class McpServer {
       return {
         content: [
           {
-            type: 'text',
+            type: 'text' as const,
             text: JSON.stringify(response.data, null, 2),
           },
         ],
@@ -3116,7 +3132,7 @@ export class McpServer {
       return {
         content: [
           {
-            type: 'text',
+            type: 'text' as const,
             text: JSON.stringify(response.data, null, 2),
           },
         ],
@@ -3131,7 +3147,7 @@ export class McpServer {
       return {
         content: [
           {
-            type: 'text',
+            type: 'text' as const,
             text: JSON.stringify(response.data, null, 2),
           },
         ],
@@ -3146,7 +3162,7 @@ export class McpServer {
       return {
         content: [
           {
-            type: 'text',
+            type: 'text' as const,
             text: JSON.stringify(response.data, null, 2),
           },
         ],
@@ -3167,7 +3183,7 @@ export class McpServer {
       return {
         content: [
           {
-            type: 'text',
+            type: 'text' as const,
             text: JSON.stringify(response.data, null, 2),
           },
         ],
@@ -3182,7 +3198,7 @@ export class McpServer {
       return {
         content: [
           {
-            type: 'text',
+            type: 'text' as const,
             text: JSON.stringify(response.data, null, 2),
           },
         ],
@@ -3197,7 +3213,7 @@ export class McpServer {
       return {
         content: [
           {
-            type: 'text',
+            type: 'text' as const,
             text: JSON.stringify(response.data, null, 2),
           },
         ],
@@ -3205,9 +3221,9 @@ export class McpServer {
     };
 
     // System logs and monitoring
-    toolHandlers.get_firewall_logs = async (args: any) => {
+    toolHandlers.get_firewall_logs = async (_args: any) => {
       const client = this.ensureClient();
-      const { count = 100, filter_text = '' } = args;
+      // Args available for future enhancement: count, filter_text
 
       try {
         // Using diagnostics module for log access
@@ -3216,7 +3232,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: JSON.stringify(response.data, null, 2),
             },
           ],
@@ -3225,7 +3241,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error fetching firewall logs: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -3244,7 +3260,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: JSON.stringify(response.data, null, 2),
             },
           ],
@@ -3253,7 +3269,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error restarting service ${service_name}: ${
                 error instanceof Error ? error.message : 'Unknown error'
               }`,
@@ -3273,7 +3289,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: JSON.stringify(response.data, null, 2),
             },
           ],
@@ -3282,7 +3298,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error creating backup: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -3300,7 +3316,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: JSON.stringify(response.data, null, 2),
             },
           ],
@@ -3309,7 +3325,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error fetching system routes: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -3326,7 +3342,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: JSON.stringify(response.data, null, 2),
             },
           ],
@@ -3335,7 +3351,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error fetching system health: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -3353,7 +3369,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: JSON.stringify(response.data, null, 2),
             },
           ],
@@ -3362,7 +3378,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error listing plugins: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -3380,7 +3396,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: JSON.stringify(response.data, null, 2),
             },
           ],
@@ -3389,7 +3405,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error installing plugin ${plugin_name}: ${
                 error instanceof Error ? error.message : 'Unknown error'
               }`,
@@ -3410,7 +3426,7 @@ export class McpServer {
           return {
             content: [
               {
-                type: 'text',
+                type: 'text' as const,
                 text: JSON.stringify(response.data, null, 2),
               },
             ],
@@ -3420,7 +3436,7 @@ export class McpServer {
           return {
             content: [
               {
-                type: 'text',
+                type: 'text' as const,
                 text: JSON.stringify(response.data, null, 2),
               },
             ],
@@ -3429,7 +3445,7 @@ export class McpServer {
           return {
             content: [
               {
-                type: 'text',
+                type: 'text' as const,
                 text: `Unsupported VPN type: ${vpn_type}. Supported types: OpenVPN, IPsec`,
               },
             ],
@@ -3439,7 +3455,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error fetching VPN connections: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -3474,7 +3490,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: JSON.stringify(audit, null, 2),
             },
           ],
@@ -3483,7 +3499,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error performing firewall audit: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -3497,13 +3513,13 @@ export class McpServer {
       try {
         const response = await client.system.reboot();
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error rebooting system: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -3516,12 +3532,12 @@ export class McpServer {
       try {
         const response = await client.system.halt();
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
-            { type: 'text', text: `Error halting system: ${error instanceof Error ? error.message : 'Unknown error'}` },
+            { type: 'text' as const, text: `Error halting system: ${error instanceof Error ? error.message : 'Unknown error'}` },
           ],
         };
       }
@@ -3532,13 +3548,13 @@ export class McpServer {
       try {
         const response = await client.system.dismissStatus();
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error dismissing system status: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -3552,13 +3568,13 @@ export class McpServer {
       try {
         const response = await client.firmware.getInfo();
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error getting firmware info: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -3571,13 +3587,13 @@ export class McpServer {
       try {
         const response = await client.firmware.checkUpdates();
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error checking firmware updates: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -3590,13 +3606,13 @@ export class McpServer {
       try {
         const response = await client.firmware.update();
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error updating firmware: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -3609,13 +3625,13 @@ export class McpServer {
       try {
         const response = await client.firmware.upgrade();
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error upgrading firmware: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -3628,13 +3644,13 @@ export class McpServer {
       try {
         const response = await client.firmware.audit();
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error running firmware audit: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -3648,13 +3664,13 @@ export class McpServer {
       try {
         const response = await client.firmware.getChangelog(version);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error getting firmware changelog: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -3669,13 +3685,13 @@ export class McpServer {
       try {
         const response = await client.firmware.removePackage(package_name);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error removing package ${package_name}: ${
                 error instanceof Error ? error.message : 'Unknown error'
               }`,
@@ -3691,13 +3707,13 @@ export class McpServer {
       try {
         const response = await client.firmware.reinstallPackage(package_name);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error reinstalling package ${package_name}: ${
                 error instanceof Error ? error.message : 'Unknown error'
               }`,
@@ -3713,13 +3729,13 @@ export class McpServer {
       try {
         const response = await client.firmware.lockPackage(package_name);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error locking package ${package_name}: ${
                 error instanceof Error ? error.message : 'Unknown error'
               }`,
@@ -3735,13 +3751,13 @@ export class McpServer {
       try {
         const response = await client.firmware.unlockPackage(package_name);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error unlocking package ${package_name}: ${
                 error instanceof Error ? error.message : 'Unknown error'
               }`,
@@ -3757,13 +3773,13 @@ export class McpServer {
       try {
         const response = await client.firmware.getPackageDetails(package_name);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error getting package details for ${package_name}: ${
                 error instanceof Error ? error.message : 'Unknown error'
               }`,
@@ -3780,13 +3796,13 @@ export class McpServer {
       try {
         const response = await client.firewall.apply(rollback_revision);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error applying firewall changes: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -3799,13 +3815,13 @@ export class McpServer {
       try {
         const response = await client.firewall.savepoint();
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error creating firewall savepoint: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -3819,13 +3835,13 @@ export class McpServer {
       try {
         const response = await client.firewall.revert(revision);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error reverting firewall to revision ${revision}: ${
                 error instanceof Error ? error.message : 'Unknown error'
               }`,
@@ -3840,13 +3856,13 @@ export class McpServer {
       try {
         const response = await client.firewall.getRuleStats();
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error getting firewall rule stats: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -3860,13 +3876,13 @@ export class McpServer {
       try {
         const response = await client.firewall.rules.moveBefore(selected_uuid, target_uuid);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error moving firewall rule: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -3880,13 +3896,13 @@ export class McpServer {
       try {
         const response = await client.firewall.rules.get(uuid);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error getting firewall rule ${uuid}: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -3900,13 +3916,13 @@ export class McpServer {
       try {
         const response = await client.firewall.rules.update(uuid, rule);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error updating firewall rule ${uuid}: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -3935,7 +3951,7 @@ export class McpServer {
       return {
         content: [
           {
-            type: 'text',
+            type: 'text' as const,
             text: JSON.stringify(result, null, 2),
           },
         ],
@@ -3949,13 +3965,13 @@ export class McpServer {
       try {
         const response = await client.firewall.aliases.get(uuid);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error getting firewall alias ${uuid}: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -3969,13 +3985,13 @@ export class McpServer {
       try {
         const response = await client.firewall.aliases.add(alias);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error adding firewall alias: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -3989,13 +4005,13 @@ export class McpServer {
       try {
         const response = await client.firewall.aliases.update(uuid, alias);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error updating firewall alias ${uuid}: ${
                 error instanceof Error ? error.message : 'Unknown error'
               }`,
@@ -4011,13 +4027,13 @@ export class McpServer {
       try {
         const response = await client.firewall.aliases.delete(uuid);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error deleting firewall alias ${uuid}: ${
                 error instanceof Error ? error.message : 'Unknown error'
               }`,
@@ -4033,13 +4049,13 @@ export class McpServer {
       try {
         const response = await client.firewall.aliases.toggle(uuid, enabled);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error toggling firewall alias ${uuid}: ${
                 error instanceof Error ? error.message : 'Unknown error'
               }`,
@@ -4054,13 +4070,13 @@ export class McpServer {
       try {
         const response = await client.firewall.aliases.export();
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error exporting firewall aliases: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -4074,13 +4090,13 @@ export class McpServer {
       try {
         const response = await client.firewall.aliases.import(data);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error importing firewall aliases: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -4093,13 +4109,13 @@ export class McpServer {
       try {
         const response = await client.firewall.aliases.getTableSize();
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error getting alias table size: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -4113,13 +4129,13 @@ export class McpServer {
       try {
         const response = await client.firewall.aliasUtils.list(alias_name);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error listing alias contents for ${alias_name}: ${
                 error instanceof Error ? error.message : 'Unknown error'
               }`,
@@ -4135,13 +4151,13 @@ export class McpServer {
       try {
         const response = await client.firewall.aliasUtils.flush(alias_name);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error flushing alias ${alias_name}: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -4155,13 +4171,13 @@ export class McpServer {
       try {
         const response = await client.diagnostics.getMemory();
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error getting memory usage: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -4174,13 +4190,13 @@ export class McpServer {
       try {
         const response = await client.diagnostics.getDisk();
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error getting disk usage: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -4193,13 +4209,13 @@ export class McpServer {
       try {
         const response = await client.diagnostics.getTemperature();
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error getting system temperature: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -4212,13 +4228,13 @@ export class McpServer {
       try {
         const response = await client.diagnostics.getCpuUsageStream();
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error getting CPU usage: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -4231,13 +4247,13 @@ export class McpServer {
       try {
         const response = await client.diagnostics.getArp();
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error getting ARP table: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -4251,13 +4267,13 @@ export class McpServer {
       try {
         const response = await client.diagnostics.searchArp(search_params);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error searching ARP table: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -4270,13 +4286,13 @@ export class McpServer {
       try {
         const response = await client.diagnostics.flushArp();
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error flushing ARP table: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -4289,13 +4305,13 @@ export class McpServer {
       try {
         const response = await client.diagnostics.getPfStates();
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error getting PF states: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -4309,13 +4325,13 @@ export class McpServer {
       try {
         const response = await client.diagnostics.queryPfStates(params);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error querying PF states: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -4328,13 +4344,13 @@ export class McpServer {
       try {
         const response = await client.diagnostics.flushFirewallStates();
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error flushing firewall states: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -4348,13 +4364,13 @@ export class McpServer {
       try {
         const response = await client.diagnostics.killFirewallStates(params);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error killing firewall states: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -4368,13 +4384,13 @@ export class McpServer {
       try {
         const response = await client.diagnostics.dnsLookup({ hostname, type: record_type });
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error performing DNS lookup for ${hostname}: ${
                 error instanceof Error ? error.message : 'Unknown error'
               }`,
@@ -4391,13 +4407,13 @@ export class McpServer {
       try {
         const response = await client.service.searchServices(search_params);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error searching services: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -4411,13 +4427,13 @@ export class McpServer {
       try {
         const response = await client.service.start(service_name, service_id);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error starting service ${service_name}: ${
                 error instanceof Error ? error.message : 'Unknown error'
               }`,
@@ -4433,13 +4449,13 @@ export class McpServer {
       try {
         const response = await client.service.stop(service_name, service_id);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error stopping service ${service_name}: ${
                 error instanceof Error ? error.message : 'Unknown error'
               }`,
@@ -4456,13 +4472,13 @@ export class McpServer {
       try {
         const response = await client.interfaces.getInterface(interface_name);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error getting interface details for ${interface_name}: ${
                 error instanceof Error ? error.message : 'Unknown error'
               }`,
@@ -4478,13 +4494,13 @@ export class McpServer {
       try {
         const response = await client.interfaces.reloadInterface(interface_name);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error reloading interface ${interface_name}: ${
                 error instanceof Error ? error.message : 'Unknown error'
               }`,
@@ -4499,13 +4515,13 @@ export class McpServer {
       try {
         const response = await client.diagnostics.getInterfaceStatistics();
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error getting interface statistics: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -4549,7 +4565,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: JSON.stringify(response.data, null, 2),
             },
           ],
@@ -4558,7 +4574,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error executing API call ${method} ${endpoint}: ${
                 error instanceof Error ? error.message : 'Unknown error'
               }`,
@@ -4575,13 +4591,13 @@ export class McpServer {
       try {
         const response = await client.interfaces.searchVlans(search_params);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error searching VLANs: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -4595,12 +4611,12 @@ export class McpServer {
       try {
         const response = await client.interfaces.addVlan(vlan);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
-            { type: 'text', text: `Error adding VLAN: ${error instanceof Error ? error.message : 'Unknown error'}` },
+            { type: 'text' as const, text: `Error adding VLAN: ${error instanceof Error ? error.message : 'Unknown error'}` },
           ],
         };
       }
@@ -4612,13 +4628,13 @@ export class McpServer {
       try {
         const response = await client.interfaces.getVlan(uuid);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error getting VLAN ${uuid}: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -4632,13 +4648,13 @@ export class McpServer {
       try {
         const response = await client.interfaces.updateVlan(uuid, vlan);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error updating VLAN ${uuid}: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -4652,13 +4668,13 @@ export class McpServer {
       try {
         const response = await client.interfaces.deleteVlan(uuid);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error deleting VLAN ${uuid}: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -4671,13 +4687,13 @@ export class McpServer {
       try {
         const response = await client.interfaces.reconfigureVlans();
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error reconfiguring VLANs: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -4692,13 +4708,13 @@ export class McpServer {
       try {
         const response = await client.auth.users.search(search_params);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error searching users: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -4712,12 +4728,12 @@ export class McpServer {
       try {
         const response = await client.auth.users.add(user);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
-            { type: 'text', text: `Error adding user: ${error instanceof Error ? error.message : 'Unknown error'}` },
+            { type: 'text' as const, text: `Error adding user: ${error instanceof Error ? error.message : 'Unknown error'}` },
           ],
         };
       }
@@ -4729,13 +4745,13 @@ export class McpServer {
       try {
         const response = await client.auth.users.get(uuid);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error getting user ${uuid}: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -4749,13 +4765,13 @@ export class McpServer {
       try {
         const response = await client.auth.users.update(uuid, user);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error updating user ${uuid}: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -4769,13 +4785,13 @@ export class McpServer {
       try {
         const response = await client.auth.users.delete(uuid);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error deleting user ${uuid}: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -4789,13 +4805,13 @@ export class McpServer {
       try {
         const response = await client.auth.users.addApiKey(username);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error adding API key for ${username}: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -4809,13 +4825,13 @@ export class McpServer {
       try {
         const response = await client.auth.users.deleteApiKey(key_id);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error deleting API key ${key_id}: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -4829,13 +4845,13 @@ export class McpServer {
       try {
         const response = await client.auth.users.searchApiKeys(search_params);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error searching API keys: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -4850,13 +4866,13 @@ export class McpServer {
       try {
         const response = await client.auth.groups.search(search_params);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error searching groups: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -4870,12 +4886,12 @@ export class McpServer {
       try {
         const response = await client.auth.groups.add(group);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
-            { type: 'text', text: `Error adding group: ${error instanceof Error ? error.message : 'Unknown error'}` },
+            { type: 'text' as const, text: `Error adding group: ${error instanceof Error ? error.message : 'Unknown error'}` },
           ],
         };
       }
@@ -4887,13 +4903,13 @@ export class McpServer {
       try {
         const response = await client.auth.groups.get(uuid);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error getting group ${uuid}: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -4907,13 +4923,13 @@ export class McpServer {
       try {
         const response = await client.auth.groups.update(uuid, group);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error updating group ${uuid}: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -4927,13 +4943,13 @@ export class McpServer {
       try {
         const response = await client.auth.groups.delete(uuid);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error deleting group ${uuid}: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -4948,13 +4964,13 @@ export class McpServer {
       try {
         const response = await client.trust.searchCerts(search_params);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error searching certificates: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -4968,13 +4984,13 @@ export class McpServer {
       try {
         const response = await client.trust.addCert(certificate);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error adding certificate: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -4988,13 +5004,13 @@ export class McpServer {
       try {
         const response = await client.trust.getCert(uuid);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error getting certificate ${uuid}: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -5008,13 +5024,13 @@ export class McpServer {
       try {
         const response = await client.trust.deleteCert(uuid);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error deleting certificate ${uuid}: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -5029,13 +5045,13 @@ export class McpServer {
       try {
         const response = await client.trust.searchCAs(search_params);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error searching certificate authorities: ${
                 error instanceof Error ? error.message : 'Unknown error'
               }`,
@@ -5051,13 +5067,13 @@ export class McpServer {
       try {
         const response = await client.trust.getCA(uuid);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error getting certificate authority ${uuid}: ${
                 error instanceof Error ? error.message : 'Unknown error'
               }`,
@@ -5073,13 +5089,13 @@ export class McpServer {
       try {
         const response = await client.trust.deleteCA(uuid);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error deleting certificate authority ${uuid}: ${
                 error instanceof Error ? error.message : 'Unknown error'
               }`,
@@ -5095,13 +5111,13 @@ export class McpServer {
       try {
         const response = await client.openVPN.getInstances();
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error getting OpenVPN instances: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -5115,13 +5131,13 @@ export class McpServer {
       try {
         const response = await client.openVPN.searchInstances(search_params);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error searching OpenVPN instances: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -5135,13 +5151,13 @@ export class McpServer {
       try {
         const response = await client.openVPN.addInstance(instance);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error adding OpenVPN instance: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -5155,13 +5171,13 @@ export class McpServer {
       try {
         const response = await client.openVPN.updateInstance(uuid, instance);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error updating OpenVPN instance ${uuid}: ${
                 error instanceof Error ? error.message : 'Unknown error'
               }`,
@@ -5177,13 +5193,13 @@ export class McpServer {
       try {
         const response = await client.openVPN.deleteInstance(uuid);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error deleting OpenVPN instance ${uuid}: ${
                 error instanceof Error ? error.message : 'Unknown error'
               }`,
@@ -5199,13 +5215,13 @@ export class McpServer {
       try {
         const response = await client.openVPN.toggleInstance(uuid, enabled);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error toggling OpenVPN instance ${uuid}: ${
                 error instanceof Error ? error.message : 'Unknown error'
               }`,
@@ -5221,13 +5237,13 @@ export class McpServer {
       try {
         const response = await client.openVPN.startService(service_id);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error starting OpenVPN service: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -5241,13 +5257,13 @@ export class McpServer {
       try {
         const response = await client.openVPN.stopService(service_id);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error stopping OpenVPN service: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -5261,13 +5277,13 @@ export class McpServer {
       try {
         const response = await client.openVPN.restartService(service_id);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error restarting OpenVPN service: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -5281,13 +5297,13 @@ export class McpServer {
       try {
         const response = await client.openVPN.searchSessions(search_params);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error searching OpenVPN sessions: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -5301,13 +5317,13 @@ export class McpServer {
       try {
         const response = await client.openVPN.killSession(session_data);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error killing OpenVPN session: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -5321,13 +5337,13 @@ export class McpServer {
       try {
         const response = await client.ipsec.isEnabled();
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error checking IPsec status: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -5341,13 +5357,13 @@ export class McpServer {
       try {
         const response = await client.ipsec.toggleService(enabled);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error toggling IPsec service: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -5361,13 +5377,13 @@ export class McpServer {
       try {
         const response = await client.ipsec.searchConnections(search_params);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error searching IPsec connections: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -5381,13 +5397,13 @@ export class McpServer {
       try {
         const response = await client.ipsec.addConnection(connection);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error adding IPsec connection: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -5401,13 +5417,13 @@ export class McpServer {
       try {
         const response = await client.ipsec.getConnection(uuid);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error getting IPsec connection ${uuid}: ${
                 error instanceof Error ? error.message : 'Unknown error'
               }`,
@@ -5423,13 +5439,13 @@ export class McpServer {
       try {
         const response = await client.ipsec.updateConnection(uuid, connection);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error updating IPsec connection ${uuid}: ${
                 error instanceof Error ? error.message : 'Unknown error'
               }`,
@@ -5445,13 +5461,13 @@ export class McpServer {
       try {
         const response = await client.ipsec.deleteConnection(uuid);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error deleting IPsec connection ${uuid}: ${
                 error instanceof Error ? error.message : 'Unknown error'
               }`,
@@ -5467,13 +5483,13 @@ export class McpServer {
       try {
         const response = await client.ipsec.toggleConnection(uuid, enabled);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error toggling IPsec connection ${uuid}: ${
                 error instanceof Error ? error.message : 'Unknown error'
               }`,
@@ -5488,12 +5504,12 @@ export class McpServer {
       try {
         const response = await client.ipsec.start();
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
-            { type: 'text', text: `Error starting IPsec: ${error instanceof Error ? error.message : 'Unknown error'}` },
+            { type: 'text' as const, text: `Error starting IPsec: ${error instanceof Error ? error.message : 'Unknown error'}` },
           ],
         };
       }
@@ -5504,12 +5520,12 @@ export class McpServer {
       try {
         const response = await client.ipsec.stop();
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
-            { type: 'text', text: `Error stopping IPsec: ${error instanceof Error ? error.message : 'Unknown error'}` },
+            { type: 'text' as const, text: `Error stopping IPsec: ${error instanceof Error ? error.message : 'Unknown error'}` },
           ],
         };
       }
@@ -5520,13 +5536,13 @@ export class McpServer {
       try {
         const response = await client.ipsec.restart();
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error restarting IPsec: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -5539,13 +5555,13 @@ export class McpServer {
       try {
         const response = await client.ipsec.reconfigure();
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error reconfiguring IPsec: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -5564,13 +5580,13 @@ export class McpServer {
           response = await client.ipsec.searchPhase2Sessions(search_params);
         }
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error searching IPsec phase ${phase} sessions: ${
                 error instanceof Error ? error.message : 'Unknown error'
               }`,
@@ -5586,13 +5602,13 @@ export class McpServer {
       try {
         const response = await client.ipsec.connectSession(session_id);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error connecting IPsec session ${session_id}: ${
                 error instanceof Error ? error.message : 'Unknown error'
               }`,
@@ -5608,13 +5624,13 @@ export class McpServer {
       try {
         const response = await client.ipsec.disconnectSession(session_id);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error disconnecting IPsec session ${session_id}: ${
                 error instanceof Error ? error.message : 'Unknown error'
               }`,
@@ -5630,13 +5646,13 @@ export class McpServer {
       try {
         const response = await client.dhcpv4.getConfig();
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error getting DHCP config: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -5650,13 +5666,13 @@ export class McpServer {
       try {
         const response = await client.dhcpv4.setConfig(config);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error setting DHCP config: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -5670,13 +5686,13 @@ export class McpServer {
       try {
         const response = await client.dhcpv4.searchLeases(search_params);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error searching DHCP leases: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -5690,13 +5706,13 @@ export class McpServer {
       try {
         const response = await client.dhcpv4.searchReservations(search_params);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error searching DHCP reservations: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -5710,13 +5726,13 @@ export class McpServer {
       try {
         const response = await client.dhcpv4.addReservation(reservation);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error adding DHCP reservation: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -5730,13 +5746,13 @@ export class McpServer {
       try {
         const response = await client.dhcpv4.getReservation(uuid);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error getting DHCP reservation ${uuid}: ${
                 error instanceof Error ? error.message : 'Unknown error'
               }`,
@@ -5752,13 +5768,13 @@ export class McpServer {
       try {
         const response = await client.dhcpv4.updateReservation(uuid, reservation);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error updating DHCP reservation ${uuid}: ${
                 error instanceof Error ? error.message : 'Unknown error'
               }`,
@@ -5774,13 +5790,13 @@ export class McpServer {
       try {
         const response = await client.dhcpv4.deleteReservation(uuid);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error deleting DHCP reservation ${uuid}: ${
                 error instanceof Error ? error.message : 'Unknown error'
               }`,
@@ -5796,13 +5812,13 @@ export class McpServer {
       try {
         const response = await client.dhcpv4.toggleReservation(uuid, enabled);
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error toggling DHCP reservation ${uuid}: ${
                 error instanceof Error ? error.message : 'Unknown error'
               }`,
@@ -5817,13 +5833,13 @@ export class McpServer {
       try {
         const response = await client.dhcpv4.start();
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error starting DHCP service: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -5836,13 +5852,13 @@ export class McpServer {
       try {
         const response = await client.dhcpv4.stop();
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error stopping DHCP service: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -5855,13 +5871,13 @@ export class McpServer {
       try {
         const response = await client.dhcpv4.restart();
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error restarting DHCP service: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -5874,13 +5890,13 @@ export class McpServer {
       try {
         const response = await client.dhcpv4.reconfigure();
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error reconfiguring DHCP: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -5893,13 +5909,13 @@ export class McpServer {
       try {
         const response = await client.dhcpv4.getStatus();
         return {
-          content: [{ type: 'text', text: JSON.stringify(response.data, null, 2) }],
+          content: [{ type: 'text' as const, text: JSON.stringify(response.data, null, 2) }],
         };
       } catch (error) {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error getting DHCP status: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -5939,7 +5955,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: JSON.stringify(response.data, null, 2),
             },
           ],
@@ -5948,7 +5964,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error getting WireGuard status: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -5963,7 +5979,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: JSON.stringify(response.data, null, 2),
             },
           ],
@@ -5972,7 +5988,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error getting WireGuard config: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -5987,7 +6003,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: JSON.stringify(response.data, null, 2),
             },
           ],
@@ -5996,7 +6012,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error searching WireGuard servers: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -6011,7 +6027,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: JSON.stringify(response.data, null, 2),
             },
           ],
@@ -6020,7 +6036,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error searching WireGuard clients: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -6035,7 +6051,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: JSON.stringify(response.data, null, 2),
             },
           ],
@@ -6044,7 +6060,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error generating WireGuard keypair: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -6060,7 +6076,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: JSON.stringify(response.data, null, 2),
             },
           ],
@@ -6069,7 +6085,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error getting Nginx status: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -6084,7 +6100,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: JSON.stringify(response.data, null, 2),
             },
           ],
@@ -6093,7 +6109,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error getting Nginx upstreams: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -6109,7 +6125,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: JSON.stringify(response.data, null, 2),
             },
           ],
@@ -6118,7 +6134,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error getting HAProxy status: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -6133,7 +6149,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: JSON.stringify(response.data, null, 2),
             },
           ],
@@ -6142,7 +6158,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error getting HAProxy backends: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -6158,7 +6174,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: JSON.stringify(response.data, null, 2),
             },
           ],
@@ -6167,7 +6183,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error getting Bind status: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -6182,7 +6198,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: JSON.stringify(response.data, null, 2),
             },
           ],
@@ -6191,7 +6207,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error getting Bind zones: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -6207,7 +6223,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: JSON.stringify(response.data, null, 2),
             },
           ],
@@ -6216,7 +6232,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error getting Caddy status: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -6231,7 +6247,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: JSON.stringify(response.data, null, 2),
             },
           ],
@@ -6240,7 +6256,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error getting Caddy config: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -6256,7 +6272,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: JSON.stringify(response.data, null, 2),
             },
           ],
@@ -6265,7 +6281,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error getting CrowdSec status: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -6280,7 +6296,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: JSON.stringify(response.data, null, 2),
             },
           ],
@@ -6289,7 +6305,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error getting CrowdSec decisions: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -6305,7 +6321,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: JSON.stringify(response.data, null, 2),
             },
           ],
@@ -6314,7 +6330,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error getting NetSNMP status: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -6329,7 +6345,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: JSON.stringify(response.data, null, 2),
             },
           ],
@@ -6338,7 +6354,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error getting NetSNMP config: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -6354,7 +6370,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: JSON.stringify(response.data, null, 2),
             },
           ],
@@ -6363,7 +6379,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error getting Netdata status: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -6378,7 +6394,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: JSON.stringify(response.data, null, 2),
             },
           ],
@@ -6387,7 +6403,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error getting Netdata config: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -6403,7 +6419,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: JSON.stringify(response.data, null, 2),
             },
           ],
@@ -6412,7 +6428,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error searching Nginx upstreams: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -6427,7 +6443,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: JSON.stringify(response.data, null, 2),
             },
           ],
@@ -6436,7 +6452,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error getting Nginx locations: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -6451,7 +6467,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: JSON.stringify(response.data, null, 2),
             },
           ],
@@ -6460,7 +6476,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error searching Nginx locations: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -6475,7 +6491,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: JSON.stringify(response.data, null, 2),
             },
           ],
@@ -6484,7 +6500,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error searching HAProxy backends: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -6499,7 +6515,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: JSON.stringify(response.data, null, 2),
             },
           ],
@@ -6508,7 +6524,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error getting HAProxy servers: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -6523,7 +6539,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: JSON.stringify(response.data, null, 2),
             },
           ],
@@ -6532,7 +6548,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error searching HAProxy servers: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -6547,7 +6563,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: JSON.stringify(response.data, null, 2),
             },
           ],
@@ -6556,7 +6572,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error getting Bind domains: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -6571,7 +6587,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: JSON.stringify(response.data, null, 2),
             },
           ],
@@ -6580,7 +6596,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error searching Bind domains: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -6595,7 +6611,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: JSON.stringify(response.data, null, 2),
             },
           ],
@@ -6604,7 +6620,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error searching Bind records: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -6619,7 +6635,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: JSON.stringify(response.data, null, 2),
             },
           ],
@@ -6628,7 +6644,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error searching Bind ACL: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -6643,7 +6659,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: JSON.stringify(response.data, null, 2),
             },
           ],
@@ -6652,7 +6668,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error getting Caddy general config: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -6667,7 +6683,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: JSON.stringify(response.data, null, 2),
             },
           ],
@@ -6676,7 +6692,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error searching Caddy reverse proxy: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -6691,7 +6707,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: JSON.stringify(response.data, null, 2),
             },
           ],
@@ -6700,7 +6716,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error searching Caddy subdomains: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -6715,7 +6731,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: JSON.stringify(response.data, null, 2),
             },
           ],
@@ -6724,7 +6740,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error searching Caddy handles: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -6739,7 +6755,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: JSON.stringify(response.data, null, 2),
             },
           ],
@@ -6748,7 +6764,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error getting CrowdSec general config: ${
                 error instanceof Error ? error.message : 'Unknown error'
               }`,
@@ -6765,7 +6781,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: JSON.stringify(response.data, null, 2),
             },
           ],
@@ -6774,7 +6790,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error getting NetSNMP general config: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -6789,7 +6805,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: JSON.stringify(response.data, null, 2),
             },
           ],
@@ -6798,7 +6814,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error getting Netdata general config: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -6813,7 +6829,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: JSON.stringify(response.data, null, 2),
             },
           ],
@@ -6822,7 +6838,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error searching WireGuard peers: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -6837,7 +6853,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: JSON.stringify(response.data, null, 2),
             },
           ],
@@ -6846,7 +6862,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error getting WireGuard peers: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -6859,7 +6875,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Plugin tool "${pluginName}_${methodName}" is defined but the ${pluginName} plugin is not yet fully implemented in the TypeScript client. This plugin may not be installed, may require additional configuration, or may need to be accessed through direct API calls.`,
             },
           ],
@@ -6992,7 +7008,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: JSON.stringify(response.data, null, 2),
             },
           ],
@@ -7001,7 +7017,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error getting WOL status: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -7017,7 +7033,7 @@ export class McpServer {
           return {
             content: [
               {
-                type: 'text',
+                type: 'text' as const,
                 text: 'Error: MAC address is required for Wake on LAN',
               },
             ],
@@ -7027,7 +7043,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: JSON.stringify(response.data, null, 2),
             },
           ],
@@ -7036,7 +7052,7 @@ export class McpServer {
         return {
           content: [
             {
-              type: 'text',
+              type: 'text' as const,
               text: `Error waking device: ${error instanceof Error ? error.message : 'Unknown error'}`,
             },
           ],
@@ -7058,7 +7074,7 @@ export class McpServer {
   }
 
   private setupErrorHandling() {
-    this.server.onerror = error => {
+    this.server.onerror = (error: unknown) => {
       console.error('[MCP Error]', error);
     };
 

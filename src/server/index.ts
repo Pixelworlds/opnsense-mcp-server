@@ -6,7 +6,7 @@
 // Export main server implementations
 export { serverInitializationResponse } from './initialization.js';
 export { OPNSENSE_RESOURCES } from './simple-resources.js';
-export { OPNsenseServer } from './simple-server.js';
+export { OPNsenseMcpServer, OPNsenseServer } from './simple-server.js';
 export { ENHANCED_TOOL_DESCRIPTIONS } from './simple-tools.js';
 
 // Export documentation and templates
