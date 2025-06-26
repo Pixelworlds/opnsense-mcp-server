@@ -32,7 +32,7 @@ describe('Plugin Checker', () => {
       const mockClient = {
         plugins: {
           nginx: {
-            getStatus: jest.fn().mockResolvedValue({ status: 'running' }),
+            getStatus: jest.fn(() => Promise.resolve({ status: 'running' })),
           },
         },
       } as any;
@@ -45,7 +45,7 @@ describe('Plugin Checker', () => {
       const mockClient = {
         plugins: {
           bind: {
-            get: jest.fn().mockResolvedValue({ config: {} }),
+            get: jest.fn(() => Promise.resolve({ config: {} })),
           },
         },
       } as any;
@@ -58,9 +58,9 @@ describe('Plugin Checker', () => {
       const mockClient = {
         plugins: {
           wireguard: {
-            getStatus: jest.fn().mockRejectedValue({
+            getStatus: jest.fn(() => Promise.reject({
               response: { status: 404 },
-            }),
+            })),
           },
         },
       } as any;
@@ -73,7 +73,7 @@ describe('Plugin Checker', () => {
       const mockClient = {
         plugins: {
           nginx: {
-            getStatus: jest.fn().mockRejectedValue(new Error('Network error')),
+            getStatus: jest.fn(() => Promise.reject(new Error('Network error'))),
           },
         },
       } as any;
@@ -111,9 +111,9 @@ describe('Plugin Checker', () => {
       const mockClient = {
         plugins: {
           nginx: {
-            getStatus: jest.fn().mockRejectedValue({
+            getStatus: jest.fn(() => Promise.reject({
               response: { status: 404 },
-            }),
+            })),
           },
         },
       } as any;
@@ -129,7 +129,7 @@ describe('Plugin Checker', () => {
       const mockClient = {
         plugins: {
           nginx: {
-            getStatus: jest.fn().mockResolvedValue({ status: 'running' }),
+            getStatus: jest.fn(() => Promise.resolve({ status: 'running' })),
           },
         },
       } as any;
