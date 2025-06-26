@@ -151,7 +151,7 @@ test_typescript_declarations:
       EOF
 
       # Check if TypeScript can compile with our declarations
-      npx tsc --noEmit --strict test-types.ts
+      yarn tsc --noEmit --strict test-types.ts
 
       echo "TypeScript declarations validated successfully"
   after_script:
