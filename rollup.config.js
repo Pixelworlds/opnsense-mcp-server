@@ -58,9 +58,9 @@ export default defineConfig([
       typescript({
         tsconfig: './tsconfig.json',
         declaration: true,
+        declarationDir: './dist',
         declarationMap: false,
         sourceMap: true,
-        outDir: './dist',
         compilerOptions: {
           target: 'ES2022',
           lib: ['ES2022', 'ES2019', 'ES2017', 'ES2015', 'DOM'],
@@ -68,6 +68,8 @@ export default defineConfig([
           moduleResolution: 'bundler',
           resolveJsonModule: true,
           skipLibCheck: true,
+          noEmit: false,
+          declaration: true,
         },
       }),
     ],
