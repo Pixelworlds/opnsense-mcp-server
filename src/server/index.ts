@@ -266,8 +266,13 @@ async function main() {
   await server.run();
 }
 
-// Run if called directly
-if ("file://" === `file://${process.argv[1]}`) {
+// Run if called directly (handle both CommonJS and ES modules)
+const isMainModule = process.argv[1] && (
+  process.argv[1].endsWith('index.js') || 
+  process.argv[1].includes('dist/index.js')
+);
+
+if (isMainModule) {
   main().catch((error) => {
     console.error('Fatal error:', error);
     process.exit(1);
