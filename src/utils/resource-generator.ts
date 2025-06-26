@@ -124,7 +124,7 @@ export function generateResources(context: ServerContext): Resource[] {
   // Add core resources
   for (const [moduleName, moduleResources] of Object.entries(coreResources)) {
     if (context.availableModules.has(`core.${moduleName}`)) {
-      resources.push(...moduleResources.map(r => ({
+      resources.push(...moduleResources.map((r) => ({
         uri: r.uri,
         name: r.name,
         description: r.description,
@@ -136,7 +136,7 @@ export function generateResources(context: ServerContext): Resource[] {
   // Add plugin resources
   for (const [moduleName, moduleResources] of Object.entries(pluginResources)) {
     if (context.availableModules.has(`plugins.${moduleName}`)) {
-      resources.push(...moduleResources.map(r => ({
+      resources.push(...moduleResources.map((r) => ({
         uri: r.uri,
         name: r.name,
         description: r.description,

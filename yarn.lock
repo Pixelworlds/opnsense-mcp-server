@@ -454,6 +454,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@eslint/js@npm:^9.29.0":
+  version: 9.29.0
+  resolution: "@eslint/js@npm:9.29.0"
+  checksum: 10c0/d0ccf37063fa27a3fae9347cb044f84ca10b5a2fa19ffb2b3fedf3b96843ac1ff359ea9f0ab0e80f2f16fda4cb0dc61ea0fed0375090f050fe0a029e7d6de3a3
+  languageName: node
+  linkType: hard
+
 "@humanwhocodes/config-array@npm:^0.13.0":
   version: 0.13.0
   resolution: "@humanwhocodes/config-array@npm:0.13.0"
@@ -927,6 +934,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@richard-stovall/opnsense-mcp-server@workspace:."
   dependencies:
+    "@eslint/js": "npm:^9.29.0"
     "@jest/globals": "npm:^30.0.3"
     "@modelcontextprotocol/sdk": "npm:^1.0.1"
     "@richard-stovall/opnsense-typescript-client": "npm:^0.1.5"
@@ -940,6 +948,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": "npm:^6.19.0"
     "@typescript-eslint/parser": "npm:^6.19.0"
     eslint: "npm:^8.56.0"
+    globals: "npm:^16.2.0"
     jest: "npm:^30.0.3"
     jest-junit: "npm:^16.0.0"
     jest-util: "npm:^30.0.2"
@@ -3016,6 +3025,13 @@ __metadata:
   dependencies:
     type-fest: "npm:^0.20.2"
   checksum: 10c0/d3c11aeea898eb83d5ec7a99508600fbe8f83d2cf00cbb77f873dbf2bcb39428eff1b538e4915c993d8a3b3473fa71eeebfe22c9bb3a3003d1e26b1f2c8a42cd
+  languageName: node
+  linkType: hard
+
+"globals@npm:^16.2.0":
+  version: 16.2.0
+  resolution: "globals@npm:16.2.0"
+  checksum: 10c0/c2b3ea163faa6f8a38076b471b12f4bda891f7df7f7d2e8294fb4801d735a51a73431bf4c1696c5bf5dbca5e0a0db894698acfcbd3068730c6b12eef185dea25
   languageName: node
   linkType: hard
 

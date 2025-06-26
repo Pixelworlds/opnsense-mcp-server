@@ -141,7 +141,7 @@ export function generatePrompts(context: ServerContext): Prompt[] {
   // Add core prompts
   for (const promptMeta of corePrompts) {
     // Check if all required tools are available
-    const toolsAvailable = promptMeta.tools.every(tool => {
+    const toolsAvailable = promptMeta.tools.every((tool) => {
       const [, moduleName] = tool.split('_');
       return context.availableModules.has(`core.${moduleName}`);
     });
@@ -150,7 +150,7 @@ export function generatePrompts(context: ServerContext): Prompt[] {
       prompts.push({
         name: promptMeta.name,
         description: promptMeta.description,
-        arguments: promptMeta.arguments.map(arg => ({
+        arguments: promptMeta.arguments.map((arg) => ({
           name: arg.name,
           description: arg.description,
           required: arg.required,
@@ -162,7 +162,7 @@ export function generatePrompts(context: ServerContext): Prompt[] {
   // Add plugin prompts
   for (const promptMeta of pluginPrompts) {
     // Check if all required tools are available
-    const toolsAvailable = promptMeta.tools.every(tool => {
+    const toolsAvailable = promptMeta.tools.every((tool) => {
       const [, moduleName] = tool.split('_');
       return context.availableModules.has(`plugins.${moduleName}`);
     });
@@ -171,7 +171,7 @@ export function generatePrompts(context: ServerContext): Prompt[] {
       prompts.push({
         name: promptMeta.name,
         description: promptMeta.description,
-        arguments: promptMeta.arguments.map(arg => ({
+        arguments: promptMeta.arguments.map((arg) => ({
           name: arg.name,
           description: arg.description,
           required: arg.required,
@@ -192,7 +192,7 @@ export function generatePromptContent(
   context: ServerContext
 ): string {
   const allPrompts = [...corePrompts, ...pluginPrompts];
-  const promptMeta = allPrompts.find(p => p.name === promptName);
+  const promptMeta = allPrompts.find((p) => p.name === promptName);
 
   if (!promptMeta) {
     throw new Error(`Prompt '${promptName}' not found`);

@@ -67,7 +67,7 @@ describe('Tool Generator', () => {
       const tools = generateModuleTools('system', mockModule, false, mockContext);
 
       expect(tools).toHaveLength(2);
-      expect(tools.map(t => t.name)).not.toContain('core_system__privateMethod');
+      expect(tools.map((t) => t.name)).not.toContain('core_system__privateMethod');
     });
   });
 
@@ -129,7 +129,7 @@ describe('Tool Generator', () => {
       const mockClient = {} as any;
       const tools = generateAllTools(mockClient, mockContext);
 
-      const configTool = tools.find(t => t.name === 'configure_opnsense_connection');
+      const configTool = tools.find((t) => t.name === 'configure_opnsense_connection');
       expect(configTool).toBeDefined();
       expect(configTool?.description).toBe('Configure the OPNsense API connection');
     });
@@ -148,11 +148,11 @@ describe('Tool Generator', () => {
       const tools = generateAllTools(mockClient, mockContext);
 
       // Should include system, firewall, nginx, and config tool
-      expect(tools.map(t => t.name)).toContain('core_system_getStatus');
-      expect(tools.map(t => t.name)).toContain('core_firewall_search');
-      expect(tools.map(t => t.name)).toContain('plugin_nginx_reload');
-      expect(tools.map(t => t.name)).not.toContain('core_interfaces_getOverview');
-      expect(tools.map(t => t.name)).not.toContain('plugin_haproxy_getStatus');
+      expect(tools.map((t) => t.name)).toContain('core_system_getStatus');
+      expect(tools.map((t) => t.name)).toContain('core_firewall_search');
+      expect(tools.map((t) => t.name)).toContain('plugin_nginx_reload');
+      expect(tools.map((t) => t.name)).not.toContain('core_interfaces_getOverview');
+      expect(tools.map((t) => t.name)).not.toContain('plugin_haproxy_getStatus');
     });
   });
 });
