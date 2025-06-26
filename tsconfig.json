@@ -17,9 +17,8 @@
     "paths": {
       "@modelcontextprotocol/sdk/*": ["node_modules/@modelcontextprotocol/sdk/dist/*"]
     },
-    "declaration": true,
-    "outDir": "./dist",
-    "rootDir": ".",
+    "declaration": false,
+    "noEmit": true,
 
     // Best practices
     "strict": true,
