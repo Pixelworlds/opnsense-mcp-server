@@ -238,7 +238,7 @@ function generateModuleToolsFromConfig(moduleName: string, isPlugin: boolean, co
     nginx: ['server_search', 'server_get', 'server_set', 'get_status', 'restart'],
     haproxy: ['backend_search', 'frontend_search', 'get_status', 'restart'],
     bind: ['zone_search', 'zone_get', 'zone_set', 'get_status'],
-    wireguard: ['peer_search', 'peer_get', 'peer_set', 'get_status'],
+    wg_wireguard: ['peer_search', 'peer_get', 'peer_set', 'get_status'],
     caddy: ['reverse_proxy_search', 'reverse_proxy_get', 'reverse_proxy_set', 'get_status'],
     telegraf: ['get_config', 'set_config', 'restart'],
     maltrail: ['get_config', 'set_config', 'get_status'],
@@ -334,10 +334,7 @@ export function generateAllTools(context: ServerContext): Tool[] {
   for (const moduleName of coreModules) {
     if (context.availableModules.has(`core.${moduleName}`)) {
       const moduleTools = generateModuleToolsFromConfig(moduleName, false, context);
-      console.error(`Core module ${moduleName}: generated ${moduleTools.length} tools`);
       tools.push(...moduleTools);
-    } else {
-      console.error(`Core module ${moduleName}: not found in availableModules`);
     }
   }
 
@@ -348,10 +345,8 @@ export function generateAllTools(context: ServerContext): Tool[] {
 
   for (const pluginName of pluginModules) {
     const moduleTools = generateModuleToolsFromConfig(pluginName, true, context);
-    console.error(`Plugin module ${pluginName}: generated ${moduleTools.length} tools`);
     tools.push(...moduleTools);
   }
 
-  console.error(`Total tools generated: ${tools.length}`);
   return tools;
 }
