@@ -8,7 +8,7 @@ import { defineConfig } from 'rollup';
 export default defineConfig([
   // Main executable build - single index.js file
   {
-    input: 'src/index.ts',
+    input: 'src/server/index.ts',
     plugins: [
       replace({
         preventAssignment: true,
@@ -57,11 +57,9 @@ export default defineConfig([
       commonjs(),
       typescript({
         tsconfig: './tsconfig.json',
-        declaration: true,
-        declarationDir: './dist',
+        declaration: false,
         declarationMap: false,
         sourceMap: false,
-        include: ['src/index.ts'],
         compilerOptions: {
           target: 'ES2022',
           lib: ['ES2022', 'ES2019', 'ES2017', 'ES2015', 'DOM'],
@@ -70,8 +68,7 @@ export default defineConfig([
           resolveJsonModule: true,
           skipLibCheck: true,
           noEmit: false,
-          declaration: true,
-          emitDeclarationOnly: false,
+          declaration: false,
         },
       }),
     ],
@@ -85,7 +82,8 @@ export default defineConfig([
     output: {
       file: 'dist/index.js',
       format: 'es',
-      sourcemap: true,
+      sourcemap: false,
+      banner: '#!/usr/bin/env node',
     },
   },
 ]);
