@@ -210,45 +210,73 @@ export function generateToolHandler(
 }
 
 /**
+ * Generate module tools from build configuration (without runtime client)
+ */
+function generateModuleToolsFromConfig(moduleName: string, isPlugin: boolean, context: ServerContext): Tool[] {
+  const tools: Tool[] = [];
+  const moduleKey = isPlugin ? `plugins.${moduleName}` : `core.${moduleName}`;
+  
+  if (!context.availableModules.has(moduleKey)) {
+    return tools;
+  }
+
+  // Get module configuration from build config
+  // For now, generate basic CRUD tools for each module
+  const commonMethods = ['get', 'set', 'search', 'add', 'delete', 'toggle'];
+  
+  for (const method of commonMethods) {
+    const toolName = isPlugin 
+      ? `plugin_${moduleName}_${method}`
+      : `${moduleName}_${method}`;
+    
+    tools.push({
+      name: toolName,
+      description: `${method} operation for ${isPlugin ? 'plugin' : 'core'} module ${moduleName}`,
+      inputSchema: {
+        type: 'object',
+        properties: {
+          // Generic parameters that most endpoints accept
+          ...(method === 'search' && {
+            current: { type: 'integer', description: 'Current page', default: 1 },
+            rowCount: { type: 'integer', description: 'Rows per page', default: 20 },
+            searchPhrase: { type: 'string', description: 'Search phrase' }
+          }),
+          ...(method === 'get' && {
+            uuid: { type: 'string', description: 'Item UUID' }
+          }),
+          ...(method === 'set' && {
+            uuid: { type: 'string', description: 'Item UUID' },
+            data: { type: 'object', description: 'Item data' }
+          }),
+          ...(method === 'add' && {
+            data: { type: 'object', description: 'Item data' }
+          }),
+          ...(method === 'delete' && {
+            uuid: { type: 'string', description: 'Item UUID' }
+          }),
+          ...(method === 'toggle' && {
+            uuid: { type: 'string', description: 'Item UUID' },
+            enabled: { type: 'boolean', description: 'Enable or disable' }
+          })
+        },
+        required: []
+      }
+    });
+  }
+
+  return tools;
+}
+
+/**
  * Generate all tools for available modules
  */
-export function generateAllTools(client: OPNsenseClient, context: ServerContext): Tool[] {
+export function generateAllTools(context: ServerContext): Tool[] {
   const tools: Tool[] = [];
-
-  // Generate core module tools
-  const coreModules = [
-    'auth', 'backup', 'cron', 'dashboard', 'dhcp', 'diagnostics',
-    'firewall', 'firmware', 'hasync', 'interfaces', 'ipsec', 'ldap',
-    'log', 'menu', 'nat', 'openvpn', 'routes', 'services', 'settings',
-    'snapshots', 'system', 'tunables', 'trust', 'users', 'virtualip', 'webproxy'
-  ];
-
-  for (const moduleName of coreModules) {
-    if (context.availableModules.has(`core.${moduleName}`)) {
-      const module = (client as any)[moduleName];
-      if (module) {
-        tools.push(...generateModuleTools(moduleName, module, false, context));
-      }
-    }
-  }
-
-  // Generate plugin module tools
-  const plugins = (client as any).plugins;
-  if (plugins) {
-    for (const pluginName in plugins) {
-      if (context.availableModules.has(`plugins.${pluginName}`)) {
-        const plugin = plugins[pluginName];
-        if (plugin) {
-          tools.push(...generateModuleTools(pluginName, plugin, true, context));
-        }
-      }
-    }
-  }
 
   // Add configuration tool
   tools.push({
     name: 'configure_opnsense_connection',
-    description: 'Configure the OPNsense API connection',
+    description: 'Generate OPNsense MCP server configuration JSON',
     inputSchema: {
       type: 'object',
       properties: {
@@ -260,6 +288,31 @@ export function generateAllTools(client: OPNsenseClient, context: ServerContext)
       required: ['url', 'apiKey', 'apiSecret'],
     },
   });
+
+  // Generate core module tools based on build config
+  const coreModules = [
+    'auth', 'backup', 'cron', 'dashboard', 'dhcp', 'diagnostics',
+    'firewall', 'firmware', 'hasync', 'interfaces', 'ipsec', 'ldap',
+    'log', 'menu', 'nat', 'openvpn', 'routes', 'services', 'settings',
+    'snapshots', 'system', 'tunables', 'trust', 'users', 'virtualip', 'webproxy'
+  ];
+
+  for (const moduleName of coreModules) {
+    if (context.availableModules.has(`core.${moduleName}`)) {
+      const moduleTools = generateModuleToolsFromConfig(moduleName, false, context);
+      tools.push(...moduleTools);
+    }
+  }
+
+  // Generate plugin module tools based on build config
+  const pluginModules = Array.from(context.availableModules)
+    .filter(module => module.startsWith('plugins.'))
+    .map(module => module.replace('plugins.', ''));
+
+  for (const pluginName of pluginModules) {
+    const moduleTools = generateModuleToolsFromConfig(pluginName, true, context);
+    tools.push(...moduleTools);
+  }
 
   return tools;
 }
