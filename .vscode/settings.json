@@ -15,11 +15,10 @@
     "**/.pnp.*": true
   },
   "files.exclude": {
-    "**/.yarn/cache": true,
-    "**/.yarn/unplugged": true,
-    "**/.yarn/build-state.yml": true,
-    "**/.yarn/install-state.gz": true,
-    "**/dist": true
+    "**/.yarn": true,
+    "**/.claude": true,
+    "**/.cursor": true,
+    "**/.vscode": true,
   },
   "typescript.tsdk": ".yarn/sdks/typescript/lib",
   "typescript.enablePromptUseWorkspaceTsdk": true

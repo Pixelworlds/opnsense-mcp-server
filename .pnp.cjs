@@ -43,6 +43,7 @@ const RAW_RUNTIME_STATE =
           ["@typescript-eslint/parser", "virtual:fa0b2d5675746cf3661440cdb687e1ad401879c8403a14fcd90bfa4b849aaa7e13ddd3e134df871fff499452f2647d5e493213caef666cfc8a655f4693045c1f#npm:6.21.0"],\
           ["eslint", "npm:8.57.1"],\
           ["jest", "virtual:fa0b2d5675746cf3661440cdb687e1ad401879c8403a14fcd90bfa4b849aaa7e13ddd3e134df871fff499452f2647d5e493213caef666cfc8a655f4693045c1f#npm:30.0.3"],\
+          ["jest-junit", "npm:16.0.0"],\
           ["jest-util", "npm:30.0.2"],\
           ["prettier", "npm:3.6.1"],\
           ["rollup", "npm:4.44.1"],\
@@ -1534,6 +1535,7 @@ const RAW_RUNTIME_STATE =
           ["@typescript-eslint/parser", "virtual:fa0b2d5675746cf3661440cdb687e1ad401879c8403a14fcd90bfa4b849aaa7e13ddd3e134df871fff499452f2647d5e493213caef666cfc8a655f4693045c1f#npm:6.21.0"],\
           ["eslint", "npm:8.57.1"],\
           ["jest", "virtual:fa0b2d5675746cf3661440cdb687e1ad401879c8403a14fcd90bfa4b849aaa7e13ddd3e134df871fff499452f2647d5e493213caef666cfc8a655f4693045c1f#npm:30.0.3"],\
+          ["jest-junit", "npm:16.0.0"],\
           ["jest-util", "npm:30.0.2"],\
           ["prettier", "npm:3.6.1"],\
           ["rollup", "npm:4.44.1"],\
@@ -4881,6 +4883,19 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["jest-junit", [\
+      ["npm:16.0.0", {\
+        "packageLocation": "../../.yarn/berry/cache/jest-junit-npm-16.0.0-39a50dfe1a-10c0.zip/node_modules/jest-junit/",\
+        "packageDependencies": [\
+          ["jest-junit", "npm:16.0.0"],\
+          ["mkdirp", "npm:1.0.4"],\
+          ["strip-ansi", "npm:6.0.1"],\
+          ["uuid", "npm:8.3.2"],\
+          ["xml", "npm:1.0.1"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["jest-leak-detector", [\
       ["npm:30.0.2", {\
         "packageLocation": "../../.yarn/berry/cache/jest-leak-detector-npm-30.0.2-cfecb3e66c-10c0.zip/node_modules/jest-leak-detector/",\
@@ -5598,6 +5613,13 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["mkdirp", [\
+      ["npm:1.0.4", {\
+        "packageLocation": "../../.yarn/berry/cache/mkdirp-npm-1.0.4-37f6ef56b9-10c0.zip/node_modules/mkdirp/",\
+        "packageDependencies": [\
+          ["mkdirp", "npm:1.0.4"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
       ["npm:3.0.1", {\
         "packageLocation": "../../.yarn/berry/cache/mkdirp-npm-3.0.1-f94bfa769e-10c0.zip/node_modules/mkdirp/",\
         "packageDependencies": [\
@@ -7006,6 +7028,15 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["uuid", [\
+      ["npm:8.3.2", {\
+        "packageLocation": "../../.yarn/berry/cache/uuid-npm-8.3.2-eca0baba53-10c0.zip/node_modules/uuid/",\
+        "packageDependencies": [\
+          ["uuid", "npm:8.3.2"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["v8-to-istanbul", [\
       ["npm:9.3.0", {\
         "packageLocation": "../../.yarn/berry/cache/v8-to-istanbul-npm-9.3.0-35fef658c9-10c0.zip/node_modules/v8-to-istanbul/",\
@@ -7102,6 +7133,15 @@ const RAW_RUNTIME_STATE =
           ["imurmurhash", "npm:0.1.4"],\
           ["signal-exit", "npm:4.1.0"],\
           ["write-file-atomic", "npm:5.0.1"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["xml", [\
+      ["npm:1.0.1", {\
+        "packageLocation": "../../.yarn/berry/cache/xml-npm-1.0.1-f50a7aeb8e-10c0.zip/node_modules/xml/",\
+        "packageDependencies": [\
+          ["xml", "npm:1.0.1"]\
         ],\
         "linkType": "HARD"\
       }]\

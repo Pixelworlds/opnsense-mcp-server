@@ -22,6 +22,7 @@
     "test": "jest",
     "test:coverage": "jest --coverage",
     "test:watch": "jest --watch",
+    "test:ci": "jest --coverage --ci --watchAll=false --passWithNoTests --verbose",
     "typecheck": "tsc --noEmit",
     "lint": "eslint src --ext .ts",
     "format": "prettier --write src/**/*.ts"
@@ -55,6 +56,7 @@
     "@typescript-eslint/parser": "^6.19.0",
     "eslint": "^8.56.0",
     "jest": "^30.0.3",
+    "jest-junit": "^16.0.0",
     "jest-util": "^30.0.2",
     "prettier": "^3.2.4",
     "rollup": "^4.24.4",
