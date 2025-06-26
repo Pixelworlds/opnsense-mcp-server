@@ -60,7 +60,8 @@ export default defineConfig([
         declaration: true,
         declarationDir: './dist',
         declarationMap: false,
-        sourceMap: true,
+        sourceMap: false,
+        include: ['src/index.ts'],
         compilerOptions: {
           target: 'ES2022',
           lib: ['ES2022', 'ES2019', 'ES2017', 'ES2015', 'DOM'],
@@ -70,6 +71,7 @@ export default defineConfig([
           skipLibCheck: true,
           noEmit: false,
           declaration: true,
+          emitDeclarationOnly: false,
         },
       }),
     ],

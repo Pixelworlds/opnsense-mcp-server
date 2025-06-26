@@ -2,8 +2,6 @@
 
 A comprehensive Model Context Protocol (MCP) server that provides **326 tools** for complete OPNsense firewall management through a type-safe TypeScript interface.
 
-![OPNsense MCP Server](logo.png)
-
 ## Features
 
 - 🔧 **326 Comprehensive Tools** - Complete coverage of OPNsense core and plugin APIs
