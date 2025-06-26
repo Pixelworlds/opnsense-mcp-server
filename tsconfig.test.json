@@ -6,6 +6,6 @@
     "strictNullChecks": false,
     "allowJs": true
   },
-  "include": ["tests/**/*"],
+  "include": ["tests/**/*", "src/types/globals.d.ts"],
   "exclude": []
 }
