@@ -220,47 +220,81 @@ function generateModuleToolsFromConfig(moduleName: string, isPlugin: boolean, co
     return tools;
   }
 
-  // Get module configuration from build config
-  // For now, generate basic CRUD tools for each module
-  const commonMethods = ['get', 'set', 'search', 'add', 'delete', 'toggle'];
-  
-  for (const method of commonMethods) {
+  // Define realistic endpoint-specific tools based on actual OPNsense API patterns
+  const coreModuleEndpoints: Record<string, string[]> = {
+    auth: ['users_search', 'user_get', 'user_set', 'user_add', 'user_delete', 'groups_search', 'group_get', 'group_set'],
+    backup: ['config_backup', 'get_list', 'delete', 'compare', 'download', 'restore'],
+    firewall: ['rules_search', 'rule_get', 'rule_set', 'rule_move', 'apply_changes', 'aliases_search', 'alias_get', 'alias_set'],
+    system: ['get_status', 'reboot', 'halt', 'get_health', 'get_memory_usage', 'get_disk_usage', 'get_temperature'],
+    diagnostics: ['ping_start', 'traceroute_start', 'firewall_stats', 'firewall_log', 'interface_statistics'],
+    interfaces: ['overview_get', 'vlan_search', 'vlan_add', 'vlan_get', 'vlan_set', 'vlan_delete'],
+    firmware: ['audit', 'check_updates', 'get_info', 'upgrade', 'update', 'get_config', 'set_config'],
+    services: ['restart', 'start', 'stop', 'get_status'],
+    snapshots: ['search', 'add', 'delete', 'get', 'set', 'activate'],
+    openvpn: ['instances_search', 'instance_get', 'instance_set', 'instance_add', 'instance_delete']
+  };
+
+  const pluginEndpoints: Record<string, string[]> = {
+    nginx: ['server_search', 'server_get', 'server_set', 'get_status', 'restart'],
+    haproxy: ['backend_search', 'frontend_search', 'get_status', 'restart'],
+    bind: ['zone_search', 'zone_get', 'zone_set', 'get_status'],
+    wireguard: ['peer_search', 'peer_get', 'peer_set', 'get_status'],
+    caddy: ['reverse_proxy_search', 'reverse_proxy_get', 'reverse_proxy_set', 'get_status'],
+    telegraf: ['get_config', 'set_config', 'restart'],
+    maltrail: ['get_config', 'set_config', 'get_status'],
+    crowdsec: ['bouncer_search', 'bouncer_get', 'get_status']
+  };
+
+  // Get endpoints for this module
+  let endpoints: string[];
+  if (isPlugin) {
+    endpoints = pluginEndpoints[moduleName] || ['get_status', 'get_config', 'set_config'];
+  } else {
+    endpoints = coreModuleEndpoints[moduleName] || ['get_status', 'search'];
+  }
+
+  // Generate tools for each endpoint
+  for (const endpoint of endpoints) {
     const toolName = isPlugin 
-      ? `plugin_${moduleName}_${method}`
-      : `${moduleName}_${method}`;
+      ? `plugin_${moduleName}_${endpoint}`
+      : `${moduleName}_${endpoint}`;
+    
+    // Create appropriate input schema based on endpoint type
+    let inputSchema: any = { type: 'object', properties: {}, required: [] };
+    
+    if (endpoint.includes('search')) {
+      inputSchema.properties = {
+        current: { type: 'integer', description: 'Current page', default: 1 },
+        rowCount: { type: 'integer', description: 'Rows per page', default: 20 },
+        searchPhrase: { type: 'string', description: 'Search phrase' }
+      };
+    } else if (endpoint.includes('get') && !endpoint.includes('status')) {
+      inputSchema.properties = {
+        uuid: { type: 'string', description: 'Item UUID' }
+      };
+      inputSchema.required = ['uuid'];
+    } else if (endpoint.includes('set')) {
+      inputSchema.properties = {
+        uuid: { type: 'string', description: 'Item UUID' },
+        data: { type: 'object', description: 'Configuration data' }
+      };
+      inputSchema.required = ['uuid', 'data'];
+    } else if (endpoint.includes('add')) {
+      inputSchema.properties = {
+        data: { type: 'object', description: 'Configuration data' }
+      };
+      inputSchema.required = ['data'];
+    } else if (endpoint.includes('delete')) {
+      inputSchema.properties = {
+        uuid: { type: 'string', description: 'Item UUID' }
+      };
+      inputSchema.required = ['uuid'];
+    }
     
     tools.push({
       name: toolName,
-      description: `${method} operation for ${isPlugin ? 'plugin' : 'core'} module ${moduleName}`,
-      inputSchema: {
-        type: 'object',
-        properties: {
-          // Generic parameters that most endpoints accept
-          ...(method === 'search' && {
-            current: { type: 'integer', description: 'Current page', default: 1 },
-            rowCount: { type: 'integer', description: 'Rows per page', default: 20 },
-            searchPhrase: { type: 'string', description: 'Search phrase' }
-          }),
-          ...(method === 'get' && {
-            uuid: { type: 'string', description: 'Item UUID' }
-          }),
-          ...(method === 'set' && {
-            uuid: { type: 'string', description: 'Item UUID' },
-            data: { type: 'object', description: 'Item data' }
-          }),
-          ...(method === 'add' && {
-            data: { type: 'object', description: 'Item data' }
-          }),
-          ...(method === 'delete' && {
-            uuid: { type: 'string', description: 'Item UUID' }
-          }),
-          ...(method === 'toggle' && {
-            uuid: { type: 'string', description: 'Item UUID' },
-            enabled: { type: 'boolean', description: 'Enable or disable' }
-          })
-        },
-        required: []
-      }
+      description: `${endpoint.replace(/_/g, ' ')} for ${isPlugin ? 'plugin' : 'core'} module ${moduleName}`,
+      inputSchema
     });
   }
 
