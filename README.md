@@ -161,6 +161,212 @@ yarn build
 yarn start
 ```
 
+## Custom Module Configuration
+
+The server includes a powerful build configuration system that allows you to customize which OPNsense modules and plugins are included in your build. This is useful for reducing bundle size, improving performance, or creating specialized builds for specific use cases.
+
+### Build Configuration File
+
+The module selection is controlled by the Rollup build configuration in `rollup.config.js`. The build system uses a configuration object that specifies which core modules and plugins to include:
+
+```javascript
+// rollup.config.js - Build Configuration Example
+const buildConfig = {
+  "core": {
+    "description": "Core OPNsense modules - always included",
+    "modules": {
+      "auth": true,           // User authentication and management
+      "backup": true,         // Configuration backup and restore
+      "firewall": true,       // Firewall rules and management
+      "interfaces": true,     // Network interface configuration
+      "system": true,         // System status and management
+      "diagnostics": false,   // Disable diagnostic tools
+      "firmware": false,      // Disable firmware management
+      // ... other core modules
+    }
+  },
+  "plugins": {
+    "description": "Plugin modules - can be selectively included",
+    "includeAll": false,      // Set to true to include all plugins
+    "modules": {
+      "nginx": true,          // Include Nginx plugin
+      "haproxy": true,        // Include HAProxy plugin
+      "wg_wireguard": true,   // Include WireGuard plugin
+      "bind": false,          // Exclude BIND DNS plugin
+      "collectd": false,      // Exclude Collectd plugin
+      // ... other plugin modules
+    }
+  }
+}
+```
+
+### Available Core Modules
+
+The following core modules can be selectively enabled/disabled:
+
+| Module | Description | Default |
+|--------|-------------|---------|
+| `auth` | User authentication and management | ✅ |
+| `backup` | Configuration backup and restore | ✅ |
+| `cron` | Scheduled task management | ✅ |
+| `dashboard` | Dashboard configuration | ✅ |
+| `dhcp` | DHCP server management | ✅ |
+| `diagnostics` | System diagnostics and monitoring | ✅ |
+| `firewall` | Firewall rules and aliases | ✅ |
+| `firmware` | Firmware and package management | ✅ |
+| `hasync` | High availability synchronization | ✅ |
+| `interfaces` | Network interface configuration | ✅ |
+| `ipsec` | IPsec VPN management | ✅ |
+| `nat` | Network address translation | ✅ |
+| `openvpn` | OpenVPN server/client management | ✅ |
+| `routes` | Static routing configuration | ✅ |
+| `services` | System service management | ✅ |
+| `system` | System status and configuration | ✅ |
+| `users` | User and group management | ✅ |
+
+### Available Plugin Modules
+
+Popular plugins that can be selectively included:
+
+| Plugin | Description | Tier |
+|--------|-------------|------|
+| `nginx` | Nginx web server and reverse proxy | 1 |
+| `haproxy` | HAProxy load balancer | 1 |
+| `wg_wireguard` | WireGuard VPN | 1 |
+| `bind` | BIND DNS server | 1 |
+| `caddy` | Caddy web server | 1 |
+| `telegraf` | Telegraf metrics collection | 2 |
+| `net_snmp` | SNMP monitoring | 2 |
+| `maltrail` | Malicious traffic detection | 2 |
+| `crowdsec` | CrowdSec security engine | 2 |
+
+### Creating Custom Builds
+
+#### 1. Minimal Core Build
+For a lightweight build with only essential functionality:
+
+```javascript
+const buildConfig = {
+  "core": {
+    "modules": {
+      "system": true,
+      "firewall": true,
+      "interfaces": true,
+      // Disable everything else
+      "auth": false,
+      "backup": false,
+      "diagnostics": false,
+      // ... set others to false
+    }
+  },
+  "plugins": {
+    "includeAll": false,
+    "modules": {} // No plugins
+  }
+}
+```
+
+#### 2. VPN-Focused Build
+For VPN management and security:
+
+```javascript
+const buildConfig = {
+  "core": {
+    "modules": {
+      "system": true,
+      "firewall": true,
+      "interfaces": true,
+      "openvpn": true,
+      "ipsec": true,
+      "auth": true,
+      "backup": true,
+      // Disable non-VPN modules
+      "dhcp": false,
+      "nat": false,
+      // ... 
+    }
+  },
+  "plugins": {
+    "includeAll": false,
+    "modules": {
+      "wg_wireguard": true,  // WireGuard VPN
+      "nginx": true,         // For VPN portal
+      // Exclude other plugins
+    }
+  }
+}
+```
+
+#### 3. Web Services Build
+For web hosting and load balancing:
+
+```javascript
+const buildConfig = {
+  "core": {
+    "modules": {
+      "system": true,
+      "firewall": true,
+      "interfaces": true,
+      "backup": true,
+      // Web-specific modules
+      "nat": true,
+      // ...
+    }
+  },
+  "plugins": {
+    "includeAll": false,
+    "modules": {
+      "nginx": true,      // Web server
+      "haproxy": true,    // Load balancer
+      "caddy": true,      // Alternative web server
+      "bind": true,       // DNS management
+    }
+  }
+}
+```
+
+### Building with Custom Configuration
+
+1. **Edit the configuration** in `rollup.config.js`
+2. **Rebuild the project**:
+   ```bash
+   yarn build
+   ```
+3. **Test your custom build**:
+   ```bash
+   yarn start --help
+   ```
+
+### Module Dependencies
+
+When customizing your build, consider these dependencies:
+
+- **backup** module is recommended for all builds (disaster recovery)
+- **system** module provides essential monitoring capabilities
+- **firewall** module is typically required for security management
+- **interfaces** module is needed for network configuration
+
+### Performance Impact
+
+**Smaller builds provide:**
+- ✅ Faster startup times
+- ✅ Reduced memory usage  
+- ✅ Smaller bundle size
+- ✅ Fewer API endpoints to manage
+
+**Trade-offs:**
+- ❌ Reduced functionality
+- ❌ Some advanced workflows may not be available
+- ❌ Plugin-specific features are excluded
+
+### Best Practices
+
+1. **Start with defaults**: Begin with the full build and identify unused modules
+2. **Keep essentials**: Always include `system`, `firewall`, and `backup` modules
+3. **Test thoroughly**: Verify your use cases work with the custom build
+4. **Document changes**: Keep track of which modules you've disabled and why
+5. **Version control**: Commit your custom configuration for reproducible builds
+
 ### Development Scripts
 
 ```bash
