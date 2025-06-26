@@ -5,6 +5,8 @@ import {
     ListToolsRequestSchema, ReadResourceRequestSchema
 } from '@modelcontextprotocol/sdk/types.js';
 import { OPNsenseClient } from '@richard-stovall/opnsense-typescript-client';
+import { execSync } from 'child_process';
+import { existsSync } from 'fs';
 
 import { getAvailableModules } from '../utils/plugin-checker.js';
 import { generatePromptContent, generatePrompts } from '../utils/prompt-generator.js';
@@ -59,6 +61,105 @@ class OPNsenseMCPServer {
     });
   }
 
+  private detectNodePath(): string {
+    try {
+      // First try to get the current Node.js executable path
+      const currentNodePath = process.execPath;
+      
+      // Try to get the actual node path that would be used in a shell
+      try {
+        // Use 'which node' or 'where node' to find the Node.js binary
+        const whichCommand = process.platform === 'win32' ? 'where node' : 'which node';
+        const whichResult = execSync(whichCommand, { 
+          encoding: 'utf8',
+          timeout: 5000,
+          stdio: ['ignore', 'pipe', 'ignore']
+        }).trim();
+        
+        if (whichResult && whichResult !== currentNodePath) {
+          // If 'which' gives us a different path, it might be a symlink or wrapper
+          // Try to resolve the real path for version managers
+          try {
+            const realPath = execSync(`readlink -f "${whichResult}"`, {
+              encoding: 'utf8',
+              timeout: 5000,
+              stdio: ['ignore', 'pipe', 'ignore']
+            }).trim();
+            
+            if (realPath && realPath !== whichResult) {
+              return realPath;
+            }
+          } catch {
+            // readlink failed, use the which result
+          }
+          
+          return whichResult;
+        }
+      } catch {
+        // which/where command failed, continue with other methods
+      }
+      
+      // For nvm users, try to get the nvm current version path
+      if (process.env.NVM_DIR || process.env.NVM_BIN) {
+        try {
+          const nvmNodePath = execSync('nvm which current 2>/dev/null || echo ""', {
+            encoding: 'utf8',
+            timeout: 5000,
+            shell: '/bin/bash',
+            stdio: ['ignore', 'pipe', 'ignore']
+          }).trim();
+          
+          if (nvmNodePath && nvmNodePath !== '') {
+            return nvmNodePath;
+          }
+        } catch {
+          // nvm command failed
+        }
+      }
+      
+      // For asdf users, try to get the asdf node path
+      if (process.env.ASDF_DIR || process.env.ASDF_DATA_DIR) {
+        try {
+          const asdfNodePath = execSync('asdf which node 2>/dev/null || echo ""', {
+            encoding: 'utf8',
+            timeout: 5000,
+            stdio: ['ignore', 'pipe', 'ignore']
+          }).trim();
+          
+          if (asdfNodePath && asdfNodePath !== '') {
+            return asdfNodePath;
+          }
+        } catch {
+          // asdf command failed
+        }
+      }
+      
+      // Check common Node.js installation paths
+      const commonPaths = [
+        '/usr/local/bin/node',
+        '/usr/bin/node',
+        '/opt/homebrew/bin/node',
+        `${process.env.HOME}/.local/bin/node`,
+        `${process.env.HOME}/.asdf/shims/node`,
+        `${process.env.HOME}/.nvm/current/bin/node`
+      ];
+      
+      for (const path of commonPaths) {
+        if (path && existsSync(path)) {
+          return path;
+        }
+      }
+      
+      // Fall back to current process executable path
+      return currentNodePath;
+      
+    } catch (error) {
+      // If all detection methods fail, fall back to 'node'
+      console.error('Node path detection failed:', error);
+      return 'node';
+    }
+  }
+
   private setupHandlers() {
     // Tool handlers
     this.server.setRequestHandler(ListToolsRequestSchema, async () => {
@@ -99,11 +200,14 @@ class OPNsenseMCPServer {
             opnsense: { url, apiKey, apiSecret, verifySsl },
           };
           
+          // Detect actual Node.js path
+          const nodePath = this.detectNodePath();
+          
           // Return MCP server configuration JSON
           const mcpConfig = {
             mcpServers: {
               "opnsense": {
-                command: "node",
+                command: nodePath,
                 args: ["/Users/rstovall/Development/opnsense-mcp-server/dist/index.js"],
                 env: {
                   OPNSENSE_URL: url,
