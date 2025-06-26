@@ -41,8 +41,7 @@ export default defineConfig([
               "pppoe": true, "pptp": true, "proxy": true, "proxysso": true, "qemu": true,
               "quagga": true, "realtek": true, "redis": true, "rfc2136": true, "routed": true,
               "siproxd": true, "smart": true, "sslh": true, "stunnel": true, "syslog": true,
-              "tailscale": true, "tayga": true, "telegraf": true, "theme_cicada": true, "theme_rebellion": true,
-              "theme_tukan": true, "theme_vicuna": true, "tinc": true, "tor": true, "udpbroadcastrelay": true,
+              "tailscale": true, "tayga": true, "telegraf": true, "tinc": true, "tor": true, "udpbroadcastrelay": true,
               "unbound": true, "upnp": true, "vnstat": true, "webfilter": true, "wg_wireguard": true,
               "wol": true, "xen": true, "zerotier": true, "zfs": true
             }

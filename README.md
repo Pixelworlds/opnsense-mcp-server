@@ -226,7 +226,7 @@ The following core modules can be selectively enabled/disabled:
 
 ### Available Plugin Modules
 
-All 64 plugin modules that can be selectively included:
+All 75 plugin modules that can be selectively included:
 
 #### **Tier 1 - Core Network Services (Full API Coverage)**
 | Plugin | Description |
@@ -314,14 +314,6 @@ All 64 plugin modules that can be selectively included:
 | `xen` | Xen hypervisor support |
 | `zerotier` | ZeroTier software-defined networking |
 | `zfs` | ZFS filesystem management |
-
-#### **Theme Plugins**
-| Plugin | Description |
-|--------|-------------|
-| `theme_cicada` | Cicada dashboard theme |
-| `theme_rebellion` | Rebellion dashboard theme |
-| `theme_tukan` | Tukan dashboard theme |
-| `theme_vicuna` | Vicuna dashboard theme |
 
 ### Creating Custom Builds
 
