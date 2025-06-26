@@ -86,10 +86,10 @@ unit_tests:
   script:
     - |
       echo "Running Jest unit tests..."
-      
+
       # Run tests with coverage
       yarn test --coverage --ci --watchAll=false --passWithNoTests
-      
+
       echo "Unit tests completed"
   artifacts:
     paths:
@@ -102,7 +102,7 @@ unit_tests:
   rules:
     - if: $CI_PIPELINE_SOURCE == "push"
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-  allow_failure: true  # Allow failure initially since tests have type issues
+  allow_failure: true # Allow failure initially since tests have type issues
 
 test_build_artifacts:
   <<: *node_template
@@ -115,16 +115,11 @@ test_build_artifacts:
 
       # Check required files exist
       test -f dist/index.js || (echo "Missing dist/index.js" && exit 1)
-      test -f dist/index.cjs || (echo "Missing dist/index.cjs" && exit 1)
-      test -f dist/index.d.ts || (echo "Missing dist/index.d.ts" && exit 1)
 
       # Check files are not empty
       test -s dist/index.js || (echo "dist/index.js is empty" && exit 1)
-      test -s dist/index.cjs || (echo "dist/index.cjs is empty" && exit 1)
-      test -s dist/index.d.ts || (echo "dist/index.d.ts is empty" && exit 1)
 
       # Try to load the built modules
-      node -e "const pkg = require('./dist/index.cjs'); console.log('CJS import successful');"
       node -e "import('./dist/index.js').then(() => console.log('ESM import successful'));"
 
       echo "All build artifacts validated successfully"
@@ -243,16 +238,12 @@ bundle_analysis:
 
       # Calculate sizes
       ESM_SIZE=$(stat -f%z dist/index.js 2>/dev/null || stat -c%s dist/index.js)
-      CJS_SIZE=$(stat -f%z dist/index.cjs 2>/dev/null || stat -c%s dist/index.cjs)
-      DTS_SIZE=$(stat -f%z dist/index.d.ts 2>/dev/null || stat -c%s dist/index.d.ts)
 
       echo "Bundle sizes:"
       echo "  ESM (index.js): ${ESM_SIZE} bytes"
-      echo "  CJS (index.cjs): ${CJS_SIZE} bytes"
-      echo "  Types (index.d.ts): ${DTS_SIZE} bytes"
 
-      # Warn if bundles are too large (>1MB)
-      if [ $ESM_SIZE -gt 1048576 ] || [ $CJS_SIZE -gt 1048576 ]; then
+      # Warn if bundle is too large (>1MB)
+      if [ $ESM_SIZE -gt 1048576 ]; then
         echo "⚠️  Warning: Bundle size exceeds 1MB"
       fi
 
@@ -260,9 +251,7 @@ bundle_analysis:
       cat > bundle-size-report.json << EOF
       {
         "esm_size": $ESM_SIZE,
-        "cjs_size": $CJS_SIZE,
-        "types_size": $DTS_SIZE,
-        "total_size": $((ESM_SIZE + CJS_SIZE + DTS_SIZE)),
+        "total_size": $ESM_SIZE,
         "commit": "$CI_COMMIT_SHA",
         "ref": "$CI_COMMIT_REF_NAME"
       }

@@ -163,28 +163,8 @@ class OPNsenseMCPServer {
   private setupHandlers() {
     // Tool handlers
     this.server.setRequestHandler(ListToolsRequestSchema, async () => {
-      if (!this.context.client) {
-        // Return only configuration tool if not connected
-        return {
-          tools: [{
-            name: 'configure_opnsense_connection',
-            description: 'Configure the OPNsense API connection',
-            inputSchema: {
-              type: 'object',
-              properties: {
-                url: { type: 'string', description: 'OPNsense API URL' },
-                apiKey: { type: 'string', description: 'API Key' },
-                apiSecret: { type: 'string', description: 'API Secret' },
-                verifySsl: { type: 'boolean', description: 'Verify SSL certificate' },
-              },
-              required: ['url', 'apiKey', 'apiSecret'],
-            },
-          }],
-        };
-      }
-
-      // Generate all available tools
-      const tools = generateAllTools(this.context.client, this.context);
+      // Generate all available tools based on build config (not runtime client)
+      const tools = generateAllTools(this.context);
       return { tools };
     });
 
@@ -195,15 +175,11 @@ class OPNsenseMCPServer {
       if (name === 'configure_opnsense_connection') {
         try {
           const { url, apiKey, apiSecret, verifySsl = true } = args as any;
-          this.initializeClient({ url, apiKey, apiSecret, verifySsl });
-          this.context.config = {
-            opnsense: { url, apiKey, apiSecret, verifySsl },
-          };
           
           // Detect actual Node.js path
           const nodePath = this.detectNodePath();
           
-          // Return MCP server configuration JSON
+          // Return MCP server configuration JSON (do not actually configure)
           const mcpConfig = {
             mcpServers: {
               "opnsense": {
@@ -229,7 +205,7 @@ class OPNsenseMCPServer {
           return {
             content: [{
               type: 'text',
-              text: `Error configuring connection: ${error.message}`,
+              text: `Error generating configuration: ${error.message}`,
             }],
           };
         }
@@ -241,7 +217,16 @@ class OPNsenseMCPServer {
       const moduleName = parts[1] || '';
       const methodName = parts.slice(2).join('_');
 
-      // Generate and execute handler
+      // Generate and execute handler with runtime client
+      if (!this.context.client) {
+        return {
+          content: [{
+            type: 'text',
+            text: 'Error: OPNsense client not configured. Please configure using environment variables.',
+          }],
+        };
+      }
+
       const handler = generateToolHandler(moduleName, methodName, isPlugin, this.context);
       return handler(args);
     });
