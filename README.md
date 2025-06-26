@@ -226,19 +226,102 @@ The following core modules can be selectively enabled/disabled:
 
 ### Available Plugin Modules
 
-Popular plugins that can be selectively included:
+All 64 plugin modules that can be selectively included:
 
-| Plugin | Description | Tier |
-|--------|-------------|------|
-| `nginx` | Nginx web server and reverse proxy | 1 |
-| `haproxy` | HAProxy load balancer | 1 |
-| `wg_wireguard` | WireGuard VPN | 1 |
-| `bind` | BIND DNS server | 1 |
-| `caddy` | Caddy web server | 1 |
-| `telegraf` | Telegraf metrics collection | 2 |
-| `net_snmp` | SNMP monitoring | 2 |
-| `maltrail` | Malicious traffic detection | 2 |
-| `crowdsec` | CrowdSec security engine | 2 |
+#### **Tier 1 - Core Network Services (Full API Coverage)**
+| Plugin | Description |
+|--------|-------------|
+| `nginx` | Nginx web server and reverse proxy |
+| `haproxy` | HAProxy load balancer and high availability |
+| `wg_wireguard` | WireGuard modern VPN protocol |
+| `bind` | BIND DNS server with full zone management |
+| `caddy` | Caddy web server with automatic HTTPS |
+
+#### **Tier 2 - Monitoring & Security (Essential Features)**
+| Plugin | Description |
+|--------|-------------|
+| `telegraf` | Telegraf metrics collection and monitoring |
+| `net_snmp` | SNMP monitoring and network management |
+| `maltrail` | Malicious traffic detection and analysis |
+| `crowdsec` | CrowdSec collaborative security engine |
+| `netdata` | Real-time performance monitoring |
+| `ntopng` | Network traffic monitoring and analysis |
+| `collectd` | System statistics collection daemon |
+| `monit` | System monitoring and process management |
+
+#### **Tier 3 - Specialized Services (Basic Operations)**
+| Plugin | Description |
+|--------|-------------|
+| `apcupsd` | APC UPS daemon for power management |
+| `arpscanner` | ARP network scanner and discovery |
+| `backupfile` | File-based backup solutions |
+| `bsdinstaller` | BSD system installer utilities |
+| `clamav` | ClamAV antivirus engine |
+| `custom_opn_reports` | Custom reporting and analytics |
+| `ddclient` | Dynamic DNS client |
+| `dns` | DNS utilities and management |
+| `dnsmasq` | Lightweight DNS/DHCP server |
+| `etpro_telemetry` | Emerging Threats Pro telemetry |
+| `firewall` | Enhanced firewall management |
+| `frr` | FRRouting dynamic routing suite |
+| `ftp` | FTP server and file transfer |
+| `git_backup` | Git-based configuration backup |
+| `gridscale` | Gridscale cloud integration |
+| `hello` | Hello world plugin for testing |
+| `ifopn` | Interface operations and management |
+| `isc_dhcp` | ISC DHCP server |
+| `kea` | Kea DHCP server suite |
+| `kea_ctrl_agent` | Kea DHCP control agent |
+| `kea_dhcp4` | Kea DHCPv4 server |
+| `kea_dhcp6` | Kea DHCPv6 server |
+| `lldpd` | Link Layer Discovery Protocol daemon |
+| `loopback` | Loopback interface management |
+| `mdns_repeater` | Multicast DNS repeater |
+| `miniupnpd` | UPnP Internet Gateway Device |
+| `mpd` | Multi-link PPP daemon |
+| `munin` | Munin monitoring and graphing |
+| `netflow` | NetFlow traffic analysis |
+| `nrpe` | Nagios Remote Plugin Executor |
+| `nut` | Network UPS Tools |
+| `openconnect` | OpenConnect VPN server |
+| `opendkim` | OpenDKIM email authentication |
+| `postfix` | Postfix mail transfer agent |
+| `pppoe` | PPPoE server and client |
+| `pptp` | PPTP VPN server |
+| `proxy` | HTTP/HTTPS proxy server |
+| `proxysso` | Proxy single sign-on |
+| `qemu` | QEMU virtualization |
+| `quagga` | Quagga routing software suite |
+| `realtek` | Realtek network driver support |
+| `redis` | Redis in-memory data store |
+| `rfc2136` | RFC2136 dynamic DNS updates |
+| `routed` | RIP routing daemon |
+| `siproxd` | SIP proxy server |
+| `smart` | S.M.A.R.T. disk monitoring |
+| `sslh` | SSL/SSH multiplexer |
+| `stunnel` | SSL tunnel for TCP connections |
+| `syslog` | System logging and log management |
+| `tailscale` | Tailscale mesh VPN |
+| `tayga` | NAT64 implementation |
+| `tinc` | Tinc mesh VPN |
+| `tor` | Tor anonymity network |
+| `udpbroadcastrelay` | UDP broadcast relay |
+| `unbound` | Unbound DNS resolver |
+| `upnp` | Universal Plug and Play |
+| `vnstat` | Network traffic statistics |
+| `webfilter` | Web content filtering |
+| `wol` | Wake-on-LAN functionality |
+| `xen` | Xen hypervisor support |
+| `zerotier` | ZeroTier software-defined networking |
+| `zfs` | ZFS filesystem management |
+
+#### **Theme Plugins**
+| Plugin | Description |
+|--------|-------------|
+| `theme_cicada` | Cicada dashboard theme |
+| `theme_rebellion` | Rebellion dashboard theme |
+| `theme_tukan` | Tukan dashboard theme |
+| `theme_vicuna` | Vicuna dashboard theme |
 
 ### Creating Custom Builds
 
