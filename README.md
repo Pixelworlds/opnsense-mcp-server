@@ -13,57 +13,98 @@ A comprehensive Model Context Protocol (MCP) server that provides **326 tools** 
 
 ## Installation
 
-```bash
-# Clone the repository
-git clone https://github.com/richard-stovall/opnsense-mcp-server.git
-cd opnsense-mcp-server
+### As an MCP Server
 
-# Install dependencies with Yarn 4.9.2
-yarn install
+This package is designed to be used as an MCP (Model Context Protocol) server with AI assistants like Claude Desktop, Cursor, or other MCP-compatible clients.
 
-# Build the project
-yarn build
-```
+### Prerequisites
 
-## Quick Start
+- Node.js 18 or higher
+- An OPNsense firewall with API access enabled
+- API key and secret from your OPNsense installation
 
-### Basic Usage
+### Install from npm
 
 ```bash
-yarn start --host https://192.168.1.1 --api-key your-api-key --api-secret your-api-secret
+npm install -g @richard-stovall/opnsense-mcp-server
 ```
 
-### With Plugin Support
+## Usage as an MCP Server
 
-```bash
-yarn start --host https://192.168.1.1 --api-key your-api-key --api-secret your-api-secret --plugins
+### Claude Desktop Configuration
+
+Add the following to your Claude Desktop configuration file:
+
+**macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`  
+**Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
+
+```json
+{
+  "mcpServers": {
+    "opnsense": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@richard-stovall/opnsense-mcp-server"
+      ],
+      "env": {
+        "OPNSENSE_HOST": "https://192.168.1.1",
+        "OPNSENSE_API_KEY": "your-api-key",
+        "OPNSENSE_API_SECRET": "your-api-secret",
+        "OPNSENSE_VERIFY_SSL": "false"
+      }
+    }
+  }
+}
 ```
 
-### Without SSL Verification (Development Only)
+### Cursor Configuration
 
-```bash
-yarn start --host https://192.168.1.1 --api-key your-api-key --api-secret your-api-secret --no-verify-ssl
+Add to your Cursor settings (`.cursor/mcp.json` in your project or `~/.cursor/mcp.json` globally):
+
+```json
+{
+  "mcpServers": {
+    "opnsense": {
+      "command": "npx",
+      "args": [
+        "-y", 
+        "@richard-stovall/opnsense-mcp-server"
+      ],
+      "env": {
+        "OPNSENSE_HOST": "https://192.168.1.1",
+        "OPNSENSE_API_KEY": "your-api-key",
+        "OPNSENSE_API_SECRET": "your-api-secret",
+        "OPNSENSE_VERIFY_SSL": "false"
+      }
+    }
+  }
+}
 ```
 
-## Configuration
+### Configuration Options
 
-### Command Line Options
+The server accepts configuration through environment variables:
 
-- `--host` - OPNsense host URL (required)
-- `--api-key` - API key for authentication (required)
-- `--api-secret` - API secret for authentication (required)
-- `--plugins` - Enable plugin tools (optional, adds 145 additional tools)
-- `--no-verify-ssl` - Disable SSL verification (development only)
+- `OPNSENSE_HOST` - OPNsense host URL (required)
+- `OPNSENSE_API_KEY` - API key for authentication (required)
+- `OPNSENSE_API_SECRET` - API secret for authentication (required)
+- `OPNSENSE_PLUGINS` - Set to "true" to enable plugin tools (optional)
+- `OPNSENSE_VERIFY_SSL` - Set to "false" to disable SSL verification (development only)
 
-### Environment Variables
+## How It Works
 
-You can also set credentials via environment variables:
+Once configured, the MCP server provides your AI assistant with direct access to your OPNsense firewall. You can interact with it using natural language:
 
-```bash
-export OPNSENSE_HOST=https://192.168.1.1
-export OPNSENSE_API_KEY=your-api-key
-export OPNSENSE_API_SECRET=your-api-secret
-```
+**Example prompts:**
+- "Show me the current firewall status"
+- "List all active VPN connections"
+- "Create a new firewall rule to allow HTTPS traffic from 192.168.1.0/24"
+- "Check system health and resource usage"
+- "Backup the current configuration"
+- "Show me recent security alerts"
+
+The AI assistant will use the appropriate OPNsense tools to execute these requests and provide formatted responses.
 
 ## Available Tools
 
@@ -101,35 +142,36 @@ export OPNSENSE_API_SECRET=your-api-secret
 - **Tier 2 Plugins**: Telegraf, NetSNMP, Maltrail, CrowdSec
 - **Tier 3 Plugins**: 40+ additional plugins
 
-## Development
+## Building from Source
 
-### Scripts
+If you want to contribute or customize the server:
+
+```bash
+# Clone the repository
+git clone https://github.com/richard-stovall/opnsense-mcp-server.git
+cd opnsense-mcp-server
+
+# Install dependencies with Yarn 4.9.2
+yarn install
+
+# Build the project
+yarn build
+
+# Run locally
+yarn start
+```
+
+### Development Scripts
 
 ```bash
 yarn build          # Build the project
 yarn watch          # Build with watch mode
 yarn dev            # Run with hot reload
-yarn start          # Start the MCP server
 yarn test           # Run tests
 yarn test:coverage  # Run tests with coverage
 yarn typecheck      # Type check without emitting
 yarn lint           # Lint the code
 yarn format         # Format code with Prettier
-```
-
-### Project Structure
-
-```
-├── src/
-│   ├── index.ts              # Main entry point
-│   ├── server/               # MCP server implementation
-│   ├── utils/                # Utility functions
-│   └── types/                # TypeScript type definitions
-├── tests/                    # Test files
-├── dist/                     # Built output
-├── package.json              # Project configuration
-├── tsconfig.json             # TypeScript configuration
-└── rollup.config.js          # Build configuration
 ```
 
 ### Technology Stack
@@ -191,12 +233,6 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - Built on the [Model Context Protocol](https://modelcontextprotocol.io/) by Anthropic
 - Powered by [@richard-stovall/opnsense-typescript-client](https://www.npmjs.com/package/@richard-stovall/opnsense-typescript-client)
 - Inspired by the OPNsense community
-
-## Support
-
-- 📧 Email: richard@stovall.com
-- 🐛 Issues: [GitHub Issues](https://github.com/richard-stovall/opnsense-mcp-server/issues)
-- 📖 Documentation: [API Coverage](API_COVERAGE.md)
 
 ---
 
