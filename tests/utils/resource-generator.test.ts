@@ -14,9 +14,9 @@ describe('Resource Generator', () => {
     it('should generate resources for available core modules', () => {
       const resources = generateResources(mockContext);
 
-      const systemResources = resources.filter(r => r.uri.includes('system'));
-      const firewallResources = resources.filter(r => r.uri.includes('firewall'));
-      const interfaceResources = resources.filter(r => r.uri.includes('interfaces'));
+      const systemResources = resources.filter((r) => r.uri.includes('system'));
+      const firewallResources = resources.filter((r) => r.uri.includes('firewall'));
+      const interfaceResources = resources.filter((r) => r.uri.includes('interfaces'));
 
       expect(systemResources.length).toBeGreaterThan(0);
       expect(firewallResources.length).toBeGreaterThan(0);
@@ -26,8 +26,8 @@ describe('Resource Generator', () => {
     it('should generate resources for available plugin modules', () => {
       const resources = generateResources(mockContext);
 
-      const nginxResources = resources.filter(r => r.uri.includes('nginx'));
-      const haproxyResources = resources.filter(r => r.uri.includes('haproxy'));
+      const nginxResources = resources.filter((r) => r.uri.includes('nginx'));
+      const haproxyResources = resources.filter((r) => r.uri.includes('haproxy'));
 
       expect(nginxResources.length).toBeGreaterThan(0);
       expect(haproxyResources.length).toBe(0); // Not in availableModules
@@ -36,7 +36,7 @@ describe('Resource Generator', () => {
     it('should generate properly formatted resources', () => {
       const resources = generateResources(mockContext);
 
-      resources.forEach(resource => {
+      resources.forEach((resource) => {
         expect(resource.uri).toMatch(/^opnsense:\/\//);
         expect(resource.name).toBeTruthy();
         expect(resource.description).toBeTruthy();

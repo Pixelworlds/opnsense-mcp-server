@@ -24,7 +24,8 @@
     "test:watch": "jest --watch",
     "test:ci": "jest --coverage --ci --watchAll=false --passWithNoTests --verbose",
     "typecheck": "tsc --noEmit",
-    "lint": "eslint src --ext .ts",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "format": "prettier --write src/**/*.ts"
   },
   "keywords": [

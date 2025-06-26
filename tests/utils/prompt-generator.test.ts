@@ -22,13 +22,13 @@ describe('Prompt Generator', () => {
     it('should generate prompts for available core modules', () => {
       const prompts = generatePrompts(mockContext);
 
-      const corePrompts = prompts.filter(p => 
+      const corePrompts = prompts.filter((p) => 
         ['system_health_check', 'security_audit', 'network_troubleshooting'].includes(p.name)
       );
 
       expect(corePrompts.length).toBeGreaterThan(0);
       
-      const healthCheck = prompts.find(p => p.name === 'system_health_check');
+      const healthCheck = prompts.find((p) => p.name === 'system_health_check');
       expect(healthCheck).toBeDefined();
       expect(healthCheck?.description).toContain('comprehensive system health check');
     });
@@ -36,13 +36,13 @@ describe('Prompt Generator', () => {
     it('should generate prompts for available plugin modules', () => {
       const prompts = generatePrompts(mockContext);
 
-      const pluginPrompts = prompts.filter(p => 
+      const pluginPrompts = prompts.filter((p) => 
         ['wireguard_vpn_setup', 'nginx_site_setup'].includes(p.name)
       );
 
       expect(pluginPrompts.length).toBeGreaterThan(0);
       
-      const wireguardSetup = prompts.find(p => p.name === 'wireguard_vpn_setup');
+      const wireguardSetup = prompts.find((p) => p.name === 'wireguard_vpn_setup');
       expect(wireguardSetup).toBeDefined();
       expect(wireguardSetup?.description).toContain('WireGuard VPN connection');
     });
@@ -55,8 +55,8 @@ describe('Prompt Generator', () => {
 
       const prompts = generatePrompts(limitedContext);
 
-      const firewallPrompts = prompts.filter(p => p.name === 'security_audit');
-      const pluginPrompts = prompts.filter(p => p.name.includes('wireguard'));
+      const firewallPrompts = prompts.filter((p) => p.name === 'security_audit');
+      const pluginPrompts = prompts.filter((p) => p.name.includes('wireguard'));
 
       expect(firewallPrompts.length).toBe(0);
       expect(pluginPrompts.length).toBe(0);
@@ -65,11 +65,11 @@ describe('Prompt Generator', () => {
     it('should include required and optional arguments', () => {
       const prompts = generatePrompts(mockContext);
 
-      const troubleshooting = prompts.find(p => p.name === 'network_troubleshooting');
+      const troubleshooting = prompts.find((p) => p.name === 'network_troubleshooting');
       expect(troubleshooting).toBeDefined();
       
-      const requiredArgs = troubleshooting?.arguments.filter(arg => arg.required);
-      const optionalArgs = troubleshooting?.arguments.filter(arg => !arg.required);
+      const requiredArgs = troubleshooting?.arguments.filter((arg) => arg.required);
+      const optionalArgs = troubleshooting?.arguments.filter((arg) => !arg.required);
 
       expect(requiredArgs?.length).toBeGreaterThan(0);
       expect(optionalArgs?.length).toBeGreaterThan(0);
