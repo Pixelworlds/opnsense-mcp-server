@@ -334,7 +334,10 @@ export function generateAllTools(context: ServerContext): Tool[] {
   for (const moduleName of coreModules) {
     if (context.availableModules.has(`core.${moduleName}`)) {
       const moduleTools = generateModuleToolsFromConfig(moduleName, false, context);
+      console.error(`Core module ${moduleName}: generated ${moduleTools.length} tools`);
       tools.push(...moduleTools);
+    } else {
+      console.error(`Core module ${moduleName}: not found in availableModules`);
     }
   }
 
@@ -345,8 +348,10 @@ export function generateAllTools(context: ServerContext): Tool[] {
 
   for (const pluginName of pluginModules) {
     const moduleTools = generateModuleToolsFromConfig(pluginName, true, context);
+    console.error(`Plugin module ${pluginName}: generated ${moduleTools.length} tools`);
     tools.push(...moduleTools);
   }
 
+  console.error(`Total tools generated: ${tools.length}`);
   return tools;
 }
