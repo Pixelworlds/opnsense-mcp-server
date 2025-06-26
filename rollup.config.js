@@ -72,11 +72,7 @@ export default defineConfig([
       }),
     ],
     external: [
-      '@modelcontextprotocol/sdk/server/index.js',
-      '@modelcontextprotocol/sdk/server/stdio.js',
-      '@modelcontextprotocol/sdk/types.js',
-      '@richard-stovall/opnsense-typescript-client',
-      'zod',
+      // Bundle all dependencies for standalone execution
     ],
     output: {
       file: 'dist/index.js',
