@@ -1,4 +1,4 @@
-import { describe, it, expect, jest, beforeEach, afterEach } from '@jest/globals';
+import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
 
 // Mock the OPNsenseMCPServer class for testing
 class MockOPNsenseMCPServer {
@@ -17,7 +17,7 @@ jest.mock('@modelcontextprotocol/sdk/server/stdio.js', () => ({
 }));
 
 describe('OPNsense MCP Server Integration', () => {
-  let server: OPNsenseMCPServer;
+  let server: any;
 
   beforeEach(() => {
     jest.clearAllMocks();
