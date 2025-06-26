@@ -28,7 +28,6 @@ const RAW_RUNTIME_STATE =
       [null, {\
         "packageLocation": "./",\
         "packageDependencies": [\
-          ["@eslint/js", "npm:9.29.0"],\
           ["@jest/globals", "npm:30.0.3"],\
           ["@modelcontextprotocol/sdk", "npm:1.13.1"],\
           ["@richard-stovall/opnsense-mcp-server", "workspace:."],\
@@ -43,7 +42,6 @@ const RAW_RUNTIME_STATE =
           ["@typescript-eslint/eslint-plugin", "virtual:fa0b2d5675746cf3661440cdb687e1ad401879c8403a14fcd90bfa4b849aaa7e13ddd3e134df871fff499452f2647d5e493213caef666cfc8a655f4693045c1f#npm:6.21.0"],\
           ["@typescript-eslint/parser", "virtual:fa0b2d5675746cf3661440cdb687e1ad401879c8403a14fcd90bfa4b849aaa7e13ddd3e134df871fff499452f2647d5e493213caef666cfc8a655f4693045c1f#npm:6.21.0"],\
           ["eslint", "npm:8.57.1"],\
-          ["globals", "npm:16.2.0"],\
           ["jest", "virtual:fa0b2d5675746cf3661440cdb687e1ad401879c8403a14fcd90bfa4b849aaa7e13ddd3e134df871fff499452f2647d5e493213caef666cfc8a655f4693045c1f#npm:30.0.3"],\
           ["jest-junit", "npm:16.0.0"],\
           ["jest-util", "npm:30.0.2"],\
@@ -972,13 +970,6 @@ const RAW_RUNTIME_STATE =
           ["@eslint/js", "npm:8.57.1"]\
         ],\
         "linkType": "HARD"\
-      }],\
-      ["npm:9.29.0", {\
-        "packageLocation": "../../.yarn/berry/cache/@eslint-js-npm-9.29.0-98e5fd04d4-10c0.zip/node_modules/@eslint/js/",\
-        "packageDependencies": [\
-          ["@eslint/js", "npm:9.29.0"]\
-        ],\
-        "linkType": "HARD"\
       }]\
     ]],\
     ["@humanwhocodes/config-array", [\
@@ -1529,7 +1520,6 @@ const RAW_RUNTIME_STATE =
       ["workspace:.", {\
         "packageLocation": "./",\
         "packageDependencies": [\
-          ["@eslint/js", "npm:9.29.0"],\
           ["@jest/globals", "npm:30.0.3"],\
           ["@modelcontextprotocol/sdk", "npm:1.13.1"],\
           ["@richard-stovall/opnsense-mcp-server", "workspace:."],\
@@ -1544,7 +1534,6 @@ const RAW_RUNTIME_STATE =
           ["@typescript-eslint/eslint-plugin", "virtual:fa0b2d5675746cf3661440cdb687e1ad401879c8403a14fcd90bfa4b849aaa7e13ddd3e134df871fff499452f2647d5e493213caef666cfc8a655f4693045c1f#npm:6.21.0"],\
           ["@typescript-eslint/parser", "virtual:fa0b2d5675746cf3661440cdb687e1ad401879c8403a14fcd90bfa4b849aaa7e13ddd3e134df871fff499452f2647d5e493213caef666cfc8a655f4693045c1f#npm:6.21.0"],\
           ["eslint", "npm:8.57.1"],\
-          ["globals", "npm:16.2.0"],\
           ["jest", "virtual:fa0b2d5675746cf3661440cdb687e1ad401879c8403a14fcd90bfa4b849aaa7e13ddd3e134df871fff499452f2647d5e493213caef666cfc8a655f4693045c1f#npm:30.0.3"],\
           ["jest-junit", "npm:16.0.0"],\
           ["jest-util", "npm:30.0.2"],\
@@ -4167,13 +4156,6 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["globals", "npm:13.24.0"],\
           ["type-fest", "npm:0.20.2"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
-      ["npm:16.2.0", {\
-        "packageLocation": "../../.yarn/berry/cache/globals-npm-16.2.0-b5218dda62-10c0.zip/node_modules/globals/",\
-        "packageDependencies": [\
-          ["globals", "npm:16.2.0"]\
         ],\
         "linkType": "HARD"\
       }]\

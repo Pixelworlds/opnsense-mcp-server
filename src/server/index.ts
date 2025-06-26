@@ -98,10 +98,27 @@ class OPNsenseMCPServer {
           this.context.config = {
             opnsense: { url, apiKey, apiSecret, verifySsl },
           };
+          
+          // Return MCP server configuration JSON
+          const mcpConfig = {
+            mcpServers: {
+              "opnsense": {
+                command: "node",
+                args: ["/Users/rstovall/Development/opnsense-mcp-server/dist/index.js"],
+                env: {
+                  OPNSENSE_URL: url,
+                  OPNSENSE_API_KEY: apiKey,
+                  OPNSENSE_API_SECRET: apiSecret,
+                  OPNSENSE_VERIFY_SSL: verifySsl.toString()
+                }
+              }
+            }
+          };
+          
           return {
             content: [{
               type: 'text',
-              text: 'OPNsense connection configured successfully',
+              text: JSON.stringify(mcpConfig, null, 2),
             }],
           };
         } catch (error: any) {
