@@ -96,9 +96,7 @@ unit_tests:
       - coverage/
     expire_in: 1 week
     reports:
-      coverage_report:
-        coverage_format: cobertura
-        path: coverage/cobertura-coverage.xml
+      cobertura: coverage/cobertura-coverage.xml
       junit: coverage/junit.xml
   coverage: '/All files[^|]*\|[^|]*\s+([\d\.]+)%/'
   rules:
