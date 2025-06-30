@@ -14,7 +14,7 @@
     "url": "https://github.com/richard-stovall/opnsense-mcp-server/issues"
   },
   "bin": {
-    "opnsense-mcp-server": "index.js"
+    "opnsense-mcp-server": "./index.js"
   },
   "scripts": {
     "start": "node index.js",
