@@ -13,7 +13,9 @@
   "bugs": {
     "url": "https://github.com/richard-stovall/opnsense-mcp-server/issues"
   },
-  "bin": "./index.js",
+  "bin": {
+    "opnsense-mcp-server": "index.js"
+  },
   "scripts": {
     "start": "node index.js",
     "dev": "tsx watch index.ts",
