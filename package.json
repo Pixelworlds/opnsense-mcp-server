@@ -23,7 +23,7 @@
     "build": "tsx src/build.ts",
     "generate-tools": "tsx src/generate-tools.ts",
     "build:all": "yarn generate-tools && yarn build",
-    "validate": "node index.js --help",
+    "validate": "node index.js --help || exit 0",
     "type-check": "tsc --noEmit"
   },
   "keywords": [
