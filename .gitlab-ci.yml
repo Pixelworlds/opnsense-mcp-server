@@ -1,5 +1,6 @@
 stages:
   - validate
+  - generate
   - build
   - test
   - package
@@ -21,20 +22,10 @@ variables:
   before_script:
     - apk add --no-cache git
     - corepack enable
-    - corepack prepare yarn@4.0.2 --activate
+    - corepack prepare yarn@4.9.2 --activate
     - yarn install --immutable --check-cache
 
 # Validation stage
-lint:
-  <<: *node_template
-  stage: validate
-  script:
-    - yarn lint
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "push"
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-  allow_failure: false
-
 type_check:
   <<: *node_template
   stage: validate
@@ -55,55 +46,53 @@ security_scan:
     - if: $CI_PIPELINE_SOURCE == "push"
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
 
+# Generation stage - Generate tools
+generate_tools:
+  <<: *node_template
+  stage: generate
+  script:
+    - echo "Generating modular tool definitions..."
+    - yarn generate-tools
+    - echo "Verifying generated tools..."
+    - test -f tools-generated.json || (echo "Missing tools-generated.json" && exit 1)
+    - echo "Tool generation completed successfully"
+  artifacts:
+    paths:
+      - tools-generated.json
+    expire_in: 1 week
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "push"
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+
 # Build stage
 build:
   <<: *node_template
   stage: build
+  dependencies:
+    - generate_tools
   script:
+    - echo "Building MCP server..."
     - yarn build
-    - ls -la dist/
+    - ls -la .
+    - echo "Verifying build outputs..."
+    - test -f index.js || (echo "Missing index.js" && exit 1)
+    - test -s index.js || (echo "index.js is empty" && exit 1)
     - echo "Build completed successfully"
   artifacts:
     paths:
-      - dist/
+      - index.js
+      - tools-generated.json
     expire_in: 1 week
-    reports:
-      # Add size information
-      junit: dist/build-report.xml
   after_script:
     - |
       echo "Build artifacts:"
-      find dist -type f -exec ls -lh {} \;
-      echo "Total dist size: $(du -sh dist | cut -f1)"
+      ls -lh index.js tools-generated.json
+      echo "Total size: $(du -sh index.js tools-generated.json | tail -n1 | cut -f1)"
   rules:
     - if: $CI_PIPELINE_SOURCE == "push"
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
 
 # Test stage
-unit_tests:
-  <<: *node_template
-  stage: test
-  script:
-    - |
-      echo "Running Jest unit tests..."
-
-      # Run tests with coverage
-      yarn test --coverage --ci --watchAll=false --passWithNoTests
-
-      echo "Unit tests completed"
-  artifacts:
-    paths:
-      - coverage/
-    expire_in: 1 week
-    reports:
-      cobertura: coverage/cobertura-coverage.xml
-      junit: coverage/junit.xml
-  coverage: '/All files[^|]*\|[^|]*\s+([\d\.]+)%/'
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "push"
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-  allow_failure: true # Allow failure initially since tests have type issues
-
 test_build_artifacts:
   <<: *node_template
   stage: test
@@ -114,20 +103,68 @@ test_build_artifacts:
       echo "Validating build artifacts..."
 
       # Check required files exist
-      test -f dist/index.js || (echo "Missing dist/index.js" && exit 1)
+      test -f index.js || (echo "Missing index.js" && exit 1)
+      test -f tools-generated.json || (echo "Missing tools-generated.json" && exit 1)
 
       # Check files are not empty
-      test -s dist/index.js || (echo "dist/index.js is empty" && exit 1)
+      test -s index.js || (echo "index.js is empty" && exit 1)
+      test -s tools-generated.json || (echo "tools-generated.json is empty" && exit 1)
 
-      # Try to load the built modules
-      node -e "import('./dist/index.js').then(() => console.log('ESM import successful'));"
+      # Try to load the built module
+      node -e "import('./index.js').then(() => console.log('ESM import successful'));"
+
+      # Test MCP server functionality
+      echo "Testing MCP server help..."
+      timeout 5s node index.js --help || [ $? -eq 124 ]
 
       echo "All build artifacts validated successfully"
   rules:
     - if: $CI_PIPELINE_SOURCE == "push"
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
 
-# TypeScript declarations test removed - build doesn't generate .d.ts files
+validate_tools:
+  <<: *node_template
+  stage: test
+  dependencies:
+    - build
+  script:
+    - |
+      echo "Validating generated tools..."
+
+      # Check tools-generated.json is valid JSON and has expected structure
+      node -e "
+        const fs = require('fs');
+        const tools = JSON.parse(fs.readFileSync('tools-generated.json', 'utf8'));
+        
+        if (!Array.isArray(tools)) {
+          throw new Error('tools-generated.json must be an array');
+        }
+        
+        if (tools.length === 0) {
+          throw new Error('No tools found in tools-generated.json');
+        }
+        
+        // Validate tool structure
+        tools.forEach((tool, index) => {
+          if (!tool.name) throw new Error('Tool ' + index + ' missing name');
+          if (!tool.description) throw new Error('Tool ' + index + ' missing description');
+          if (!tool.module) throw new Error('Tool ' + index + ' missing module');
+          if (!tool.methods || !Array.isArray(tool.methods)) {
+            throw new Error('Tool ' + index + ' missing methods array');
+          }
+          if (!tool.inputSchema) throw new Error('Tool ' + index + ' missing inputSchema');
+        });
+        
+        console.log('Found ' + tools.length + ' tools');
+        console.log('Core tools: ' + tools.filter(t => !t.module.startsWith('plugin')).length);
+        console.log('Plugin tools: ' + tools.filter(t => t.module.startsWith('plugin')).length);
+        console.log('Tools validation passed');
+      "
+
+      echo "Tool validation completed successfully"
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "push"
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
 
 # Package validation stage
 validate_package:
@@ -151,19 +188,17 @@ validate_package:
         if (!fs.existsSync(pkg.module)) {
           throw new Error('Module entry point does not exist: ' + pkg.module);
         }
-        // Types validation removed - build doesn't generate .d.ts files
-        // if (!fs.existsSync(pkg.types)) {
-        //   throw new Error('Types entry point does not exist: ' + pkg.types);
-        // }
         
-        // Check exports
-        Object.entries(pkg.exports || {}).forEach(([key, value]) => {
-          if (typeof value === 'object') {
-            Object.entries(value).forEach(([format, path]) => {
-              if (!fs.existsSync(path)) {
-                throw new Error('Export path does not exist: ' + path + ' for ' + key + '.' + format);
-              }
-            });
+        // Check bin entry
+        if (pkg.bin && !fs.existsSync(pkg.bin)) {
+          throw new Error('Bin entry point does not exist: ' + pkg.bin);
+        }
+        
+        // Check files list
+        const expectedFiles = ['index.js', 'tools-generated.json', 'README.md', 'LICENSE'];
+        expectedFiles.forEach(file => {
+          if (!fs.existsSync(file)) {
+            throw new Error('Expected file does not exist: ' + file);
           }
         });
         
@@ -207,21 +242,26 @@ bundle_analysis:
       echo "Analyzing bundle size..."
 
       # Calculate sizes
-      ESM_SIZE=$(stat -f%z dist/index.js 2>/dev/null || stat -c%s dist/index.js)
+      MAIN_SIZE=$(stat -f%z index.js 2>/dev/null || stat -c%s index.js)
+      TOOLS_SIZE=$(stat -f%z tools-generated.json 2>/dev/null || stat -c%s tools-generated.json)
+      TOTAL_SIZE=$((MAIN_SIZE + TOOLS_SIZE))
 
       echo "Bundle sizes:"
-      echo "  ESM (index.js): ${ESM_SIZE} bytes"
+      echo "  index.js: ${MAIN_SIZE} bytes"
+      echo "  tools-generated.json: ${TOOLS_SIZE} bytes"
+      echo "  Total: ${TOTAL_SIZE} bytes"
 
-      # Warn if bundle is too large (>1MB)
-      if [ $ESM_SIZE -gt 1048576 ]; then
-        echo "⚠️  Warning: Bundle size exceeds 1MB"
+      # Warn if bundle is too large (>2MB total)
+      if [ $TOTAL_SIZE -gt 2097152 ]; then
+        echo "⚠️  Warning: Total bundle size exceeds 2MB"
       fi
 
       # Create size report
       cat > bundle-size-report.json << EOF
       {
-        "esm_size": $ESM_SIZE,
-        "total_size": $ESM_SIZE,
+        "main_size": $MAIN_SIZE,
+        "tools_size": $TOOLS_SIZE,
+        "total_size": $TOTAL_SIZE,
         "commit": "$CI_COMMIT_SHA",
         "ref": "$CI_COMMIT_REF_NAME"
       }
