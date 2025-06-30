@@ -262,7 +262,7 @@ __metadata:
     typescript: "npm:^5.3.3"
     zod: "npm:^3.25.67"
   bin:
-    opnsense-mcp-server: ./index.js
+    opnsense-mcp-server: index.js
   languageName: unknown
   linkType: soft
 
