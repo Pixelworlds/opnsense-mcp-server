@@ -1,0 +1,495 @@
+name: CI
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+    branches: [master, main]
+
+env:
+  NODE_VERSION: "20"
+
+jobs:
+  # Validation stage
+  type-check:
+    name: Type Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Enable Corepack
+        run: |
+          corepack enable
+          corepack prepare yarn@$(node -p "require('./package.json').packageManager.split('@')[1]") --activate
+
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "dir=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
+
+      - name: Cache yarn dependencies
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      - name: Install dependencies
+        run: yarn install --immutable --check-cache
+
+      - name: Run type check
+        run: yarn type-check
+
+  security-scan:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Enable Corepack
+        run: |
+          corepack enable
+          corepack prepare yarn@$(node -p "require('./package.json').packageManager.split('@')[1]") --activate
+
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "dir=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
+
+      - name: Cache yarn dependencies
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      - name: Install dependencies
+        run: yarn install --immutable --check-cache
+
+      - name: Run security audit
+        run: yarn npm audit --all --recursive --environment production
+
+  # Generation stage
+  generate-tools:
+    name: Generate Tools
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Enable Corepack
+        run: |
+          corepack enable
+          corepack prepare yarn@$(node -p "require('./package.json').packageManager.split('@')[1]") --activate
+
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "dir=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
+
+      - name: Cache yarn dependencies
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      - name: Install dependencies
+        run: yarn install --immutable --check-cache
+
+      - name: Generate modular tool definitions
+        run: |
+          echo "Generating modular tool definitions..."
+          yarn generate-tools
+          echo "Verifying generated tools..."
+          test -f tools-generated.json || (echo "Missing tools-generated.json" && exit 1)
+          echo "Tool generation completed successfully"
+
+      - name: Upload tool artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: generated-tools
+          path: tools-generated.json
+          retention-days: 7
+
+  # Build stage
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    needs: generate-tools
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Enable Corepack
+        run: |
+          corepack enable
+          corepack prepare yarn@$(node -p "require('./package.json').packageManager.split('@')[1]") --activate
+
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "dir=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
+
+      - name: Cache yarn dependencies
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      - name: Install dependencies
+        run: yarn install --immutable --check-cache
+
+      - name: Download tool artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: generated-tools
+
+      - name: Build MCP server
+        run: |
+          echo "Building MCP server..."
+          yarn build
+          ls -la .
+          echo "Verifying build outputs..."
+          test -f index.js || (echo "Missing index.js" && exit 1)
+          test -s index.js || (echo "index.js is empty" && exit 1)
+          echo "Build completed successfully"
+
+      - name: Show build artifacts
+        run: |
+          echo "Build artifacts:"
+          ls -lh index.js tools-generated.json
+          echo "Total size: $(du -sh index.js tools-generated.json | tail -n1 | cut -f1)"
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts
+          path: |
+            index.js
+            tools-generated.json
+          retention-days: 7
+
+  # Validation stage
+  validate-build-artifacts:
+    name: Validate Build Artifacts
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Enable Corepack
+        run: |
+          corepack enable
+          corepack prepare yarn@$(node -p "require('./package.json').packageManager.split('@')[1]") --activate
+
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "dir=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
+
+      - name: Cache yarn dependencies
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      - name: Install dependencies
+        run: yarn install --immutable --check-cache
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-artifacts
+
+      - name: Validate build artifacts
+        run: |
+          echo "Validating build artifacts..."
+
+          # Check required files exist and are not empty
+          test -f index.js || (echo "Missing index.js" && exit 1)
+          test -f tools-generated.json || (echo "Missing tools-generated.json" && exit 1)
+          test -s index.js || (echo "index.js is empty" && exit 1)
+          test -s tools-generated.json || (echo "tools-generated.json is empty" && exit 1)
+
+          # Try to load the built module
+          node -e "import('./index.js').then(() => console.log('ESM import successful'));"
+
+          # Test MCP server functionality
+          echo "Testing MCP server help..."
+          timeout 5s node index.js --help || [ $? -eq 124 ]
+
+          echo "Build artifacts validated successfully"
+
+  validate-tools:
+    name: Validate Tools
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-artifacts
+
+      - name: Validate tools
+        run: |
+          echo "Validating generated tools..."
+
+          # Check tools-generated.json is valid JSON and has expected structure
+          node -e "
+            const fs = require('fs');
+            const tools = JSON.parse(fs.readFileSync('tools-generated.json', 'utf8'));
+            
+            if (!Array.isArray(tools)) {
+              throw new Error('tools-generated.json must be an array');
+            }
+            
+            if (tools.length === 0) {
+              throw new Error('No tools found in tools-generated.json');
+            }
+            
+            // Validate tool structure
+            tools.forEach((tool, index) => {
+              if (!tool.name) throw new Error('Tool ' + index + ' missing name');
+              if (!tool.description) throw new Error('Tool ' + index + ' missing description');
+              if (!tool.module) throw new Error('Tool ' + index + ' missing module');
+              if (!tool.methods || !Array.isArray(tool.methods)) {
+                throw new Error('Tool ' + index + ' missing methods array');
+              }
+              if (!tool.inputSchema) throw new Error('Tool ' + index + ' missing inputSchema');
+            });
+            
+            console.log('Found ' + tools.length + ' tools');
+            console.log('Core tools: ' + tools.filter(t => !t.module.startsWith('plugin')).length);
+            console.log('Plugin tools: ' + tools.filter(t => t.module.startsWith('plugin')).length);
+            console.log('Tools validation passed');
+          "
+
+          echo "Tool validation completed successfully"
+
+  # Bundle analysis
+  bundle-analysis:
+    name: Bundle Analysis
+    runs-on: ubuntu-latest
+    needs: build
+    continue-on-error: true
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-artifacts
+
+      - name: Analyze bundle size
+        run: |
+          echo "Analyzing bundle size..."
+
+          # Calculate sizes for all build outputs
+          MAIN_SIZE=$(stat -c%s index.js)
+          TOOLS_SIZE=$(stat -c%s tools-generated.json)
+          TOTAL_SIZE=$((MAIN_SIZE + TOOLS_SIZE))
+
+          echo "Bundle sizes:"
+          echo "  index.js: ${MAIN_SIZE} bytes"
+          echo "  tools-generated.json: ${TOOLS_SIZE} bytes"
+          echo "  Total: ${TOTAL_SIZE} bytes"
+
+          # Warn if total bundle is too large (>2MB)
+          if [ $TOTAL_SIZE -gt 2097152 ]; then
+            echo "⚠️  Warning: Total bundle size exceeds 2MB"
+          fi
+
+          # Create size report
+          cat > bundle-size-report.json << EOF
+          {
+            "main_size": $MAIN_SIZE,
+            "tools_size": $TOOLS_SIZE,
+            "total_size": $TOTAL_SIZE,
+            "commit": "$GITHUB_SHA",
+            "ref": "$GITHUB_REF_NAME"
+          }
+          EOF
+
+          echo "Bundle analysis completed"
+
+      - name: Upload bundle size report
+        uses: actions/upload-artifact@v4
+        with:
+          name: bundle-size-report
+          path: bundle-size-report.json
+          retention-days: 30
+
+  # Package validation stage
+  validate-package:
+    name: Validate Package
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/')
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Enable Corepack
+        run: |
+          corepack enable
+          corepack prepare yarn@$(node -p "require('./package.json').packageManager.split('@')[1]") --activate
+
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "dir=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
+
+      - name: Cache yarn dependencies
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      - name: Install dependencies
+        run: yarn install --immutable --check-cache
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-artifacts
+
+      - name: Validate package structure
+        run: |
+          echo "Validating package structure..."
+
+          # Validate package.json exports
+          node -e "
+            const pkg = require('./package.json');
+            const fs = require('fs');
+            
+            // Check main entry points exist
+            if (!fs.existsSync(pkg.main)) {
+              throw new Error('Main entry point does not exist: ' + pkg.main);
+            }
+            if (!fs.existsSync(pkg.module)) {
+              throw new Error('Module entry point does not exist: ' + pkg.module);
+            }
+            
+            // Check bin entry
+            if (pkg.bin && !fs.existsSync(pkg.bin)) {
+              throw new Error('Bin entry point does not exist: ' + pkg.bin);
+            }
+            
+            // Check files list
+            const expectedFiles = ['index.js', 'tools-generated.json', 'README.md', 'LICENSE'];
+            expectedFiles.forEach(file => {
+              if (!fs.existsSync(file)) {
+                throw new Error('Expected file does not exist: ' + file);
+              }
+            });
+            
+            console.log('Package structure validation passed');
+          "
+
+          # Test package installation simulation
+          yarn pack --dry-run
+
+          echo "Package validation completed successfully"
+
+  package-tarball:
+    name: Package Tarball
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/')
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Enable Corepack
+        run: |
+          corepack enable
+          corepack prepare yarn@$(node -p "require('./package.json').packageManager.split('@')[1]") --activate
+
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "dir=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
+
+      - name: Cache yarn dependencies
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      - name: Install dependencies
+        run: yarn install --immutable --check-cache
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-artifacts
+
+      - name: Create package tarball
+        run: |
+          yarn pack
+          ls -la *.tgz
+
+      - name: Upload package tarball
+        uses: actions/upload-artifact@v4
+        with:
+          name: package-tarball
+          path: "*.tgz"
+          retention-days: 7
