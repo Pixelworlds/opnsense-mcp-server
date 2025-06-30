@@ -134,18 +134,19 @@ validate_tools:
       # Check tools-generated.json is valid JSON and has expected structure
       node -e "
         const fs = require('fs');
-        const tools = JSON.parse(fs.readFileSync('tools-generated.json', 'utf8'));
+        const data = JSON.parse(fs.readFileSync('tools-generated.json', 'utf8'));
         
-        if (!Array.isArray(tools)) {
-          throw new Error('tools-generated.json must be an array');
+        // Validate structure
+        if (!data.tools || !Array.isArray(data.tools)) {
+          throw new Error('tools-generated.json must contain a tools array');
         }
         
-        if (tools.length === 0) {
+        if (data.tools.length === 0) {
           throw new Error('No tools found in tools-generated.json');
         }
         
         // Validate tool structure
-        tools.forEach((tool, index) => {
+        data.tools.forEach((tool, index) => {
           if (!tool.name) throw new Error('Tool ' + index + ' missing name');
           if (!tool.description) throw new Error('Tool ' + index + ' missing description');
           if (!tool.module) throw new Error('Tool ' + index + ' missing module');
@@ -155,9 +156,9 @@ validate_tools:
           if (!tool.inputSchema) throw new Error('Tool ' + index + ' missing inputSchema');
         });
         
-        console.log('Found ' + tools.length + ' tools');
-        console.log('Core tools: ' + tools.filter(t => !t.module.startsWith('plugin')).length);
-        console.log('Plugin tools: ' + tools.filter(t => t.module.startsWith('plugin')).length);
+        console.log('Total tools: ' + data.totalTools);
+        console.log('Core tools: ' + data.coreTools);
+        console.log('Plugin tools: ' + data.pluginTools);
         console.log('Tools validation passed');
       "
 
