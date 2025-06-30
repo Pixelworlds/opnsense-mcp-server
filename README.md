@@ -10,7 +10,7 @@ A modular Model Context Protocol (MCP) server that provides **88 module-based to
 - **Plugin Support** - Optional support for 64 plugin modules
 - **Smart Organization** - Related operations grouped by module for easier discovery
 
-![OPNsense MCP Server Network Architecture](images/network-diagram.jpg)
+![OPNsense MCP Server Network Architecture](https://github.com/user-attachments/assets/c7742683-7f25-437a-9747-250f48472a6a)
 
 The MCP server acts as a bridge between AI assistants (like Claude Desktop) and your OPNsense firewall, providing secure API access through a modular tool interface.
 
@@ -40,8 +40,6 @@ Add the following to your Claude Desktop configuration file:
 
 **macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`  
 **Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
-
-![Claude Desktop Configuration](images/claude-desktop.jpg)
 
 ```json
 {
