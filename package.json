@@ -1,6 +1,6 @@
 {
   "name": "@richard-stovall/opnsense-mcp-server",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Modular MCP server for OPNsense firewall management - 88 tools providing access to 2000+ methods",
   "main": "./index.js",
   "module": "./index.js",
