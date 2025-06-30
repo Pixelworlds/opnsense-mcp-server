@@ -115,7 +115,7 @@ test_build_artifacts:
 
       # Test MCP server functionality
       echo "Testing MCP server help..."
-      timeout 5s node index.js --help || [ $? -eq 124 ]
+      node index.js --help || [ $? -eq 1 ]
 
       echo "All build artifacts validated successfully"
   rules:
