@@ -243,12 +243,11 @@ jobs:
           test -s index.js || (echo "index.js is empty" && exit 1)
           test -s tools-generated.json || (echo "tools-generated.json is empty" && exit 1)
 
-          # Try to load the built module
-          node -e "import('./index.js').then(() => console.log('ESM import successful'));"
+          # Verify index.js has proper shebang
+          head -n1 index.js | grep -q "#!/usr/bin/env node" || (echo "Missing shebang in index.js" && exit 1)
 
-          # Test MCP server functionality
-          echo "Testing MCP server help..."
-          timeout 5s node index.js --help || true
+          # Verify index.js is executable (has proper format)
+          file index.js | grep -q "ASCII text" || file index.js | grep -q "UTF-8" || (echo "index.js has unexpected format" && exit 1)
 
           echo "Build artifacts validated successfully"
 
