@@ -2,7 +2,7 @@
   "compilerOptions": {
     // Environment setup & latest features
     "lib": ["ES2022", "ES2019", "ES2017", "ES2015", "DOM"],
-    "types": ["node", "jest"],
+    "types": ["node"],
     "target": "ES2022",
     "module": "ESNext",
     "moduleDetection": "force",
