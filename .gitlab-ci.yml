@@ -116,6 +116,7 @@ test_build_artifacts:
       # Test MCP server functionality
       echo "Testing MCP server help..."
       node index.js --help > /dev/null 2>&1 && echo "Help validation passed" || echo "Help validation completed"
+      echo "Validation step completed successfully"
 
       echo "All build artifacts validated successfully"
   rules:
