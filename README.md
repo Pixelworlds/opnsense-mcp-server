@@ -10,8 +10,6 @@ A modular Model Context Protocol (MCP) server that provides **88 module-based to
 - **Plugin Support** - Optional support for 64 plugin modules
 - **Smart Organization** - Related operations grouped by module for easier discovery
 
-## Architecture Overview
-
 ![OPNsense MCP Server Network Architecture](images/network-diagram.jpg)
 
 The MCP server acts as a bridge between AI assistants (like Claude Desktop) and your OPNsense firewall, providing secure API access through a modular tool interface.
